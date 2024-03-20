@@ -1,0 +1,16 @@
+structure Sem S {
+  S:1{
+    trouver_cls:1{
+      1-> moi:1
+      2-> admirer:1
+    }
+    Paul:1{class=proper_noun}
+    admirer:1{
+      1-> Paul:1
+	  2-> Marie:1
+    }
+    Marie:1{class=proper_noun}
+	moi:1
+    main-> trouver_cls:1
+  }
+}

@@ -1,0 +1,41 @@
+
+/*Adds dependents to existing nodes.*/
+SSynt<=>SSynt dependent : rule
+[
+  leftside = [
+?Xl{
+  l:?r-> l:?Yl
+}
+  ]
+  conditions = [
+//?Xr.checked;
+  ]
+  rightside = [
+rc:?Xr {rc:<=>?Xl
+  ?r-> ?Yr{<=>?Yl
+    //checked=yes
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Recopies the root, which is marked as the main clause. This rule should be applied only once.*/
+SSynt<=>SSynt root : rule
+[
+  leftside = [
+l:?Xl
+  ]
+  conditions = [
+?Xl.clause=main;
+  ]
+  rightside = [
+?Xr {<=> ?Xl
+  //checked=yes
+  }
+  ]
+  correspondence = [
+
+  ]
+]

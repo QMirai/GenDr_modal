@@ -1,0 +1,20 @@
+structure SSynt S4_1_0 {
+  continuer_rs:1{
+    dlex=continuer_rs finiteness=FIN raise_to=subjective gpid=NP_V_rs_de_V dpos=V clause=main spos=verb ssynt=OK
+    comp_pred-> de:1{
+      spos=preposition dpos=Adv 
+      prep_completive-> donner:1{
+        gpid=NP_V_NP_PP_à_recipient raise_from=subjective spos=verb dpos=V finiteness=INF ssynt=OK dlex=donner
+        indir_objective-> à:1{
+          spos=preposition dpos=Adv 
+          prep_completive-> Lucie:1{number=SG spos=proper_noun class=proper_noun dpos=N definiteness=DEF ssynt=OK }
+        }
+        dir_objective-> livre:1{
+          gpid=NONE spos=noun number=SG dpos=N ssynt=OK definiteness=DEF dlex=livre
+          determinative-> le:1{spos=determiner dpos=Adj ssynt=OK dlex=le}
+        }
+        subjective-> Paul:1{spos=proper_noun number=SG dpos=N class=proper_noun ssynt=OK definiteness=DEF}
+      }
+    }
+  }
+}

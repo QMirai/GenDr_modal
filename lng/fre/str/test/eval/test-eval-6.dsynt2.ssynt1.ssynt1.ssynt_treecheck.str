@@ -1,0 +1,18 @@
+structure SSynt S6_1_0 {
+  que:1{
+    split=top spos=conjunction dpos=Adv 
+    conj_completive-> partir:1{
+      split=bottom spos=verb finiteness=FIN dpos=V mood=subjunctive
+      subjective-> police:1{
+        spos=noun number=SG dpos=N definiteness=DEF 
+        determinative-> le:1{spos=determiner dpos=Adj }
+      }
+    }
+  }
+  il_exp:1{spos=pronoun dpos=N }
+  falloir:1{
+    spos=verb finiteness=FIN dpos=V clause=main
+    subjective-> il_exp:1
+    dir_objective-> que:1
+  }
+}

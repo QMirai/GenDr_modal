@@ -1,0 +1,10 @@
+structure SSynt S3_1_0 {
+  devoir_rs:1{
+    dlex=devoir_rs finiteness=FIN raise_to=subjective gpid=NP_V_rs_dir_V dpos=V clause=main spos=verb ssynt=OK
+    dir_objective-> partir:1{gpid=NP_V spos=verb finiteness=INF dpos=V ssynt=OK dlex=partir}
+    subjective-> police:1{
+      gpid=NONE spos=noun number=SG dpos=N ssynt=OK definiteness=DEF dlex=police
+      determinative-> le:1{spos=determiner dpos=Adj ssynt=OK dlex=le}
+    }
+  }
+}

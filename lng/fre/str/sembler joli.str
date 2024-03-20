@@ -1,0 +1,15 @@
+structure Sem S {
+  S:0{
+    sem=S
+    Marie:1{sem=Marie}
+	sembler_rs:1{
+	  sem=sembler_rs
+	  1-> joli:2
+	  }
+    joli:2{
+      sem=joli
+      1-> Marie:1
+    }
+    main-> sembler_rs:1
+  }
+}

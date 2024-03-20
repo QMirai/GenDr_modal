@@ -1,0 +1,11 @@
+structure Sem S {
+  S:0{
+    sem=S
+    Paul:1{sem=Paul}
+    joli:2{
+      sem=joli
+      1-> Paul:1
+    }
+    main-> joli:2
+  }
+}

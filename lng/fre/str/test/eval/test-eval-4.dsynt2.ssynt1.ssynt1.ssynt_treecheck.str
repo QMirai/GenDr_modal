@@ -1,0 +1,9 @@
+structure SSynt S3_1_0 {
+  Marie:1{spos=noun class="DPOS_N" dpos=N }
+  joli:1{split=bottom spos=adjective dpos=Adj }
+  paraître:1{
+    spos=verb dpos=V finiteness=FIN clause=main 
+    subjective-> Marie:1
+    comp_pred-> joli:1
+  }
+}

@@ -1,0 +1,91 @@
+structure Sem S {
+  S:0{
+    sem=S
+    autoriser:1{
+      sem=autoriser
+      1-> police:2
+      2-> partir:3
+    }
+	police:2
+    partir:3{
+      tense=PAST sem=partir
+      1-> Luc:4
+    }
+    Luc:4{sem=Luc class=proper_noun}
+    main-> autoriser:1
+  }
+}structure Sem S {
+  S:1{
+    conserver_rs:1{
+      1-> Paul:1
+      2-> intacte:1
+    }
+    Paul:1{class=proper_noun}
+    intacte:1{
+      1-> information:1
+    }
+    information:1{}
+    main-> conserver_rs:1
+  }
+}structure Sem S {
+  S:0{
+    sem=S
+    continuer_rs:1{
+	  sem=continuer_rs
+      1-> donner:2
+    }
+    donner:2{
+      sem=donner
+      1-> Paul:3
+      2-> livre:4
+      3-> Lucie:5
+    }
+    Paul:3{sem=Paul class=proper_noun}
+    livre:4{sem=livre}
+    Lucie:5{sem=Lucie class=proper_noun}
+    main-> continuer_rs:1
+  }
+}structure Sem S {
+  S:0{
+    sem=S
+    Marie:1{sem=Marie}
+	sembler_rs:1{
+	  sem=sembler_rs
+	  1-> joli:2
+	  }
+    joli:2{
+      sem=joli
+      1-> Marie:1
+    }
+    main-> sembler_rs:1
+  }
+}structure Sem S {
+  S:0{
+    sem=S
+    sembler_rs:1{
+      1-> aimer:1
+    }
+    aimer:1{
+      tense=PAST 
+      1-> Paul:1
+      2-> Lucie:1
+    }
+    Paul:1{class=proper_noun}
+    Lucie:1{class=proper_noun}
+    main-> sembler_rs:1
+  }
+}structure Sem S {
+  S:0{
+    sem=S
+    devoir_rs:1{
+      sem=devoir_rs
+      1-> partir:3
+    }
+	police:2
+    partir:3{
+       sem=partir
+      1-> police:2
+    }
+    main-> devoir_rs:1
+  }
+}

@@ -1,0 +1,243 @@
+gpcon {
+
+// fiction
+fict_NP_V_rs {
+   I={rel=comp_pred dpos=V finiteness=INF raise_from=dir_objective raise_to=subjective}
+}
+
+// french
+
+
+
+
+//-------------------------------------------------------
+
+// DEFAULT GP for VERBS
+
+NP_V {
+   I={rel=subjective dpos=N}
+}
+
+NP_V_NP {
+   I={rel=subjective dpos=N}
+   II={rel=dir_objective dpos=N}
+}
+
+// GPS of NOUN, COORD, CONJ, CONNEC, ADJ, ADV and PREP
+
+N_de_N {
+  I = {rel=noun_completive dpos=N prep=de}
+}
+
+Aposs_N {
+  I = {rel=det dpos=PRO}
+}
+
+N_in_N {
+  I = {rel=noun_completive dpos=N prep=in}
+}
+
+
+COORD {
+  COORD = {}
+  II = { rel = coord_completive }
+}
+
+CONJ {
+  ATTR = { dpos = V }
+  II = { dpos = V rel = conj_completive } 
+}
+
+CONNEC {
+  "---" = {}
+  ATTR={} 
+}
+
+ADJ {
+  ATTR = { dpos=N }
+  ATTR = { dpos=Num }
+}
+
+ADV {
+  ATTR = { dpos=V }
+  ATTR = { dpos=Adv }
+  ATTR = { dpos=Adj }
+}
+
+PREP {
+  ATTR = {}
+  II = { rel = prep_completive }
+}
+ 
+
+///// GOVERNMENT PATTERNS //////
+
+//--test--->
+
+N_V_Vinf {
+	I={rel=subj dpos=N}
+	II={rel=comp_obj dpos=V finiteness=INF}
+}
+
+//<--test---
+
+ADJ_N_de : ADJ_N_PREP {
+   I={rel=mod dpos=N }
+   II={rel=ncomp dpos=N prep=de}
+}
+
+ADJ_N_PREP : NP_V_NP {
+   I={rel=mod dpos=N }
+   II={rel=ncomp dpos=N }
+}
+
+COPULA {
+  I={rel=subjective dpos=N}
+  II={rel=comp_pred}
+}
+
+N_body_N_person {
+   I={rel=comp_noun dpos=N}//raise_to=indir_objective
+}
+
+NP_V_NP_body_NP {
+   I={rel=subjective dpos=N}
+   II={rel=dir_objective dpos=N_body raise_from=comp_noun raise_to=indir_objective}
+}
+
+N_de_N_pour_N : N_PREP_N_PREP_N {
+   I={ prep=de } 
+   II={ prep=pour }
+}
+
+N_par_N_de_N : N_PREP_N_PREP_N {
+   I={ prep=par }
+   II={ prep=de }
+}
+
+N_PREP_N_PREP_N {
+   I={rel=ncomp dpos=N} 
+   II={rel=ncomp dpos=N}
+}
+
+NP_COPULA_adj_pour_NP_de_V {
+   I={rel=adjective_completive dpos=V prep=de raise_from=subjective raise_to=indir_objective prep_raise=pour}
+}
+
+NP_NP_Dative_preposing_V_NP {
+   I={rel=subjective dpos=N}
+   II={rel=indir_objective dpos=N}
+   III={rel=dir_objective dpos=N}
+}
+
+NP_NP_V_rs_V {
+   I={rel=subjective dpos=N}
+   II={rel=comp_pred dpos=V finiteness=INF raise_from=subjective raise_to=dir_objective}
+}
+
+NP_V_NP_ADJ {
+//   comp_pred=II
+   I={rel=subjective dpos=N}
+   II={rel=comp_pred dpos=V raise_from=subjective raise_to=dir_objective} //delete=yes
+}
+
+NP_V_à_NP {
+   I={rel=subjective dpos=N}
+   II={rel=indir_objective dpos=N prep=à}
+}
+
+NP_V_NP_PP_à_recipient {
+   I={rel=subjective dpos=N}
+   II={rel=dir_objective dpos=N}
+   III={rel=indir_objective dpos=N prep=à}
+}
+
+NP_V_ctl_V {
+   I={rel=subjective dpos=N}
+   II={rel=comp_obj dpos=V finiteness=INF}  //rel=comp_pred
+}
+
+NP_V_ctl_à_NP_de_V {
+   I={rel=subjective dpos=N}
+   II={rel=comp_pred dpos=V prep=de}
+   III={rel=indir_objective dpos=N prep=à}
+}
+
+NP_V_ctl_de_V {
+   I={rel=subjective dpos=N}
+   II={rel=comp_pred dpos=V prep=de}
+}
+
+NP_V_ctl_NP_de_V {
+   I={rel=subjective dpos=N}
+   II={rel=dir_objective dpos=N}
+   III={rel=comp_pred dpos=V prep=de}
+}
+
+NP_V_ctl_que_V {
+   I={rel=subjective dpos=N}
+   II={rel=ccomp dpos=V conj=que finiteness=FIN}
+}
+
+NP_V_ctl_que_NP_V {
+   I={rel=subjective dpos=N}
+   II={rel=ccomp dpos=N conj=que finiteness=FIN}
+}
+
+NP_V_Oper1_PP_NP {
+   I={rel=subjective dpos=N}
+   II={rel=dir_objective dpos=N}
+}
+
+NP_V_que_NP_V {
+   I={rel=subjective dpos=N}
+   II={dpos=V rel=dir_objective finiteness=FIN mood=IND conj=que} 
+}
+
+NP_V_rs_NP_à_V {
+   I={rel=subjective dpos=N}
+   II={rel=oblique dpos=V finiteness=INF prep=à raise_from=subjective raise_to=dir_objective}
+}
+
+NP_V_rs_à_V {
+   I={rel=comp_pred dpos=V finiteness=INF prep=à raise_from=subjective raise_to=subjective}
+}
+
+NP_V_rs_de_V {
+   I={rel=comp_pred dpos=V finiteness=INF prep=de raise_from=subjective raise_to=subjective}
+}
+
+NP_V_rs_dir_V {
+   I={rel=dir_objective dpos=V finiteness=INF raise_from=subjective raise_to=subjective}
+}
+
+NP_V_rs_NP_NP {
+   I={rel=subjective dpos=N}
+   II={rel=comp_pred dpos=V raise_from=subjective raise_to=dir_objective}
+}
+
+NP_V_rs_V {
+//   I={rel=subjective dpos=N}
+   I={rel=comp_pred dpos=V finiteness=INF raise_from=subjective raise_to=subjective}
+}
+
+Exp_COPULA_adj_que_V {
+   I={rel=dir_objective dpos=V conj=que finiteness=FIN mood=subjunctive}
+}
+
+Exp_V_que_V {
+   I={rel=subjective dpos=N dlex=il_exp}
+   II={rel=dir_objective dpos=V conj=que finiteness=FIN mood=subjunctive}  
+}
+
+Exp_V_rs_que_V {
+   I={rel=subjective dpos=N dlex=il_exp}
+   II={rel=dir_objective dpos=V conj=que finiteness=FIN}
+}
+
+Exp_V_V {
+   I={rel=subjective dpos=N dlex=il_exp}
+   II={rel=dir_objective dpos=V}  
+}
+
+}

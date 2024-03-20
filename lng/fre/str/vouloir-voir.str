@@ -1,0 +1,16 @@
+structure Sem S {
+  S:1{
+    vouloir_ctl:1{
+      1-> Paul:1
+      2-> voir:1
+    }
+    Paul:1{class=proper_noun}
+	Paul:2{<->Paul:1}
+    voir:1{
+      1-> Paul:2
+      2-> Lucie:1
+    }
+    Lucie:1{class=proper_noun}
+    main-> vouloir_ctl:1
+  }
+}

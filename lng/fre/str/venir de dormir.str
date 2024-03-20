@@ -1,0 +1,15 @@
+structure Sem S {
+  S:0{
+    sem=S
+    venir_rs:1{
+      sem=venir_rs
+      1-> dormir:2
+    }
+    dormir:2{
+	  sem=dormir
+      1-> Paul:3
+    }
+    Paul:3{sem=Paul class=proper_noun}
+    main-> venir_rs:1
+  }
+}

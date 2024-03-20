@@ -1,0 +1,23 @@
+structure Sem S {
+  S:0{
+    sem=S
+    résigner:1{
+      1-> Paul:1
+      2-> se:1
+	  3-> écouter
+    }
+    Paul:1{sem=Paul class=proper_noun}
+    écouter{
+      1-> Paul:2
+	  2-> ordre:1
+    }
+    se:1{
+      <-> Paul:1
+    }
+	Paul:2{
+      <-> Paul:1
+    }
+	ordre
+    main-> résigner:1
+  }
+}

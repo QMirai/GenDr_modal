@@ -1,0 +1,15 @@
+structure Sem S {
+  S:0{
+    sem=S
+    pouvoir:1{
+      sem=pouvoir
+      1-> partir:3
+    }
+	police:2
+    partir:3{
+       sem=partir
+      1-> police:2
+    }
+    main-> pouvoir:1
+  }
+}

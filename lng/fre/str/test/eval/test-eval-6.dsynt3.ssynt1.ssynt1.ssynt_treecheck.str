@@ -1,0 +1,9 @@
+structure SSynt S3_1_0 {
+  partir:1{tense=PRES spos=verb dpos=V finiteness=INF mood=IND}
+  il_exp:1{spos=pronoun dpos=N }
+  falloir:1{
+    spos=verb finiteness=FIN dpos=V clause=main 
+    dir_objective-> partir:1
+    subjective-> il_exp:1
+  }
+}

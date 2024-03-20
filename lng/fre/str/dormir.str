@@ -1,0 +1,10 @@
+structure Sem S {
+  S:1{
+    dormir:1{
+      tense=PAST 
+      1-> Paul:1
+    }
+    Paul:1{class=proper_noun}
+    main-> dormir:1
+  }
+}

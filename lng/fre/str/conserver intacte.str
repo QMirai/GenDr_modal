@@ -1,0 +1,14 @@
+structure Sem S {
+  S:1{
+    conserver_rs:1{
+      1-> Paul:1
+      2-> intacte:1
+    }
+    Paul:1{class=proper_noun}
+    intacte:1{
+      1-> information:1
+    }
+    information:1{}
+    main-> conserver_rs:1
+  }
+}

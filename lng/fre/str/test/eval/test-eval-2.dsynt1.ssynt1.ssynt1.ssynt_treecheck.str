@@ -1,0 +1,11 @@
+structure SSynt S4_1_0 {
+  conserver_rs:1{
+    spos=verb finiteness=FIN dpos=V clause=main
+    comp_pred-> intacte:1{split=bottom spos=adjective dpos=Adj }
+    subjective-> Paul:1{number=SG spos=proper_noun class=proper_noun dpos=N definiteness=DEF }
+    dir_objective-> information:1{
+      number=SG spos=noun dpos=N definiteness=DEF 
+      determinative-> le:1{spos=determiner dpos=Adj }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+structure Sem S {
+  S:0{
+    sem=S
+    sembler_rs:1{
+      tense=PAST sem=sembler_rs
+      1-> dormir:2
+    }
+    dormir:2{
+      tense=PAST sem=dormir
+      1-> Paul:3
+    }
+    Paul:3{sem=Paul class=proper_noun}
+    main-> sembler_rs:1
+  }
+}structure Sem S {
+  S:1{
+    sembler_rs:1{
+      tense=PAST 
+      1-> vouloir_ctl:1
+    }
+    vouloir_ctl:1{
+      tense=PAST 
+      2-> dormir:1
+    }
+    dormir:1{
+      tense=PAST 
+      1-> Paul:1
+    }
+    Paul:1{class=proper_noun}
+    main-> sembler_rs:1
+  }
+}

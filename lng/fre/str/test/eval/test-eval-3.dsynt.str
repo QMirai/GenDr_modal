@@ -1,0 +1,23 @@
+structure DSynt S15_1_0 {
+  donner:1{
+    gpid=NP_V_NP_PP_à_recipient raise_to=subjective warning="Not in the semanticon. " dsynt=OK dpos=V finiteness=INF dia=dia123 
+    I-> Paul:1{dsynt=OK number=SG dpos=N class=proper_noun definiteness=DEF }
+    II-> livre:1{gpid=NONE warning="Not in the semanticon. " dsynt=OK number=SG dpos=N definiteness=DEF dia=dia0 }
+    III-> Lucie:1{dsynt=OK number=SG dpos=N class=proper_noun definiteness=DEF }
+  }
+  continuer_rs:1{
+    gpid=NP_V_rs_de_V warning="Not in the semanticon. " dsynt=OK dpos=V finiteness=FIN clause=main dia=dia1 
+    I-> donner:1
+  }
+}structure DSynt S25_1_0 {
+  donner:1{
+    gpid=NP_V_NP_PP_à_recipient raise_to=subjective warning="Not in the semanticon. " dsynt=OK dpos=V finiteness=INF dia=dia123 
+    I-> Paul:1{dsynt=OK number=SG dpos=N class=proper_noun definiteness=DEF }
+    II-> livre:1{gpid=NONE warning="Not in the semanticon. " dsynt=OK number=SG dpos=N definiteness=DEF dia=dia0 }
+    III-> Lucie:1{dsynt=OK number=SG dpos=N class=proper_noun definiteness=DEF }
+  }
+  continuer_rs:1{
+    gpid=NP_V_rs_à_V warning="Not in the semanticon. " dsynt=OK dpos=V finiteness=FIN clause=main dia=dia1 
+    I-> donner:1
+  }
+}

@@ -1,0 +1,505 @@
+/*
+Language : French (FRE)
+Contents : Lexemes
+Authors  : Yunpeng Qiao, François Lareau
+Encoding : UTF-8
+*/
+
+lexicon {
+
+META {
+  lng = {
+    name = French
+    iso = FRE
+  }
+  defaults = {
+    N = {
+      definiteness = DEF
+      number = SG
+    }
+    V = {
+      mood = IND
+      tense = PRES
+      finiteness = INF
+    }
+ }
+}
+
+/*
+=======================================================
+                  DEFAULT ATTRIBUTES
+=======================================================
+*/
+
+// ================= VERBS =================
+
+// VERB
+// ----
+
+verb {
+  dpos = V
+  spos = verb
+}
+
+// ================= NOUNS =================
+
+// NOUN
+// ----
+// Common nouns.
+// By default, they don't have DSyntActs.
+
+noun {
+  dpos = N
+  spos = noun
+  countable = yes
+  gp = { id=NONE dia=0}
+}
+
+noun_of : noun {
+  gp = { id=N_de_N dia=1 }
+//  gp = { id=Aposs_N dia=1 }
+}
+
+noun_in : noun {
+  gp = { id=N_in_N dia=1 }
+}
+
+noun_body : noun {
+  dpos = N_body
+  gp = { id=N_body_N_person dia=1 }
+}
+
+
+// UNIT
+// ----
+// This is only for measurement units expressed as symbols.
+// For example, "µg/m3", "l", "km", etc.
+
+unit : noun {
+  dpos = N
+  spos = unit
+  invariant = yes
+}
+
+// NUMBER
+// ------
+// For digital representation of numbers
+
+number {
+  dpos = Num
+  spos = number
+  invariant = yes
+}
+
+// AMOUNT
+// ------
+// Quantified units.
+// e.g.: $500, 30m, 1.4µg, etc.
+
+amount : unit {
+  definiteness = NO
+//  dpos = Num
+}
+
+// HOUR
+// -----
+// Used for the name of hours.
+
+hour : proper_noun {
+  dpos = hour
+  spos = hour
+  lf = { name = Locin
+         value = at }
+  invariant = yes
+}
+
+// MASS_NOUN
+// ---------
+// Not a part of speech.
+// Used to mark common nouns that are not countable.
+
+mass_noun : noun {
+  massive = yes
+  invariant = yes
+  countable = no
+  number=SG
+}
+
+// PROPER_NOUN
+// -----------
+// Proper nouns never have actants, but this is not expressed here.
+// They are never countable.
+
+proper_noun : noun {
+  spos = proper_noun
+   lf = { name=Locab value=from }
+  countable = no
+  invariant = yes
+}
+
+// ACRONYM 
+// --------
+// Acronyms are proper nouns but they can take determiners
+// so we give them a different spos.
+
+acronym : proper_noun {
+ spos = acronym
+}
+
+//PLACE
+// ----
+// Class for places
+
+place : proper_noun {
+  spos=proper_noun
+  lf = { name=Locad value=to }
+  lf = { name=Locab value=from }
+  lf = { name=Locin value=in }
+}
+
+// PRONOUN
+// -------
+
+pronoun : noun {
+  spos = pronoun
+}
+
+//PERSONAL PRONOUN
+personal_pronoun : pronoun {
+ spos = personal_pronoun
+ lf = { name=locad value=at }
+ lf = { name=locad value=to }
+}
+
+// ================= ADJECTIVES =================
+
+adjective_without_Oper1 {
+  gp = { id=ADJ dia=1 }
+  dpos = Adj
+  spos = adjective
+}
+
+adjective: adjective_without_Oper1 { //Yunpeng added
+  lf = { name = Oper1
+         value = être }
+}
+
+determiner : adjective_without_Oper1 {
+  spos = determiner
+}
+
+possessive : adjective_without_Oper1 {
+  dpos = Aposs
+  spos = possessive
+}
+
+numeral : adjective_without_Oper1 {
+  spos = numeral
+}
+
+// ================= ADVERBS =================
+
+adverb {
+  gp = { id=ADV dia=1 }
+  dpos = Adv
+  spos = adverb
+  invariant = yes
+}
+
+preposition : adverb {
+  spos = preposition
+  gp = { id=PREP dia=123 }
+}
+
+conjunction : adverb {
+  spos = conjunction
+  gp = { id=CONJ dia=12 }
+}
+
+connector : adverb {
+  spos = connector
+  gp = { id=CONNEC dia=12 }
+}
+
+negation : adverb {
+  spos = negation
+}
+
+coordination : adverb {
+  spos = coordination
+  gp = { id=COORD dia=12 }
+}
+
+quote : noun { 
+spos = quote
+}
+// =======================================================
+//                      DPOS MAPPING
+// =======================================================
+// These entries map a DPOS code to its class.
+
+"DPOS_V" : verb {
+  // default GPs
+  gp = { id=NP_V dia=1 }
+  gp = { id=NP_V_NP dia=12 }
+  gp = { id=NP_V_NP_PP_to_stimulus dia=123 }
+
+// look for the most seen gps in the corpus for the verbs
+
+}
+"DPOS_N" : noun
+"DPOS_Adj" : adjective
+"DPOS_Adv" : adverb
+
+// =======================================================
+//                      VERBNET MEMBERS
+// =======================================================
+//
+// These entries are the members for each classes/subclasses from verbnet
+
+//fiction
+fict_sembler_rs : "fict_sembler_rs"
+
+
+// french-------------------------------------------------
+accepter_ctl : "v_ctl_de_v"
+accuser_ctl : "v_ctl_np_de_v"
+admettre_ctl : "v_ctl_v"
+admirer : "v_dt_DEFAULT"
+adorer_ctl : "v_ctl_v"
+affirmer_ctl : "v_ctl_v"
+"s'agir" : "v_rs_de_v" //TOCHECK
+aider_ctl : "v_ctl_np_à_v"
+aimer : "v_dt_DEFAULT"
+aimer_ctl : "v_ctl_v"
+aller_rs : "v_rs"
+appeler_rs : "appeler_rs"
+arrêter : "v_dt_DEFAULT"
+autoriser : "autoriser"
+avoir : "v_dt_DEFAULT"
+avoir_rs : "v_rs_à"
+commencer_rs : "commencer_rs"
+conserver_rs : "v_adj"
+continuer_rs : "commencer_rs"
+déclarer_rs : "trouver"
+devoir_rs : "v_rs_dir"
+donner : "v_3_DEFAULT"
+dormir : "v_it_DEFAULT"
+être : "être"
+exagérer : "v_it_DEFAULT"
+falloir : "falloir"
+laver : "v_np_body"
+lire : "v_dt_DEFAULT"
+nécessaire_rs : "adj_de_v"
+paraître : "sembler_rs"
+partir : "v_it_DEFAULT"
+plaire : "plaire"
+possible_rs : "adj_de_v"
+pouvoir : "v_rs_dir"
+procéder : "procéder"
+promettre : "promettre"
+proposer : "proposer"
+obligatoire_rs : "adj_de_v"
+rendre_rs : "v_adj"
+savoir : "savoir"
+sembler_rs : "sembler_rs"
+toucher : "v_np_body"
+trouver : "trouver"
+trouver_cls : "v_cls"
+venir_rs : "v_rs_de"
+voir : "v_dt_DEFAULT"
+voir_rs : "voir_rs"
+voir_ctl : "voir_ctl"
+vouloir_ctl : "v_ctl_v"
+
+
+/*
+=======================================================
+                   PREDICATE CLASSES
+=======================================================
+*/
+//fiction
+"fict_sembler_rs": verb {
+  gp = { id=fict_NP_V_rs 	dia=1 } //La ville semble voir.
+}
+
+//french
+"adj_de_v": adjective {
+  gp = { id=NP_COPULA_adj_pour_NP_de_V 		dia=1} // Il est possible pour Paul de voir le chat.
+  gp = { id=Exp_COPULA_adj_que_V 		dia=1} // Il est possible que Paul voie le chat.
+  lf = { name = Oper0
+         value = être 
+  }
+}
+
+"appeler_rs": verb {
+  gp = { id=NP_V_rs_NP_NP	dia=12} // On appelle Paul chef.
+}
+
+"autoriser": verb {
+  gp = { id=NP_V_rs_NP_à_V	dia=12} // La police autorise Luc à partir.
+}
+
+"commencer_rs": verb {
+  gp = { id=NP_V_rs_à_V		dia=1} // La police commence à partir.
+  gp = { id=NP_V_rs_de_V	dia=1} // La police commence à partir.
+}
+
+"être": verb {
+  spos = copula
+  gp = { id=COPULA		dia=12} // La ville est jolie.
+}
+
+"falloir": verb {
+  gp = { id=Exp_V_V		dia=12} // Il faut partir.
+  gp = { id=Exp_V_que_V		dia=12} // Il faut que la police parte.
+}
+
+"plaire": verb {
+  gp = { id=NP_V_à_NP		dia=21} // Le chat plait à Paul.
+}
+
+"procéder": verb {
+  gp = { id=NP_V_à_NP		dia=12} // La police procède à l'arrestation.
+}
+
+"proposer": "v_ctl_de_v"{
+  gp = { id=NP_V_ctl_de_V dia=12 } //Paul propose de dormir.
+  gp = { id=NP_V_ctl_à_NP_de_V dia=123 } //Paul propose à Lucie de dormir.
+}
+
+"promettre": verb{
+  gp = { id=NP_V_ctl_de_V dia=12 } //Paul promet de lire le livre.
+  gp = { id=NP_V_ctl_à_NP_de_V dia=123 } //Paul promet à Lucie de lire le livre.
+}
+
+"savoir": verb{
+  gp = { id=NP_V_ctl_V dia=12 } //Paul sait dormir.
+  gp = { id=NP_V_ctl_que_V dia=12 } //Paul sait que Paul dort.
+}
+
+"sembler_rs": "v_rs"{
+  gp = { id=NP_V_rs_V dia=1 } //Paul semble dormir.
+  gp = { id=Exp_V_rs_que_V dia=X1 } //Il semble que Paul dorme.
+}
+
+"trouver": "v_adj" {
+  gp = { id=NP_V_NP_ADJ		 dia=12} // Paul trouve la ville jolie.
+  gp = { id=NP_V_que_NP_V        dia=12} // Paul trouve que la ville est jolie.
+}
+
+"v_np_body": verb{
+  gp = { id=NP_V_NP_body_NP dia=12 } //Paul me touche le bras.
+}
+
+"v_adj": verb {
+  gp = { id=NP_V_NP_ADJ		 dia=12} // Paul trouve la ville jolie.
+}
+
+"v_cls": verb {
+  gp = { id=NP_V_que_NP_V        dia=12} // Paul trouve que la ville est jolie.
+}
+
+"v_ctl_de_v": verb {
+  gp = { id=NP_V_ctl_de_V	dia=12 } //Le PDG accepte de revoir le taux horaire des ouvriers.
+}
+
+"v_ctl_np_de_v": "v_ctl_de_v"{
+  gp = { id=NP_V_ctl_NP_de_V 	dia=12 } //La Commission accuse certains dirigeants d'avoir bénéficié d'une donation illégale.
+}
+
+"v_dt_DEFAULT": verb {
+  gp = { id=NP_V_NP		dia=12} // Paul voit Marie.
+}
+
+"v_dt_Oper1": verb {
+  gp = { id=NP_V_NP		dia=12} // Paul admire Marie.
+  gp = { id=NP_V_Oper1_PP_NP	dia=12} // Paul a l'admiration pour Marie.
+}
+
+"v_it_DEFAULT": verb {
+  gp = { id=NP_V		dia=1} // Paul dort.
+}
+
+"v_rs": verb {
+  gp = { id=NP_V_rs_V dia=1 } //Paul semble dormir.
+}
+
+
+Exp_v_rs_de_v: verb {
+  gp = { id=NP_V_rs_de_V dia=1 } //Paul peut dormir.
+}
+
+"v_rs_dir": verb {
+  gp = { id=NP_V_rs_dir_V dia=1 } //Paul peut dormir.
+}
+
+"v_rs_à": verb {
+  gp = { id=NP_V_rs_à_V dia=1 } //Paul a à dormir.
+}
+
+"v_rs_de": verb {
+  gp = { id=NP_V_rs_de_V dia=1 } //Paul vient de dormir.
+}
+
+"v_3_DEFAULT": verb {
+  gp = { id=NP_V_NP_PP_à_recipient		dia=123} // Paul donne un livre à Marie.
+}
+
+"voir_rs": verb{
+  gp = { id=NP_NP_V_rs_V dia=12 } //Paul me voir dormir.
+}
+
+"v_ctl_v": verb{
+  gp = { id=N_V_Vinf dia=12 } //Paul veut dormir.
+}
+
+
+//////////////////////////////////////////
+//      NON-VERBAL LEXICAL ENTRIES      //
+//////////////////////////////////////////
+
+à : preposition
+admiratif : adjective {
+  gp = { id=ADJ_N_de		dia=12 } //admiratif de Paul pour Marie
+  lf = { name = Oper1
+         value = être 
+  }
+}
+admiration : noun {
+  gp = { id=N_de_N_pour_N	dia=12 } //admiration de Paul pour Marie
+  lf = { name = Oper1
+         value = avoir 
+  }
+}
+arrestation : noun {
+  gp = { id=N_par_N_de_N	dia=12 } //arrestation du voleur
+  lf = { name = Oper1
+         value = procéder 
+  }
+}
+bras : noun_body
+chat : noun
+de : preposition
+livre : noun
+le : determiner
+il_exp : pronoun
+intacte : adjective
+information : pronoun
+joli : adjective
+main_nb : noun_body
+maire : noun
+moi : pronoun
+par : preposition
+police : noun
+pour : preposition
+PRO : noun
+que : conjunction
+recteur : noun
+repris : adjective
+session : noun
+ville : noun
+voleur : noun
+voisin : noun_of
+
+}

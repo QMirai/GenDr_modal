@@ -1,0 +1,16 @@
+structure SSynt S5_1_0 {
+  que:1{
+    split=top spos=conjunction dpos=Adv 
+    conj_completive-> aimer:1{
+      tense=PAST split=bottom spos=verb finiteness=FIN dpos=V 
+      dir_objective-> Lucie:1{number=SG spos=proper_noun class=proper_noun dpos=N definiteness=DEF }
+      subjective-> Paul:1{number=SG spos=proper_noun class=proper_noun dpos=N definiteness=DEF }
+    }
+  }
+  il_exp:1{spos=pronoun dpos=N }
+  paraître:1{
+    spos=verb finiteness=FIN dpos=V clause=main 
+    subjective-> il_exp:1
+    dir_objective-> que:1
+  }
+}

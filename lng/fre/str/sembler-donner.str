@@ -1,0 +1,19 @@
+structure Sem S {
+  S:0{
+    sem=S
+    sembler_rs:1{
+      tense=PAST sem=sembler_rs
+      1-> donner:2
+    }
+    donner:2{
+      tense=PAST sem=donner
+      1-> Paul:3
+      2-> livre:4
+      3-> Lucie:5
+    }
+    Paul:3{sem=Paul class=proper_noun}
+    livre:4{sem=livre}
+    Lucie:5{sem=Lucie class=proper_noun}
+    main-> sembler_rs:1
+  }
+}

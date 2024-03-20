@@ -1,0 +1,14 @@
+structure Sem S {
+  S:1{
+    trouver:1{
+      1-> Paul:1
+      2-> joli:1
+    }
+    Paul:1{class=proper_noun}
+    joli:1{
+      1-> ville:1
+    }
+    ville:1{}
+    main-> trouver:1
+  }
+}

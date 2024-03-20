@@ -1,0 +1,1354 @@
+
+/*3 configurations for "split" attribute (X and Y correspond to the same LS node):
+(1) Determines: RS: ?X-det-> ?Y{split=bottom}
+(2) Governed Preps: RS: ?X{split=top}-prepos-> ?Y{split=root}
+(3) Polylex Units: RS: ?X{split=top}-?r-> ?Y{split=bottom}
+
+=>
+- if a node contains split=bottom, this node cannot govern or receive any relation.*/
+DSynt<=>SSynt abstract core : rule
+[
+  leftside = [
+
+  ]
+  conditions = [
+
+  ]
+  rightside = [
+
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt abstract lf : rule
+[
+  leftside = [
+
+  ]
+  conditions = [
+
+  ]
+  rightside = [
+
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt abstract lng : rule
+[
+  leftside = [
+
+  ]
+  conditions = [
+
+  ]
+  rightside = [
+
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt abstract quantification : rule
+[
+  leftside = [
+
+  ]
+  conditions = [
+
+  ]
+  rightside = [
+
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt filter : core
+[
+  leftside = [
+?Xl{}
+  ]
+  conditions = [
+?Xl.dsynt and not ?Xl.dsynt=OK;
+  ]
+  rightside = [
+rc:?Xr {
+  rc:<=> ?Xl
+  ssynt=REJECT
+}
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt lex_class : core
+[
+  leftside = [
+?Xl{}
+  ]
+  conditions = [
+?Xl.class;
+not lexicon::(?Xl.dlex).dpos; // exclude words that have an entry in the lexicon
+//YP:----------------------------------------------------
+//not ?Xl.block=yes; // to block the non finite verbs' subject; see sem-dsynt constraints_gp_controlled
+//not ?Xl.dlex=PRO; //to block the non finite verbs' subject;
+  ]
+  rightside = [
+?Xr{
+  <=> ?Xl
+  slex=?Xl.dlex
+  spos=lexicon::(?Xl.class).spos
+  ssynt=OK
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*If the noun has no other dependent than the determiner.*/
+DSynt<=>SSynt lex_det : core
+[
+  leftside = [
+?Xl{}
+?L <- semanticon::(?Xl.definiteness).lex
+  ]
+  conditions = [
+?Xl.definiteness;
+lexicon::(?Xr.slex).spos=noun;
+not lexicon::(?Xr.slex).spos=possessive;
+not lexicon::(?Xr.slex).spos=proper_noun;
+not lexicon::(?Xr.slex).spos=place;
+not ?Xr det-> ?N;
+not ?Xr quant-> ?N;
+  ]
+  rightside = [
+rc:?Xr{ rc:<=> ?Xl
+  det-> ?Yr{
+    slex=?L
+    dpos=lexicon::(?L).dpos
+    spos=lexicon::(?L).spos
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*If the noun has no other dependent than the determiner.*/
+DSynt<=>SSynt disabled lex_det_modifie : core
+[
+  leftside = [
+?Xl{}
+?L <- semanticon::(?Xr.definiteness).lex //Xl --> Xr
+  ]
+  conditions = [
+?Xr.definiteness; //Xl --> Xr
+lexicon::(?Xr.slex).spos=noun;
+not lexicon::(?Xr.slex).spos=possessive;
+not lexicon::(?Xr.slex).spos=proper_noun;
+not lexicon::(?Xr.slex).spos=place;
+not ?Xr det-> ?N;
+not ?Xr quant-> ?N;
+  ]
+  rightside = [
+rc:?Xr{ rc:<=> ?Xl
+  det-> ?Yr{
+    slex=?L
+    dpos=lexicon::(?L).dpos
+    spos=lexicon::(?L).spos
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt abstract lex_idiom : core
+[
+  leftside = [
+
+  ]
+  conditions = [
+
+  ]
+  rightside = [
+
+  ]
+  correspondence = [
+
+  ]
+]
+/*Simple lexicalization*/
+DSynt<=>SSynt lex_lu : core
+[
+  leftside = [
+l:?Xl
+  ]
+  conditions = [
+not lf::(?Xl.dlex).dpos;  // ?Xl is not a syntagmatic LF (all LFs have a dpos in "lf")
+lexicon::(?Xl.dlex).dpos; // This lexical unit is in the lexicon
+not lexicon::(?Xl.dlex).idiom;
+//YP:----------------------------------------------------
+//not ?Xl.block=yes; // to block the non finite verbs' subject; see sem-dsynt constraints_gp_controlled
+//not ?Xl.dlex=PRO; // to block the non finite verbs' subject;
+  ]
+  rightside = [
+?Xr {
+  <=> ?Xl
+  slex=?Xl.dlex
+  dlex=?Xl.dlex
+  dpos=lexicon::(?Xl.dlex).dpos
+  spos=lexicon::(?Xl.dlex).spos
+  gpid=?Xl.gpid
+  ssynt=OK
+//  clause=?Xl.clause //for tree check
+}
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt synt_APPEND_name : core
+[
+  leftside = [
+?Xl{
+  l:APPEND-> ?Yl{}
+}
+  ]
+  conditions = [
+?Yr.spos=proper_noun;
+  ]
+  rightside = [
+rc:?Xr{ rc:<=> ?Xl
+  name-> rc:?Yr{ rc:<=> ?Yl }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt synt_ATTR : core
+[
+  leftside = [
+?Xl{
+  l:ATTR-> ?Yl{}
+}
+  ]
+  conditions = [
+//not ?Xr.split=bottom;
+//not ?Xr.spos=auxiliary;
+//not ?Yr.spos=determiner;
+not ?Xl.raise_to;
+not ?Yr.spos=number;
+// FIXME: constrain dpos combinations: V-->Adv, N-->Adj, etc.,
+//(?Xr.dpos=N and ?Yr.dpos=Adj) or ((not ?Xr.dpos=N) and ?Yr.dpos=Adv);
+// This doesn't always work.
+  ]
+  rightside = [
+rc:?Xr{ rc:<=> ?Xl
+  modif-> rc:?Yr{ rc:<=> ?Yl }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt synt_COORD : core
+[
+  leftside = [
+?Xl{
+  l:COORD-> ?Yl
+}
+  ]
+  conditions = [
+
+  ]
+  rightside = [
+rc:?Xr{ rc:<=> ?Xl
+  coordinative-> rc:?Yr{ rc:<=> ?Yl }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Creates the edges of all actants -except SSynt subject- introduced by a purely syntactic
+ connector such as prep or conjunction (doesn't apply to semantic prepositions/conjunctions).
+
+Should we use the ?GP from ?Xr instead of ?Xl?
+
+FIXME: Prep's GP should be moved to gpcon*/
+DSynt<=>SSynt synt_actant_conj : core
+[
+  leftside = [
+?Xl{
+  l:?r-> ?Yl{}
+}
+?D <- gpcon::(?Xl.gpid).(?r)
+  ]
+  conditions = [
+not ?r=ATTR;
+not ?r=COORD;
+not ?r=APPEND;
+?Xl.gpid;               // There's a gp
+?D.rel;                 // Check that the GP specifies the SSyntRel
+?D.conj and (not ?D.conj="");	        // There is a governed Prep
+lexicon::(?D.conj).(spos)=conjunction;  // Not Locin etc.
+?D.dpos=?Yl.dpos or (not ?D.dpos);
+not ?D.rel=subjective;  // Subject is handled by other rules
+not ?Xr.split=top;      // ?Xr is not the top part of a split node
+not ?Yr.split=bottom;   // ?Xr is not the bottom part of a split node
+not ?Yr.auxdep=yes;     // Attach to the top Aux
+?Yr.ssynt=OK;           // Wait for full lexicalization
+//Yunpeng------------------------------------------------------------------
+//not ?D.split;
+//?Xr.sp=OK;
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  ?D.rel-> ?Zr{ 
+  <=> ?Yl
+  slex=?D.conj
+  dpos=lexicon::(?D.conj).(dpos)
+  spos=lexicon::(?D.conj).(spos)
+  split=top
+  gpcon::(CONJ).(II).(rel)-> rc:?Yr{
+     <=> rc:?Yl
+     split=bottom }
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Check*/
+DSynt<=>SSynt synt_actant_dir : core
+[
+  leftside = [
+?Xl{
+  l:?r-> ?Yl{}
+}
+?D <- gpcon::(?Xl.gpid).(?r)
+  ]
+  conditions = [
+not ?r=ATTR;
+not ?r=COORD;
+not ?r=APPEND;
+?Xl.gpid;               // There's a gp
+not (?Xl.gpid=N_body_N_person and ?D.rel=mod);     // not a structure : verb_body + body
+not ?D.rel=subjective;  // Subject is handled by other rules
+not ?D.prep;
+not ?D.conj;
+//not ?Xr.split=bottom;   // ?Xr is not the bottom part of a split node
+?Xr.ssynt=OK;           // Wait for full lexicalization
+//YP:--------------------------------------------------------------------
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  raise_to=?D.raise_to
+  ?D.rel-> ?Yr{ <=> ?Yl
+    raise_from=?D.raise_from
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Check*/
+DSynt<=>SSynt disabled synt_actant_dir_delete : core
+[
+  leftside = [
+?Xl{
+  l:?r-> ?Yl{}
+}
+?D <- gpcon::(?Xl.gpid).(?r)
+  ]
+  conditions = [
+?Xr.delete=?Yl.gpid; // for add delete mark
+?Xr.raise_to;
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  raise_to=?D.raise_to
+  ?D.rel-> ?Yr{ <=> ?Yl
+    raise_from=?D.raise_from  
+    delete=yes
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Creates the edges of all actants -except SSynt subject- introduced by a purely syntactic
+ connector such as prep or conjunction (doesn't apply to semantic prepositions/conjunctions).
+
+Should we use the ?GP from ?Xr instead of ?Xl?
+
+FIXME: Prep's GP should be moved to gpcon*/
+DSynt<=>SSynt synt_actant_particle : core
+[
+  leftside = [
+?Xl{
+  l:?r-> ?Yl{}
+}
+?D <- gpcon::(?Xl.gpid).(?r)
+  ]
+  conditions = [
+not ?r=ATTR;
+not ?r=COORD;
+not ?r=APPEND;
+not ?r=PREP;
+?Xl.gpid;               // There's a gp
+?D.rel;                 // Check that the GP specifies the SSyntRel
+?D.parti and (not ?D.parti="");	        // There is a governed Prep
+lexicon::(?D.parti).(spos)=particle;  // Not Locin etc.
+?D.dpos=?Yl.dpos or (not ?D.dpos);
+not ?D.rel=subjective;  // Subject is handled by other rules
+not ?Xr.split=top;      // ?Xr is not the top part of a split node
+not ?Yr.split=bottom;   // ?Xr is not the bottom part of a split node
+not ?Yr.auxdep=yes;     // Attach to the top Aux
+?Yr.ssynt=OK;           // Wait for full lexicalization
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  ?D.rel-> ?Zr{ 
+  <=> ?Yl 
+  slex=?D.parti
+  dpos=lexicon::(?D.parti).(dpos)
+  spos=lexicon::(?D.parti).(spos)
+  split=top
+  gpcon::(PARTICLE).(II).(rel)-> rc:?Yr{
+     <=> rc:?Yl
+     split=bottom }
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Creates the edges of all actants -except SSynt subject- introduced by a purely syntactic
+ connector such as prep or conjunction (doesn't apply to semantic prepositions/conjunctions).
+
+Should we use the ?GP from ?Xr instead of ?Xl?
+
+FIXME: Prep's GP should be moved to gpcon*/
+DSynt<=>SSynt synt_actant_prep : core
+[
+  leftside = [
+?Xl{
+  l:?r-> ?Yl{}
+}
+?D <- gpcon::(?Xl.gpid).(?r)
+  ]
+  conditions = [
+not ?r=ATTR;
+not ?r=COORD;
+not ?r=APPEND;
+?Xl.gpid;               // There's a gp
+?D.rel;                 // Check that the GP specifies the SSyntRel
+?D.prep and (not ?D.prep="");	        // There is a governed Prep
+lexicon::(?D.prep).(spos)=preposition;  // Not Locin etc.
+?D.dpos=?Yl.dpos or (not ?D.dpos);
+not ?D.rel=subjective;  // Subject is handled by other rules
+not ?Xr.split=top;      // ?Xr is not the top part of a split node
+not ?Yr.split=bottom;   // ?Xr is not the bottom part of a split node
+not ?Yr.auxdep=yes;     // Attach to the top Aux
+?Xr.ssynt=OK;           // Wait for full lexicalization
+?Yr.ssynt=OK;           // Wait for full lexicalization
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  raise_to=?D.raise_to
+  ssynt=OK
+  ?D.rel-> ?Zr{ 
+    <=> ?Yl 
+    slex=?D.prep
+    dpos=lexicon::(?D.prep).(dpos)
+    spos=lexicon::(?D.prep).(spos)
+//    split=top
+    gpcon::(PREP).(II).(rel)-> rc:?Yr{
+      <=> rc:?Yl
+//      split=bottom
+      raise_from=?D.raise_from 
+    }
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Governor imposes a preposition, but the exact lexeme to use is
+constrained by the actant (Locin or similar LF in a GP).*/
+DSynt<=>SSynt synt_actant_prep_loc : core
+[
+  leftside = [
+?Xl{
+  l:?r-> ?Yl{}
+}
+?D <- gpcon::(?Xl.gpid).(?r)
+?F <- lexicon::(?Yr.slex).(lf)
+  ]
+  conditions = [
+not ?r=ATTR;
+not ?r=COORD;
+not ?r=APPEND;
+?Xl.gpid;               // There's a gp
+?D.rel;                 // Check that the GP specifies the SSyntRel
+?D.prep and (not ?D.prep="");	        // There is a governed Prep
+lf::(?D.prep).(dpos);   // Prep is a Locin etc.
+?F.name=?D.prep;        // ?Yr has a value for this LF
+?D.dpos=?Yl.dpos or (not ?D.dpos);
+not ?D.rel=subjective;  // Subject is handled by other rules
+not ?Xr.split=top;      // ?Xr is not the top part of a split node
+not ?Yr.split=bottom;   // ?Xr is not the bottom part of a split node
+not ?Yr.auxdep=yes;     // Attach to the top Aux
+?Yr.ssynt=OK;           // Wait for full lexicalization
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  ?D.rel-> ?Zr{ 
+  <=> ?Yl
+  slex=?F.value
+  dpos=lexicon::(?D.prep).(dpos)
+  spos=lexicon::(?D.prep).(spos)
+  split=top
+  gpcon::(PREP).(II).(rel)-> rc:?Yr{
+     <=> rc:?Yl
+     split=bottom }
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Governor imposes a preposition, but the exact lexeme to use is
+constrained by the actant (Locin or similar LF in a GP).*/
+DSynt<=>SSynt synt_class_prep_loc : core
+[
+  leftside = [
+?Xl{
+  l:?r-> ?Yl{}
+}
+?D <- gpcon::(?Xl.gpid).(?r)
+?F <- lexicon::(?Yr.class).(lf)
+  ]
+  conditions = [
+not ?r=ATTR;
+not ?r=COORD;
+not ?r=APPEND;
+?Xl.gpid;               // There's a gp
+?D.rel;                 // Check that the GP specifies the SSyntRel
+?D.prep and (not ?D.prep="");	        // There is a governed Prep
+lf::(?D.prep).(dpos);   // Prep is a Locin etc.
+?F.name=?D.prep;        // ?Yr has a value for this LF
+?D.dpos=?Yl.dpos or (not ?D.dpos);
+not ?D.rel=subjective;  // Subject is handled by other rules
+not ?Xr.split=top;      // ?Xr is not the top part of a split node
+not ?Yr.split=bottom;   // ?Xr is not the bottom part of a split node
+not ?Yr.auxdep=yes;     // Attach to the top Aux
+?Yr.ssynt=OK;           // Wait for full lexicalization
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  ?D.rel-> ?Zr{ 
+  <=> ?Yl 
+  slex=?F.value
+  dpos=lexicon::(?F.value).(dpos)
+  spos=lexicon::(?F.value).(spos)
+  split=top
+  gpcon::(PREP).(II).(rel)-> rc:?Yr{
+     <=> rc:?Yl
+     split=bottom }
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Check*/
+DSynt<=>SSynt disabled synt_delete_copula : core
+[
+  leftside = [
+?Xl{
+  ?r-> ?Yl{
+    ?s-> ?Zl
+  }
+}
+  ]
+  conditions = [
+?Yr.spos=copula;
+gpcon::(?Xl.gpid).(?r).(rel)=comp_pred;
+gpcon::(?Yl.gpid).(?s).(rel)=comp_pred;
+  ]
+  rightside = [
+?Yr {
+  rc:<=> ?Yl
+  delete=yes
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Check*/
+DSynt<=>SSynt disabled synt_delete_mark : core
+[
+  leftside = [
+?Xl{
+  l:?r-> ?Yl
+}
+  ]
+  conditions = [
+?Xl.gpid=V_rs_V and ?Yl.gpid=COPULE;
+  ]
+  rightside = [
+?Yr{ <=> ?Yl 
+  delete=yes
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Subjects are treated separately from other actants.
+Only finite verbs have a subject.
+The subject migrates on the top auxiliary, if any.
+We use the GP of the deep lexeme.*/
+Sem<=>DSynt disabled synt_raising : core
+[
+  leftside = [
+?Xl{
+  l:?i-> ?Yl{
+    l:?j-> ?Zl{}
+  }
+}
+?GP <- gpcon::(?Xl.gpid).(?i)
+  ]
+  conditions = [
+?j=I or ?j=ATTR;
+//?Xl.gpid=V_rs_V or ?Xl.gpid=V_NP_body or ?Xl.gpid=NP_V_NP_ADJ;                     // There's a gp
+?GP.raising_rel;          // a raising relation is necessary
+//?GP.rel=comp_pred or gpcon::(?Yl.gpid).(I).(rel)=mod;      // This rule only handles subjects
+//?Xr.finiteness=FIN;     // Only finite verbs have a subject
+//not ?GP.prep;
+//not ?Xr.split=bottom;   // ?Xr is not the bottom part of a split node
+//not ?Xr.auxdep;         // Attach on the top Aux
+?Xr.ssynt=OK;           // Wait for full lexicalization
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  ?GP.rel-> rc:?Yr{ <=> rc:?Yl }
+  ?GP.raising_rel -> ?Zr{ <=> ?Zl }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Subjects are treated separately from other actants.
+Only finite verbs have a subject.
+The subject migrates on the top auxiliary, if any.
+We use the GP of the deep lexeme.*/
+Sem<=>DSynt synt_split : core
+[
+  leftside = [
+?Xl{
+  l:?i-> ?Yl{
+    l:?j-> ?Zl{}
+  }
+}
+?GP <- gpcon::(?Xl.gpid).(?i)
+  ]
+  conditions = [
+?j=I;
+?GP.split=yes;          // split mark is necessary
+?Xr.ssynt=OK;           // Wait for full lexicalization
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  ?GP.rel-> ?Vr{ 
+    dlex=?GP.conj
+    dpos=lexicon::(?GP.conj).(dpos)
+    spos=lexicon::(?GP.conj).(spos)
+    split=top
+    gpcon::(CONJ).(II).(rel)-> ?Wr{
+//      split=bottom
+      ssynt=OK 
+      dlex=être
+      spos=verb
+      dpos=V
+      finiteness=?GP.finiteness
+      mood=?GP.mood
+      gpcon::(COPULE).(I).(rel)->rc:?Zr{ <=> rc:?Zl }
+      gpcon::(COPULE).(II).(rel)->rc:?Yr{ <=> rc:?Yl }
+	}
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Subjects are treated separately from other actants.
+Only finite verbs have a subject.
+The subject migrates on the top auxiliary, if any.
+We use the GP of the deep lexeme.*/
+Sem<=>DSynt synt_subj : core
+[
+  leftside = [
+?Xl{
+  l:?r-> ?Yl
+}
+?GP <- gpcon::(?Xl.gpid).(?r)
+  ]
+  conditions = [
+?Xl.gpid;               // There's a gp
+?GP.rel=subjective;     // This rule only handles subjects
+//?Xr.finiteness=FIN ;     // Only finite verbs have a subject
+not ?GP.prep;
+not ?Xr.split=bottom;   // ?Xr is not the bottom part of a split node
+not ?Xr.auxdep;         // Attach on the top Aux
+?Xr.ssynt=OK;           // Wait for full lexicalization
+//YP:----------------------------------------------------
+?Xr.finiteness=FIN or ?Xr.raise_from=subjective; // subject for either finite verbs or victim verbs whose subject will be raised
+  ]
+  rightside = [
+rc:?Xr{ 
+  <=> rc:?Xl
+  ?GP.rel-> rc:?Yr{ 
+    <=> rc:?Yl 
+   }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Creates the edges of all actants -except SSynt subject- introduced by a purely syntactic
+ connector such as prep or conjunction (doesn't apply to semantic prepositions/conjunctions).
+
+Should we use the ?GP from ?Xr instead of ?Xl?
+
+FIXME: Prep's GP should be moved to gpcon*/
+DSynt<=>SSynt disabled synt_actant_Vsupport_invisible : lf
+[
+  leftside = [
+?Xl
+?F <- lexicon::(?Xl.dlex).(lf)
+  ]
+  conditions = [
+//?F.name="Oper"+?r or ?F.name="Func"+?r or ?F.name="Labor"+?r; // matches the sem node with the name of LF
+//YP: ----------------------------------
+lexicon::(?F.value).(dpos)=V or (not lexicon::(?F.value).(dpos));
+not ?Xl.raising=yes;
+  ]
+  rightside = [
+rc:?Zr { rc:<=> ?Xl				// LF
+  split=top
+  dpos=lexicon::(?Xl.Vsupport).(dpos)
+  spos=lexicon::(?Xl.Vsupport).(spos)
+  dlex=?Xl.Vsupport
+  slex=?Xl.Vsupport
+  ssynt=OK
+  lf=?F.name
+  base=?Xl.dlex
+  gpcon::(lexicon::(?Xl.Vsupport).(gp).(id)).(lf::(?F.name).(gp).(L)).(rel)-> ?Xr{ <=> ?Xl		// base
+       split=bottom
+       sp=OK
+       definiteness=DEF
+       dpos=?Xl.dpos
+       dlex=?Xl.dlex
+       slex=?Xl.dlex
+       ssynt=OK
+       gpid=?Xl.gpid
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Creates the edges of all actants -except SSynt subject- introduced by a purely syntactic
+ connector such as prep or conjunction (doesn't apply to semantic prepositions/conjunctions).
+
+Should we use the ?GP from ?Xr instead of ?Xl?
+
+FIXME: Prep's GP should be moved to gpcon*/
+DSynt<=>SSynt disabled synt_split_Vsupport_actant_prep : lf
+[
+  leftside = [
+?Xl{
+  l:?r-> ?Yl{}
+}
+?D <- gpcon::(?Xr.gpid).(I)
+  ]
+  conditions = [
+not ?r=ATTR;
+not ?r=COORD;
+not ?r=APPEND;
+?Xr.gpid;               // There's a gp
+?D.rel;                 // Check that the GP specifies the SSyntRel
+?D.prep and (not ?D.prep="");	        // There is a governed Prep
+lexicon::(?D.prep).(spos)=preposition;  // Not Locin etc.
+?D.dpos=?Yl.dpos or (not ?D.dpos);
+not ?D.rel=subjective;  // Subject is handled by other rules
+//not ?Xr.split=top;      // ?Xr is not the top part of a split node
+//not ?Yr.split=bottom;   // ?Xr is not the bottom part of a split node
+not ?Yr.auxdep=yes;     // Attach to the top Aux
+?Yr.ssynt=OK;           // Wait for full lexicalization
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  ?D.rel-> ?Zr{ 
+  <=> ?Yl 
+  slex=?D.prep
+  dpos=lexicon::(?D.prep).(dpos)
+  spos=lexicon::(?D.prep).(spos)
+  split=top
+  gpcon::(PREP).(II).(rel)-> rc:?Yr{
+     <=> rc:?Yl
+     split=bottom }
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Ce serait une mauvaise méthode d'implémenter la fl dans la 2e transition, car elle entraînent l'accumulation de beaucoup de splits dans cette étape, comme admirer doit spilter
+en avoir, admiration, de, et possiblement que en cas de proposition. Donc, la 1e transition devient peu chargée, tandis que la 2e est trop chargée. C'est mieux de répartir les
+tâches en deux transitions.*/
+DSynt<=>SSynt disabled synt_split_Vsupport_i_default : lf
+[
+  leftside = [
+?Xl
+  ]
+  conditions = [
+//lexicon::(?Xl.dlex).dpos=V;
+//lexicon::(?Xl.dlex).(gp).(id) and (not lexicon::(?Xl.dlex).(gp).(id)=NONE);
+//lexicon::(?Xl.dlex).(lf);
+?Xr.ssynt=lexicalized;
+//not ?Xl.dpos=proper_noun;
+  ]
+  rightside = [
+rc:?Xr { rc:<=> ?Xl
+  ssynt=OK
+}
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt disabled synt_split_Vsupport_i_general_adj : lf
+[
+  leftside = [
+?Xl{  		// base
+  l:?R-> ?Yl {}		// rth actant
+}
+?r <- lf::(decode).(?R)
+?F <- lexicon::(?Xl.dlex).(lf)
+  ]
+  conditions = [
+?F.name="Oper"+?r or ?F.name="Func"+?r or ?F.name="Labor"+?r; // matches the sem node with the name of LF
+//YP: ----------------------------------
+lexicon::(?F.value).(dpos)=V or (not lexicon::(?F.value).(dpos));
+not ?Xl.split=no;                          // a split=yes feature is necessary to split. It is written in gpcon, then the word that needs to be splited is constrained with this feature.
+//not ?F.alternative;                         // verb -> noun
+  ]
+  rightside = [
+rc:?Zr { rc:<=> ?Xl				// LF
+  split=top
+  dpos=lexicon::(?F.value).(dpos)
+  spos=lexicon::(?F.value).(spos)
+  dlex=?F.value
+  slex=?F.value
+  ssynt=OK
+  lf=?F.name
+  base=?Xl.dlex
+  gpcon::(lexicon::(?F.value).(gp).(id)).(lf::(?F.name).(gp).(L)).(rel)-> ?Xr{ <=> ?Xl		// base
+          //support verb's gpid--------   //Rth-----------------
+       split=bottom
+       sp=OK
+       dpos=?Xl.dpos
+       dlex=?Xl.dlex
+       slex=?Xl.dlex
+       ssynt=OK
+  }
+  gpcon::(lexicon::(?F.value).(gp).(id)).(?R).(rel)-> ?Yr{ <=> ?Yl	// rth actant
+       sp=OK
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Ce serait une mauvaise méthode d'implémenter la fl dans la 2e transition, car elle entraînent l'accumulation de beaucoup de splits dans cette étape, comme admirer doit spilter
+en avoir, admiration, de, et possiblement que en cas de proposition. Donc, la 1e transition devient peu chargée, tandis que la 2e est trop chargée. C'est mieux de répartir les
+tâches en deux transitions.*/
+DSynt<=>SSynt disabled synt_split_Vsupport_i_general_dir : lf
+[
+  leftside = [
+?Xl{  		// base
+  l:?R-> ?Yl {}		// rth actant
+}
+?r <- lf::(decode).(?R)
+//?F <- lexicon::(semanticon::(?Xl.dlex).(lex_n)).(lf)
+?F <- lexicon::(?Xl.dlex).(lf)
+  ]
+  conditions = [
+?F.name="Oper"+?r or ?F.name="Func"+?r or ?F.name="Labor"+?r; // matches the sem node with the name of LF
+//YP: ----------------------------------
+//?Zr.dpos=V or (not ?Zr.dpos);		// ?Zr must be a verb // replaced by below, because Zr.dpos is initially Xl.dpos (Adj).
+                                        // This is different from the 1st transition in which Zr.dpos is initially empty.
+lexicon::(?F.value).(dpos)=V or (not lexicon::(?F.value).(dpos));
+//not ?Xl.split=no;                       // a split=yes feature is necessary to split. It is written in gpcon, then the word that needs to be splited is constrained with this feature.
+not gpcon::(lexicon::(?F.value).(gp).(id)).(lf::(?F.name).(gp).(L)).(rel).(prep);
+  ]
+  rightside = [
+rc:?Zr { rc:<=> ?Xl				// LF
+  split=top
+  dpos=lexicon::(?F.value).(dpos)
+  spos=lexicon::(?F.value).(spos)
+  dlex=?F.value
+  slex=?F.value
+  ssynt=OK
+  lf=?F.name
+  base=?Xl.dlex
+  gpcon::(lexicon::(?F.value).(gp).(id)).(lf::(?F.name).(gp).(L)).(rel)-> ?Xr{ <=> ?Xl		// base
+          //support verb's gpid--------   //Rth-----------------
+       split=bottom
+       sp=OK
+       definiteness=DEF
+       dpos=lexicon::(?F.alternative).dpos
+       dlex=semanticon::(?Xl.dlex).(lex_n)
+       slex=semanticon::(?Xl.dlex).(lex_n)
+       ssynt=OK
+       gpid=lexicon::(semanticon::(?Xl.dlex).(lex_n)).(gp).(id)
+  }
+  gpcon::(lexicon::(?F.value).(gp).(id)).(?R).(rel)-> ?Yr{ <=> ?Yl	// rth actant
+    sp=OK
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Ce serait une mauvaise méthode d'implémenter la fl dans la 2e transition, car elle entraînent l'accumulation de beaucoup de splits dans cette étape, comme admirer doit spilter
+en avoir, admiration, de, et possiblement que en cas de proposition. Donc, la 1e transition devient peu chargée, tandis que la 2e est trop chargée. C'est mieux de répartir les
+tâches en deux transitions.*/
+DSynt<=>SSynt disabled synt_split_Vsupport_i_general_dir_with_base_of_1e : lf
+[
+  leftside = [
+?Xl{  		// base
+  l:?R-> ?Yl {}		// rth actant
+}
+?r <- lf::(decode).(?R)
+//?F <- lexicon::(semanticon::(?Xl.dlex).(lex_n)).(lf)
+?F <- lexicon::(?Xl.dlex).(lf)
+  ]
+  conditions = [
+?F.name="Oper"+?r or ?F.name="Func"+?r or ?F.name="Labor"+?r; // matches the sem node with the name of LF
+//YP: ----------------------------------
+//?Zr.dpos=V or (not ?Zr.dpos);		// ?Zr must be a verb // replaced by below, because Zr.dpos is initially Xl.dpos (Adj).
+                                        // This is different from the 1st transition in which Zr.dpos is initially empty.
+lexicon::(?F.value).(dpos)=V or (not lexicon::(?F.value).(dpos));
+//not ?Xl.split=no;                       // a split=yes feature is necessary to split. It is written in gpcon, then the word that needs to be splited is constrained with this feature.
+//not gpcon::(lexicon::(?F.value).(gp).(id)).(lf::(?F.name).(gp).(L)).(rel).(prep);
+not ?Xl.raising=yes;
+?Xr.ssynt=lexicalized;
+  ]
+  rightside = [
+?Zr { <=> ?Xl				// LF
+  split=top
+  dpos=lexicon::(?F.value).(dpos)
+  spos=lexicon::(?F.value).(spos)
+  dlex=?F.value
+  slex=?F.value
+  ssynt=OK
+  lf=?F.name
+  base=?Xl.dlex
+  gpcon::(lexicon::(?F.value).(gp).(id)).(lf::(?F.name).(gp).(L)).(rel)-> rc:?Xr{ <=> rc:?Xl		// base
+       split=bottom
+       definiteness=DEF
+       dpos=?Xl.dpos
+       dlex=?Xl.dlex
+       slex=?Xl.dlex
+       //ssynt=OK
+       gpid=?Xl.gpid
+  }
+  gpcon::(lexicon::(?F.value).(gp).(id)).(?R).(rel)-> rc:?Yr{ <=> rc:?Yl	// rth actant
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Ce serait une mauvaise méthode d'implémenter la fl dans la 2e transition, car elle entraînent l'accumulation de beaucoup de splits dans cette étape, comme admirer doit spilter
+en avoir, admiration, de, et possiblement que en cas de proposition. Donc, la 1e transition devient peu chargée, tandis que la 2e est trop chargée. C'est mieux de répartir les
+tâches en deux transitions.*/
+DSynt<=>SSynt disabled synt_split_Vsupport_i_general_indir : lf
+[
+  leftside = [
+?Xl{  		// base
+  l:?R-> ?Yl {}		// rth actant
+}
+?r <- lf::(decode).(?R)
+?F <- lexicon::(semanticon::(?Xl.dlex).(lex_n)).(lf)
+  ]
+  conditions = [
+?F.name="Oper"+?r or ?F.name="Func"+?r or ?F.name="Labor"+?r; // matches the sem node with the name of LF
+//YP: ----------------------------------
+//?Zr.dpos=V or (not ?Zr.dpos);		// ?Zr must be a verb // replaced by below, because Zr.dpos is initially Xl.dpos (Adj).
+                                        // This is different from the 1st transition in which Zr.dpos is initially empty.
+lexicon::(?F.value).(dpos)=V or (not lexicon::(?F.value).(dpos));
+not ?Xl.split=no;                          // a split=yes feature is necessary to split. It is written in gpcon, then the word that needs to be splited is constrained with this feature.
+gpcon::(lexicon::(?F.value).(gp).(id)).(lf::(?F.name).(gp).(L)).(rel).(prep);                         // exist a prep
+  ]
+  rightside = [
+rc:?Zr { rc:<=> ?Xl				// LF
+  split=top
+  dpos=lexicon::(?F.value).(dpos)
+  spos=lexicon::(?F.value).(spos)
+  dlex=?F.value
+  slex=?F.value
+  ssynt=OK
+  lf=?F.name
+  base=?Xl.dlex
+  obl -> ?Wr{ 
+  dlex=gpcon::(lexicon::(?F.value).(gp).(id)).(lf::(?F.name).(gp).(L)).(rel).(prep)
+  slex=gpcon::(lexicon::(?F.value).(gp).(id)).(lf::(?F.name).(gp).(L)).(rel).(prep)
+  dpos=prep
+  spos=preposition
+  gpcon::(lexicon::(?F.value).(gp).(id)).(lf::(?F.name).(gp).(L)).(rel)-> ?Xr{ <=> ?Xl		// base
+          //support verb's gpid--------   //Rth-----------------
+       split=bottom
+       sp=OK
+       definiteness=DEF
+       dpos=lexicon::(?F.alternative).dpos
+       dlex=semanticon::(?Xl.dlex).(lex_n)
+       slex=semanticon::(?Xl.dlex).(lex_n)
+       ssynt=OK
+       gpid=lexicon::(semanticon::(?Xl.dlex).(lex_n)).(gp).(id)
+    }
+  }
+  gpcon::(lexicon::(?F.value).(gp).(id)).(?R).(rel)-> ?Yr{ <=> ?Yl	// rth actant
+    sp=OK
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Ce serait une mauvaise méthode d'implémenter la fl dans la 2e transition, car elle entraînent l'accumulation de beaucoup de splits dans cette étape, comme admirer doit spilter
+en avoir, admiration, de, et possiblement que en cas de proposition. Donc, la 1e transition devient peu chargée, tandis que la 2e est trop chargée. C'est mieux de répartir les
+tâches en deux transitions.*/
+DSynt<=>SSynt disabled synt_split_Vsupport_i_general_indir : lf
+[
+  leftside = [
+?Xl{  		// base
+  l:?R-> ?Yl {}		// rth actant
+}
+?r <- lf::(decode).(?R)
+?F <- lexicon::(semanticon::(?Xl.dlex).(lex_n)).(lf)
+  ]
+  conditions = [
+?F.name="Oper"+?r or ?F.name="Func"+?r or ?F.name="Labor"+?r; // matches the sem node with the name of LF
+//YP: ----------------------------------
+//?Zr.dpos=V or (not ?Zr.dpos);		// ?Zr must be a verb // replaced by below, because Zr.dpos is initially Xl.dpos (Adj).
+                                        // This is different from the 1st transition in which Zr.dpos is initially empty.
+lexicon::(?F.value).(dpos)=V or (not lexicon::(?F.value).(dpos));
+not ?Xl.split=no;                          // a split=yes feature is necessary to split. It is written in gpcon, then the word that needs to be splited is constrained with this feature.
+gpcon::(lexicon::(?F.value).(gp).(id)).(lf::(?F.name).(gp).(L)).(rel).(prep);                         // exist a prep
+  ]
+  rightside = [
+rc:?Zr { rc:<=> ?Xl				// LF
+  split=top
+  dpos=lexicon::(?F.value).(dpos)
+  spos=lexicon::(?F.value).(spos)
+  dlex=?F.value
+  slex=?F.value
+  ssynt=OK
+  lf=?F.name
+  base=?Xl.dlex
+  obl -> ?Wr{ 
+  dlex=gpcon::(lexicon::(?F.value).(gp).(id)).(lf::(?F.name).(gp).(L)).(rel).(prep)
+  slex=gpcon::(lexicon::(?F.value).(gp).(id)).(lf::(?F.name).(gp).(L)).(rel).(prep)
+  dpos=prep
+  spos=preposition
+  gpcon::(lexicon::(?F.value).(gp).(id)).(lf::(?F.name).(gp).(L)).(rel)-> ?Xr{ <=> ?Xl		// base
+          //support verb's gpid--------   //Rth-----------------
+       split=bottom
+       sp=OK
+       definiteness=DEF
+       dpos=lexicon::(?F.alternative).dpos
+       dlex=semanticon::(?Xl.dlex).(lex_n)
+       slex=semanticon::(?Xl.dlex).(lex_n)
+       ssynt=OK
+       gpid=lexicon::(semanticon::(?Xl.dlex).(lex_n)).(gp).(id)
+    }
+  }
+  gpcon::(lexicon::(?F.value).(gp).(id)).(?R).(rel)-> ?Yr{ <=> ?Yl	// rth actant
+    sp=OK
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt abstract ENG : lng
+[
+  leftside = [
+
+  ]
+  conditions = [
+lexicon::(META).lng.iso=ENG;
+  ]
+  rightside = [
+
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt abstract FR : lng
+[
+  leftside = [
+
+  ]
+  conditions = [
+lexicon::(META).lng.iso=FRE;
+  ]
+  rightside = [
+
+  ]
+  correspondence = [
+
+  ]
+]
+/*See synt_ATTR_quant rule*/
+DSynt<=>SSynt synt_numerative : quantification
+[
+  leftside = [
+?Xl{
+  l:ATTR-> ?Yl{}
+}
+  ]
+  conditions = [
+?Yl.dpos=Num;
+  ]
+  rightside = [
+rc:?Xr{ <=> ?Xl
+  numerative-> rc:?Yr{ <=> ?Yl }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt lex_idiom_w1_w2 : lex_idiom
+[
+  leftside = [
+l:?Xl
+  ]
+  conditions = [
+lexicon::(?Xl.dlex).idiom.type=w1_w2;
+  ]
+  rightside = [
+?W1 {
+  <=> ?Xl
+  dlex=?Xl.dlex  
+  slex=lexicon::(?Xl.dlex).idiom.w1
+  dpos=lexicon::(?Xl.dlex).dpos
+  spos=lexicon::(?Xl.dlex).spos
+  ssynt=OK
+  lexicon::(?Xl.dlex).idiom.r1-> ?w2 {
+    slex=lexicon::(?Xl.dlex).idiom.w2
+    dpos=lexicon::(lexicon::(?Xl.dlex).idiom.w2).dpos
+    spos=lexicon::(lexicon::(?Xl.dlex).idiom.w2).spos
+    ssynt=OK
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt lex_idiom_w1_w2_w3 : lex_idiom
+[
+  leftside = [
+l:?Xl
+  ]
+  conditions = [
+lexicon::(?Xl.dlex).idiom.type=w1_w2_w3;
+  ]
+  rightside = [
+?W1 {
+  <=> ?Xl
+  dlex=?Xl.dlex  
+  slex=lexicon::(?Xl.dlex).idiom.w1
+  dpos=lexicon::(?Xl.dlex).dpos
+  spos=lexicon::(?Xl.dlex).spos
+  ssynt=OK
+  lexicon::(?Xl.dlex).idiom.r1-> ?w2 {
+    slex=lexicon::(?Xl.dlex).idiom.w2
+    dpos=lexicon::(lexicon::(?Xl.dlex).idiom.w2).dpos
+    spos=lexicon::(lexicon::(?Xl.dlex).idiom.w2).spos
+    ssynt=OK
+  }
+  lexicon::(?Xl.dlex).idiom.r2-> ?w3 {
+    slex=lexicon::(?Xl.dlex).idiom.w3
+    dpos=lexicon::(lexicon::(?Xl.dlex).idiom.w3).dpos
+    spos=lexicon::(lexicon::(?Xl.dlex).idiom.w3).spos
+    ssynt=OK
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt det_def : ENG
+[
+  leftside = [
+?Xl{
+  dpos=N
+  definiteness=DEF
+}
+  ]
+  conditions = [
+?Xr.dpos=N;
+//not ?Xr.split=bottom;
+not ?Xr.spos=proper_noun;
+not ?Xr.spos=pronoun;
+?Xr.ssynt=OK;
+  ]
+  rightside = [
+rc:?Xr{ rc:<=> ?Xl
+  determinative-> ?Yr{
+    slex=the
+    dlex=the
+    dpos=lexicon::(the).dpos
+    spos=lexicon::(the).spos
+    ssynt=OK
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt det_indef : ENG
+[
+  leftside = [
+?Xl{
+  dpos=N
+  definiteness=INDEF
+}
+  ]
+  conditions = [
+?Xr.dpos=N;
+not ?Xr.split=bottom;
+not ?Xr.spos=proper_noun;
+not ?Xr.spos=pronoun;
+?Xr.ssynt=OK;
+  ]
+  rightside = [
+rc:?Xr{ rc:<=> ?Xl
+  determinative-> ?Yr{
+    slex=a
+    dlex=a
+    dpos=lexicon::(a).dpos
+    spos=lexicon::(a).spos
+    ssynt=OK
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt det_def : FR
+[
+  leftside = [
+?Xl{
+  dpos=N
+  definiteness=DEF
+}
+  ]
+  conditions = [
+?Xr.dpos=N;
+//not ?Xr.split=bottom;
+not ?Xr.spos=proper_noun;
+not ?Xr.spos=pronoun;
+?Xr.ssynt=OK;
+  ]
+  rightside = [
+rc:?Xr{ rc:<=> ?Xl
+  determinative-> ?Yr{
+    slex=le
+    dlex=le
+    dpos=lexicon::(le).dpos
+    spos=lexicon::(le).spos
+    ssynt=OK
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt det_indef : FR
+[
+  leftside = [
+?Xl{
+  dpos=N
+  definiteness=INDEF
+}
+  ]
+  conditions = [
+?Xr.dpos=N;
+not ?Xr.split=bottom;
+not ?Xr.spos=proper_noun;
+not ?Xr.spos=pronoun;
+?Xl.ssynt=OK;
+  ]
+  rightside = [
+rc:?Xr{ rc:<=> ?Xl
+  determinative-> ?Yr{
+    slex=un
+    dlex=un
+    dpos=lexicon::(un).dpos
+    spos=lexicon::(un).spos
+    ssynt=OK
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]

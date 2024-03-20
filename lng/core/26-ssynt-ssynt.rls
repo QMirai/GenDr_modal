@@ -1,0 +1,233 @@
+
+SSynt<=>SSynt node : rule
+[
+  leftside = [
+l:?Xl{}
+  ]
+  conditions = [
+not (?Xl.raise_from=subjective and ?Xl.spos=copula);
+  ]
+  rightside = [
+?Xr{ <=> ?Xl
+  tense=?Xl.tense
+  spos=?Xl.spos
+  dpos=?Xl.dpos
+  finiteness=?Xl.finiteness
+  gpid=?Xl.gpid
+  ssynt=?Xl.ssynt
+  slex=?Xl.slex
+  dlex=?Xl.dlex
+  mood=?Xl.mood
+  raise_to=?Xl.raise_to
+//  clause=?Xl.clause //for tree check
+}
+  ]
+  correspondence = [
+
+  ]
+]
+SSynt<=>SSynt synt_dir : rule
+[
+  leftside = [
+?Xl{
+  l:?r-> ?Yl
+}
+  ]
+  conditions = [
+//not ?r=subjective;
+not ?Xl.raise_from=?r;
+  ]
+  rightside = [
+rc:?Xr {rc:<=>?Xl
+  ?r-> rc:?Yr{rc:<=>?Yl}
+}
+  ]
+  correspondence = [
+
+  ]
+]
+SSynt<=>SSynt disabled synt_filter : rule
+[
+  leftside = [
+?Xl{
+  l:?i-> ?Yl{
+    l:?j-> ?Zl{}
+  }
+}
+  ]
+  conditions = [
+?i=comp_pred and ?j=comp_pred;
+  ]
+  rightside = [
+?Xr{
+  <=> ?Xl
+  filtered=OK
+}
+?Yr{
+  <=> ?Yl
+  deleted=yes
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Subjects are treated separately from other actants.
+Only finite verbs have a subject.
+The subject migrates on the top auxiliary, if any.
+We use the GP of the deep lexeme.*/
+SSynt<=>SSynt synt_raising : rule
+[
+  leftside = [
+?Xl{
+  ?i-> ?Yl{
+    l:?j-> ?Zl{}
+  }
+}
+//?rel_num <- gpcon::(?Xl.gpid).(?i)
+//?GP <- gpcon::(?Xl.gpid).(?rel_num)
+  ]
+  conditions = [
+?Xl.raise_to;          // a raising relation is necessary  another : ?GP.raise_to; 
+?Yl.raise_from=?j;
+//?Xr.filtered=OK;
+//?GP.rel=comp_pred or gpcon::(?Yl.gpid).(I).(rel)=mod;      // This rule only handles subjects
+//?Xr.finiteness=FIN;     // Only finite verbs have a subject
+//not ?GP.prep;
+//not ?Xr.split=bottom;   // ?Xr is not the bottom part of a split node
+//not ?Xr.auxdep;         // Attach on the top Aux
+//?Xr.ssynt=OK;           // Wait for full lexicalization
+  ]
+  rightside = [
+rc:?Xr{
+  <=> rc:?Xl
+  ?Xl.raise_to -> rc:?Zr{ rc:<=> ?Zl }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Subjects are treated separately from other actants.
+Only finite verbs have a subject.
+The subject migrates on the top auxiliary, if any.
+We use the GP of the deep lexeme.*/
+SSynt<=>SSynt synt_raising_3lvl : rule
+[
+  leftside = [
+?Xl{
+  ?a-> ?Adjl{
+    ?p-> ?Prepl{
+      ?i-> ?Yl{
+        l:?j-> ?Zl{}
+      }
+    }
+  }
+}
+?Prep_raise <- gpcon::(?Adjl.gpid).(I).(prep_raise)
+  ]
+  conditions = [
+?Adjl.raise_to;          // a raising relation is necessary  another : ?GP.raise_to; 
+?Yl.raise_from=?j;
+  ]
+  rightside = [
+rc:?Xr{
+  <=> rc:?Xl
+  ?Adjl.raise_to -> ?Wr{ 
+    slex=?Prep_raise
+    spos=lexicon::(?Prep_raise).(spos)
+    dpos=lexicon::(?Prep_raise).(dpos)
+    gpcon::(PREP).(II).(rel) -> rc:?Zr{ rc:<=> ?Zl }
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Subjects are treated separately from other actants.
+Only finite verbs have a subject.
+The subject migrates on the top auxiliary, if any.
+We use the GP of the deep lexeme.*/
+SSynt<=>SSynt synt_raising_with_prep : rule
+[
+  leftside = [
+?Xl{
+  ?p-> ?Prepl{
+    ?i-> ?Yl{
+      l:?j-> ?Zl{}
+    }
+  }
+}
+  ]
+  conditions = [
+?Xl.raise_to;          // a raising relation is necessary  another : ?GP.raise_to; 
+?Yl.raise_from=?j;
+not ?Xl.spos=adjective;
+  ]
+  rightside = [
+rc:?Xr{
+  <=> rc:?Xl
+  ?Xl.raise_to -> rc:?Zr{ rc:<=> ?Zl }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Reconnect nodes when a copula has been deleted.*/
+SSynt<=>SSynt synt_reconnection : rule
+[
+  leftside = [
+?Xl{
+  l:?i-> ?Yl{
+    l:?j-> ?Zl{}
+  }
+}
+//?rel_num <- gpcon::(?Xl.gpid).(?i)
+//?GP <- gpcon::(?Xl.gpid).(?rel_num)
+  ]
+  conditions = [
+?i=comp_pred and ?j=comp_pred;
+?Yl.raise_from=subjective and ?Yl.spos=copula; // see rule node
+//?GP.raise_to;          // a raising relation is necessary
+//?GP.rel=comp_pred or gpcon::(?Yl.gpid).(I).(rel)=mod;      // This rule only handles subjects
+//?Xr.finiteness=FIN;     // Only finite verbs have a subject
+//not ?GP.prep;
+//not ?Xr.split=bottom;   // ?Xr is not the bottom part of a split node
+//not ?Xr.auxdep;         // Attach on the top Aux
+//?Xr.ssynt=OK;           // Wait for full lexicalization
+  ]
+  rightside = [
+rc:?Xr{
+  <=> rc:?Xl
+  ?j-> rc:?Zr{ rc:<=> ?Zl }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*?D <- gpcon::(?Xl.gpid)*/
+SSynt<=>SSynt disabled synt_subj : rule
+[
+  leftside = [
+?Xl{
+  ?r-> ?Yl{}
+}
+//?GP <- gpcon::(?Xl.gpid).(I)
+  ]
+  conditions = [
+//not ?GP.raising_rel;
+?r=subjective;
+?Xl.finiteness=FIN;
+  ]
+  rightside = [
+rc:?Xr {rc:<=>?Xl
+  ?r-> rc:?Yr{rc:<=>?Yl}
+}
+  ]
+  correspondence = [
+
+  ]
+]

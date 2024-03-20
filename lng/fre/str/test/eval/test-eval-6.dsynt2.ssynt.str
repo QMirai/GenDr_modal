@@ -1,0 +1,17 @@
+structure SSynt S3_1_0 {
+  partir:1{
+    dlex=partir finiteness=FIN gpid=NP_V dpos=V split=bottom mood=subjunctive spos=verb ssynt=OK
+    subjective-> police:1{
+      gpid=NONE spos=noun number=SG dpos=N ssynt=OK definiteness=DEF dlex=police
+      determinative-> le:1{spos=determiner dpos=Adj ssynt=OK dlex=le}
+    }
+  }
+  falloir:1{
+    gpid=Exp_V_que_V spos=verb finiteness=FIN dpos=V clause=main ssynt=OK dlex=falloir
+    dir_objective-> que:1{
+      split=top spos=conjunction dpos=Adv 
+      conj_completive-> partir:1
+    }
+    subjective-> il_exp:1{spos=pronoun dpos=N ssynt=REJECT dlex=il_exp}
+  }
+}

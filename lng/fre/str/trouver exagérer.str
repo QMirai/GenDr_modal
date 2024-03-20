@@ -1,0 +1,14 @@
+structure Sem S {
+  S:1{
+    trouver_cls:1{
+      1-> Paul:1
+      2-> exagérer:1
+    }
+    Paul:1{class=proper_noun}
+    exagérer:1{
+      1-> Luc:1
+    }
+    Luc:1{class=proper_noun}
+    main-> trouver_cls:1
+  }
+}

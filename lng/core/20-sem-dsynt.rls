@@ -1,0 +1,1204 @@
+
+Sem<=>DSynt abstract core : rule
+[
+  leftside = [
+// Input graph (semantic representation)
+  ]
+  conditions = [
+// Conditions for the application of the rule
+  ]
+  rightside = [
+// Output graph (deep syntactic representation)
+  ]
+  correspondence = [
+
+  ]
+]
+Sem<=>DSynt abstract grammemes : core
+[
+  leftside = [
+
+  ]
+  conditions = [
+
+  ]
+  rightside = [
+
+  ]
+  correspondence = [
+
+  ]
+]
+Sem<=>DSynt abstract lexical : core
+[
+  leftside = [
+
+  ]
+  conditions = [
+
+  ]
+  rightside = [
+
+  ]
+  correspondence = [
+
+  ]
+]
+/*The rules in this package pick a root for the DSyntR.
+
+The root of the tree is usually the most communicatively
+sallient node. It is marked with the "main" relation (from
+the S bubble).
+
+Typically, the root should be a finite verb. Some languages
+allow other parts of speech in that position. Even in verbal
+root languages, non-verbal sentences do occur (headlines,
+etc.).*/
+Sem<=>DSynt abstract root : core
+[
+  leftside = [
+
+  ]
+  conditions = [
+
+  ]
+  rightside = [
+
+  ]
+  correspondence = [
+
+  ]
+]
+Sem<=>DSynt abstract syntactic : core
+[
+  leftside = [
+
+  ]
+  conditions = [
+
+  ]
+  rightside = [
+
+  ]
+  correspondence = [
+
+  ]
+]
+/*FIXME: doesn't work with fre/str/journal_economie.str MANUFACTURE*/
+Sem<=>DSynt defaults_N : grammemes
+[
+  leftside = [
+?Xl {}
+  ]
+  conditions = [
+?Xr.dpos;
+not ?Xl.number;
+not ?Xl.definiteness;
+?Xr.dsynt=OK;
+  ]
+  rightside = [
+rc:?Xr {
+  rc:<=> ?Xl
+  number=lexicon::(META).(defaults).(?Xr.dpos).(number)
+  definiteness=lexicon::(META).(defaults).(?Xr.dpos).(definiteness)
+}
+  ]
+  correspondence = [
+
+  ]
+]
+Sem<=>DSynt defaults_V : grammemes
+[
+  leftside = [
+?Xl {}
+  ]
+  conditions = [
+?Xr.dpos;
+not ?Xl.mood;
+not ?Xl.tense;
+?Xr.dsynt=OK;
+///---------------
+not ?Xr.finiteness;
+  ]
+  rightside = [
+rc:?Xr {
+  rc:<=> ?Xl
+  mood=lexicon::(META).(defaults).(?Xr.dpos).(mood)
+  tense=lexicon::(META).(defaults).(?Xr.dpos).(tense)
+  finiteness=lexicon::(META).(defaults).(?Xr.dpos).(finiteness)
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*When we had to guess the lexicalization, a node might not have received
+a dpos attribute. This rule checks that it has this attribute and
+changes the dsynt status to OK.
+The class attribute will be used by rule rel_actant_guess.*/
+Sem<=>DSynt check_dpos_gp : lexical
+[
+  leftside = [
+?Xl
+  ]
+  conditions = [
+?Xr.dsynt=check_dpos;
+not ?Xl.class;
+?Xr.dpos;
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  dsynt=lexicalized
+  warning=?Xr.warning+"Got DPOS from governor's GP. "
+  class="DPOS_"+?Xr.dpos
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*When we had to guess the lexicalization, a node might not have received
+a dpos attribute. In last resort, if the node didn't receive a dpos,
+we guess it's probably a noun.
+The class attribute will be used by rule rel_actant_guess.*/
+Sem<=>DSynt check_dpos_guess : lexical
+[
+  leftside = [
+?Xl
+  ]
+  conditions = [
+?Xr.dsynt=check_dpos;
+not ?Xl.class;
+not ?Xr.dpos;
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  dsynt=lexicalized
+  dpos=N
+  warning=?Xr.warning+"Guessed dpos. "
+  class="DPOS_N"
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*This rule bypasses standard lexicalization for special semantemes such
+as numbers, named entities, etc. These semantemes must have an attribute
+"class" that gives their lexical class. The class must be defined in the
+lexicon, where default attributes may be retrieved (in particular, dpos).
+
+This rule is bypassed if there is an entry in the semanticon.*/
+Sem<=>DSynt lex_class : lexical
+[
+  leftside = [
+l:?Xl{}
+  ]
+  conditions = [
+?Xr.dsynt=constrained;          // Wait for Xr to be constrained
+not semanticon::(?Xl.sem).lex;  // Ignore rule if lex is defined in semanticon
+?Xl.class;                      // This attribute signals a special semanteme
+lexicon::(?Xl.class).(dpos);    // The class must be defined in lexicon
+(not ?Xr.dpos) or ?Xr.dpos=lexicon::(?Xl.class).(dpos);
+                                // if ?Xr has a dpos restriction,
+                                // it must match that of the lexical class
+not ?Xl.sem=PRO;
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  dlex=?Xl.sem
+  dpos=lexicon::(?Xl.class).(dpos)
+  dsynt=OK
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*If the semanteme is not in the semanticon but there is an entry with
+the same label in the lexicon, assume the lexicalization is trivial.
+This rule must be kept in Sync with lex_standard.*/
+Sem<=>DSynt lex_guess_from_lexicon : lexical
+[
+  leftside = [
+l:?Xl{}
+  ]
+  conditions = [
+?Xr.dsynt=constrained;          // Wait for Xr to be constrained
+not ?Xl.class;                  // not a special semanteme (hour, etc.)
+not semanticon::(?Xl.sem).lex;  // not in the semanticon
+not lf::(?Xl.sem).dpos;         // not a LF
+lexicon::(?Xl.sem).dpos;        // exists in the lexicon
+(not ?Xr.dpos) or ?Xr.dpos=lexicon::(?Xl.sem).(dpos);
+                                // if ?Xr has a dpos restriction,
+                                // it must match that of the lexical entry
+not ?Xl.sem=PRO;
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  dlex=?Xl.sem
+  dpos=lexicon::(?Xl.sem).(dpos)
+  dsynt=lexicalized
+  warning=?Xr.warning+"Not in the semanticon. "
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*If the semanteme has a lexicalization in the semanticon but the
+corresponding lexeme is not in the lexicon, this rule flags the
+node with a warning.
+The dpos attribute might be missing so we don't give the node
+the dsynt=OK status yet. The check_dpos rules will make sure that
+a dpos has been assigned.
+This rule must be kept in Sync with lex_standard.*/
+Sem<=>DSynt lex_guess_from_semanticon : lexical
+[
+  leftside = [
+l:?Xl{}
+?L <- semanticon::(?Xl.sem).(lex)
+  ]
+  conditions = [
+?Xr.dsynt=constrained;          // Wait for Xr to be constrained
+not ?Xl.class;
+semanticon::(?Xl.sem).lex;
+not lexicon::(?L).dpos;
+not lf::(?L).dpos;
+not ?Xl.sem=PRO;
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  dlex=?L
+  dsynt=check_dpos
+  warning=?Xr.warning+"Not in the lexicon. "
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*If all other lexicalization rules fail, this one transfers the Sem node's label to the DSynt node.*/
+Sem<=>DSynt lex_guess_unknown : lexical
+[
+  leftside = [
+l:?Xl{}
+  ]
+  conditions = [
+?Xr.dsynt=constrained;          // Wait for Xr to be constrained
+not ?Xl.class;                 // not a special semanteme (hour, etc.)
+not semanticon::(?Xl.sem).lex; // not in the semanticon
+not lexicon::(?Xl.sem).dpos;   // not in the lexicon
+not lf::(?Xl.sem).sem;         // not a semantic LF
+not ?Xl.sem=PRO;
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  dlex=?Xl.sem
+  dsynt=check_dpos
+  warning=?Xr.warning+"Unknown word. "
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Simple lexicalization rule.
+Changes made in this rule must be made also in lex_warning_lexicon.
+The DSynt node already exists but has not been lexicalized. It has been created by synt_root or an actancial rule.
+This rule assigns a lexeme to the existing DSynt node.
+It retrieves the lexicalization from the semanticon.
+It picks a lexical unit that matches DPOS contraints if any.
+This rule consumes the Sem node.
+Don't apply to special meanings (canned text, hour, number, etc.).
+
+On a un noeud ?Xl qu'on va locker (on le rend non disponible pour d'autres règles)
+On définit ?L. 
+
+semanticon:: -> va dans le semanticon
+(?Xl.sem) -> cherche l'entrée qui correspond au sem du noeud ?Xl (ex. dormir)
+(lex) -> récupère l;a valeur de l'attribut lex de cette entrée*/
+Sem<=>DSynt lex_standard : lexical
+[
+  leftside = [
+l:?Xl{}
+?L <- semanticon::(?Xl.sem).(lex)
+  ]
+  conditions = [
+?Xr.dsynt=constrained;      //?Xr has constraints
+semanticon::(?Xl.sem).lex;  // ?Xl has a lexicalization
+lexicon::(?L).dpos;         // the lexicalization exists in the lexicon
+not ?Xr.dsynt=OK;           // ?Xr must not be already lexicalized
+(not ?Xr.dpos) or (?Xr.dpos="") or ?Xr.dpos=lexicon::(?L).(dpos);
+                            // if ?Xr has a dpos restriction,
+                            // it must match that of the lexical entry
+//not ?Xl.sem=PRO;          // YP : it was open.
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  dlex=?L
+  dpos=lexicon::(?L).(dpos)
+  dsynt=lexicalized
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Here, the node is created and constrained at the same time.
+Should we leave it this way ?
+
+This rule builds the standard root of the DSynt tree. The best         
+candidate for that is the node realizing the main semanteme         
+of the Rheme.*/
+Sem<=>DSynt root_standard : root
+[
+  leftside = [
+// The most sallient semanteme
+// of the sentence is marked with
+// the "main" relation
+?S{
+  sem=S		
+  main-> ?Xl	
+}
+  ]
+  conditions = [
+
+  ]
+  rightside = [
+// The syntactic root is a finite verb
+?Xr {
+  <=> ?Xl
+  clause=main
+  dpos=V
+  finiteness=FIN
+  dsynt=constrained
+}
+  ]
+  correspondence = [
+
+  ]
+]
+Sem<=>DSynt actant_gp_0 : syntactic
+[
+  leftside = [
+?Xl{}
+  ]
+  conditions = [
+?Xr.dsynt=gp_selected;
+?Xr.gpid=NONE;
+?Xr.dia=dia0;
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  dsynt=OK
+}
+  ]
+  correspondence = [
+
+  ]
+]
+Sem<=>DSynt actant_gp_i : syntactic
+[
+  leftside = [
+?Xl{
+  l:?i-> ?Yl{}
+}
+  ]
+  conditions = [
+?Xr.dsynt=gp_selected;
+?Xr.gpid;
+?Xr.dia=dia+?i;
+//?Xr.finiteness=FIN;
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  dsynt=OK
+  I-> ?Yr{
+      <=> ?Yl
+      dsynt=created
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+Sem<=>DSynt actant_gp_ij : syntactic
+[
+  leftside = [
+?Xl{
+  l:?i-> ?Yl{}
+  l:?j-> ?Zl{}
+}
+  ]
+  conditions = [
+?Xr.dsynt=gp_selected;
+?Xr.gpid;
+?Xr.dia=dia+?i+?j;
+//?Xr.finiteness=FIN;
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  dsynt=OK
+  I-> ?Yr{
+      <=> ?Yl
+      dsynt=created
+  }
+  II-> ?Zr{
+      <=> ?Zl
+      dsynt=created
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+Sem<=>DSynt actant_gp_ijk : syntactic
+[
+  leftside = [
+?Xl{
+  l:?i-> ?Yl{}
+  l:?j-> ?Zl{}
+  l:?k-> ?Wl{}
+}
+  ]
+  conditions = [
+?Xr.dsynt=gp_selected;
+?Xr.gpid;
+?Xr.dia=dia+?i+?j+?k;
+//?Xr.finiteness=FIN;
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  dsynt=OK
+  I-> ?Yr{
+      <=> ?Yl
+      dsynt=created
+  }
+  II-> ?Zr{
+      <=> ?Zl
+      dsynt=created
+  }
+  III-> ?Wr{
+      <=> ?Wl
+      dsynt=created
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+Sem<=>DSynt actant_gp_ijkl : syntactic
+[
+  leftside = [
+?Xl{
+  l:?i-> ?Yl{}
+  l:?j-> ?Zl{}
+  l:?k-> ?Wl{}
+  l:?l-> ?Ul{}
+}
+  ]
+  conditions = [
+?Xr.dsynt=gp_selected;
+?Xr.gpid;
+?Xr.dia=dia+?i+?j+?k+?l;
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  dsynt=OK
+  I-> ?Yr{
+      <=> ?Yl
+      dsynt=created
+  }
+  II-> ?Zr{
+      <=> ?Zl
+      dsynt=created
+  }
+  III-> ?Wr{
+      <=> ?Wl
+      dsynt=created
+  }
+  IV-> ?Ur{
+      <=> ?Ul
+      dsynt=created
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+Sem<=>DSynt actant_gp_ijklm : syntactic
+[
+  leftside = [
+?Xl{
+  l:?i-> ?Yl{}
+  l:?j-> ?Zl{}
+  l:?k-> ?Wl{}
+  l:?l-> ?Ul{}
+  l:?m-> ?Tl{}
+}
+  ]
+  conditions = [
+?Xr.dsynt=gp_selected;
+?Xr.gpid;
+?Xr.dia=dia+?i+?j+?k+?l+?m;
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  dsynt=OK
+  I-> ?Yr{
+      <=> ?Yl
+      dsynt=created
+  }
+  II-> ?Zr{
+      <=> ?Zl
+      dsynt=created
+  }
+  III-> ?Wr{
+      <=> ?Wl
+      dsynt=created
+  }
+  IV-> ?Ur{
+      <=> ?Ul
+      dsynt=created
+  }
+   V-> ?Tr{
+      <=> ?Tl
+      dsynt=created
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+Sem<=>DSynt actant_gp_ijklmn : syntactic
+[
+  leftside = [
+?Xl{
+  l:?i-> ?Yl{}
+  l:?j-> ?Zl{}
+  l:?k-> ?Wl{}
+  l:?l-> ?Ul{}
+  l:?m-> ?Tl{}
+  l:?n-> ?Sl{}
+}
+  ]
+  conditions = [
+?Xr.dsynt=gp_selected;
+?Xr.gpid;
+?Xr.dia=dia+?i+?j+?k+?l+?m+?n;
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  dsynt=OK
+  I-> ?Yr{
+      <=> ?Yl
+      dsynt=created
+  }
+  II-> ?Zr{
+      <=> ?Zl
+      dsynt=created
+  }
+  III-> ?Wr{
+      <=> ?Wl
+      dsynt=created
+  }
+  IV-> ?Ur{
+      <=> ?Ul
+      dsynt=created
+  }
+   V-> ?Tr{
+      <=> ?Tl
+      dsynt=created
+  }
+   VI-> ?Sr{
+      <=> ?Sl
+      dsynt=created
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+Sem<=>DSynt abstract actant_gp_rs : syntactic
+[
+  leftside = [
+
+  ]
+  conditions = [
+
+  ]
+  rightside = [
+
+  ]
+  correspondence = [
+
+  ]
+]
+/*lexicon::-> va dans le lexicon
+(?Xr.dlex)-> l'entrée qui correspond à la valeur du trait dlex du noeud ?Xr (en syntaxe)
+(gp) -> va dans son gp
+?GP <- puis recopie l'information sous la variable créée ?GP
+
+FIXME: Select only GPs for which we have the semantic actants available.
+       This requires manual work on the ~500 VerbNet classes.*/
+Sem<=>DSynt actant_gp_selection : syntactic
+[
+  leftside = [
+?Xl
+?GP <- lexicon::(?Xr.dlex).(gp)
+  ]
+  conditions = [
+not ?Xr.lf;   // Xr is not a LF
+?Xr.dsynt=lexicalized;
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  gpid=?GP.id
+  dia=dia+?GP.dia
+  dsynt=gp_selected
+  Vsupport=lexicon::(?Xr.dlex).(lf).(value)
+}
+  ]
+  correspondence = [
+
+  ]
+]
+Sem<=>DSynt anaphora : syntactic
+[
+  leftside = [
+?Xl{  // pronoun
+  l:<-> ?Yl{} // antecedent
+}
+  ]
+  conditions = [
+?Yr.dsynt=OK;
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  antecedent=?Yr.dlex
+}
+rc:?Yr{
+  rc:<=> ?Yl
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*FIXME : not ?Zr.dsynt=OK;           // ?Xr is not lexicalized yet.
+Ça ne devrait pas être "?Zr is not lexicalized yet." car c'est de ?Z dont on parle ?*/
+Sem<=>DSynt append_class : syntactic
+[
+  leftside = [
+l:?Xl{
+  sem=NAME
+  l:1-> ?Yl
+  l:2-> l:?Zl
+}
+  ]
+  conditions = [
+not semanticon::(?Zl.sem).lex;  // Ignore rule if lex is defined in semanticon
+not ?Zr.dsynt=OK;           // ?Xr is not lexicalized yet.
+?Zl.class;                  // This attribute signals a special semanteme
+lexicon::(?Zl.class).dpos;  // The class must be defined in lexicon
+?Yr.dsynt=OK;
+  ]
+  rightside = [
+rc:?Yr{
+  rc:<=> ?Yl
+  APPEND-> ?Zr{
+      <=> ?Zl
+      dlex=?Zl.sem
+      dpos=lexicon::(?Zl.class).(dpos)
+      dsynt=OK
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+Sem<=>DSynt attr_Num : syntactic
+[
+  leftside = [
+l:?Xl{
+  class=number
+  l:?r-> ?Yl{}
+}
+// both belong to the same sentence:
+?S*{
+  sem=S
+  ?Xl{}
+  ?Yl{}
+}
+  ]
+  conditions = [
+?Yr.dpos=N or ?Yr.dpos=Unit;
+not ?r=coref;
+  ]
+  rightside = [
+rc:?Yr{
+  rc:<=> ?Yl
+  ATTR-> ?Xr{
+     <=> ?Xl
+     dlex=?Xl.sem
+     dpos=Num
+     dsynt=OK
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+Sem<=>DSynt attr_class : syntactic
+[
+  leftside = [
+l:?Xl{
+  l:?r-> ?Yl{}
+}
+  ]
+  conditions = [
+?Yr.dsynt=OK;
+not ?Xr.dsynt=OK;
+not semanticon::(?Xl.sem).lex;  // Ignore rule if lex is defined in semanticon
+?Xl.class;                      // This attribute signals a special semanteme
+lexicon::(?Xl.class).dpos;      // The class must be defined in lexicon
+// FIXME, on va chercher l'info ailleurs -- lexicon::(?Xl.class).(gp).(?r)=ATTR;
+(lexicon::(?Xl.class).(dpos)=Adv and not ?Yr.dpos=N) or (?Yr.dpos=N and lexicon::(?Xl.class).(dpos)=Adj);
+not ?r=coref;
+  ]
+  rightside = [
+rc:?Yr{
+  rc:<=> ?Yl
+  ATTR-> ?Xr{
+      <=> ?Xl
+      dlex=?Xl.sem
+      dpos=lexicon::(?Xl.class).(dpos)
+      dsynt=OK
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Solution using multiple values*/
+Sem<=>DSynt attr_lex : syntactic
+[
+  leftside = [
+l:?Xl{
+  l:?r-> ?Yl{}
+}
+?L <- semanticon::(?Xl.sem).(lex)
+?GP <- lexicon::(?L).(gp)
+?ATTR <- gpcon::(?GP.id).(ATTR)
+  ]
+  conditions = [
+?Yr.dsynt=OK;
+semanticon::(?Xl.sem).(lex);
+lexicon::(?L).(dpos);
+gpcon::(?GP.id).(ATTR); // it's a modifier
+?ATTR.dpos=?Yr.dpos or not ?ATTR.dpos;
+not ?r=coref;
+not ?Yl.class;
+  ]
+  rightside = [
+rc:?Yr{
+  rc:<=> ?Yl
+  ATTR-> ?Xr{
+      <=> ?Xl
+      dlex=?L
+      dpos=lexicon::(?L).(dpos)
+      gpid=?GP.id
+      dia=dia+?GP.dia
+      dsynt=OK
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+Sem<=>DSynt constraints_gp : syntactic
+[
+  leftside = [
+?Xl
+  ]
+  conditions = [
+?Xr.dsynt=OK;
+?Yr.dsynt=created;
+//YP added -----------------------------------
+//?Xr.finiteness=FIN or not ?R=I or ?Xr.raising=yes or not ?Xr.dpos=V;
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  rc:?R-> rc:?Yr{
+      dsynt=constrained
+      dpos=gpcon::(?Xr.gpid).(?R).(dpos)
+      finiteness=gpcon::(?Xr.gpid).(?R).(finiteness)
+      mood=gpcon::(?Xr.gpid).(?R).(mood)
+      subject=gpcon::(?Xr.gpid).(?R).(subject)
+      det=gpcon::(?Xr.gpid).(?R).(det)
+      definiteness=gpcon::(?Xr.gpid).(?R).(definiteness)
+      case=gpcon::(?Xr.gpid).(?R).(case)
+      raise_to=gpcon::(?Xr.gpid).(?R).(raise_to)
+      split=gpcon::(?Xr.gpid).(?R).(split)
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+Sem<=>DSynt disabled constraints_gp_controlled : syntactic
+[
+  leftside = [
+?Xl
+  ]
+  conditions = [
+?Xr.dsynt=OK;
+?Xr.finiteness;
+not ?Xr.finiteness=FIN;
+not ?Xr.raise_to;
+?R=I;
+?Yr.dsynt=created;
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  rc:?R-> rc:?Yr{
+      dsynt=constrained
+      block=yes
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+Sem<=>DSynt coord_lex : syntactic
+[
+  leftside = [
+l:?Xl{
+  l:?r-> ?Yl{}
+  l:?l-> ?Zl{}
+}
+?L <- semanticon::(?Xl.sem).(lex)
+?GP <- lexicon::(?L).(gp)
+  ]
+  conditions = [
+?Yr.dsynt=OK;
+semanticon::(?Xl.sem).(lex);
+lexicon::(?L).(dpos);
+gpcon::(?GP.id).(COORD); // it's a coordination
+  ]
+  rightside = [
+rc:?Yr{
+  rc:<=> ?Yl
+  COORD-> ?Xr{
+      <=> ?Xl
+      dlex=?L
+      dpos=lexicon::(?L).(dpos)
+      gpid=?GP.id
+      dia=dia+?GP.dia
+      dsynt=OK 
+      II-> ?Zr{
+	  <=> ?Zl
+          dpos=?Yr.dpos
+          finiteness=?Yr.finiteness
+          dsynt=created 
+			
+      }
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+Sem<=>DSynt relative_lex : syntactic
+[
+  leftside = [
+l:?Xl{  // main predicate of the relative
+  l:?r-> ?Yl{}  // noun to be modified
+}
+?L <- semanticon::(?Xl.sem).(lex)
+  ]
+  conditions = [
+?Yr.dsynt=OK;
+//not ?Xr.dsynt=OK;
+semanticon::(?Xl.sem).(lex);
+lexicon::(?L).(dpos)=V;
+not ?r=coref;
+  ]
+  rightside = [
+rc:?Yr{ // noun to modify
+  rc:<=> ?Yl
+  ATTR-> ?Xr{	// main predicate of the relative
+      <=> ?Xl
+      dlex=?L
+      dpos=lexicon::(?L).(dpos)
+      dsynt=OK
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*FIXME: this rule is too generic
+Applies when a semanteme is expressed as a syntactic configuration.*/
+Sem<=>DSynt synt_lex : syntactic
+[
+  leftside = [
+l:?Xl{          // 'time'
+  l:1-> ?Yl{}	// verb to modify
+  l:2-> l:?Tl{}	// temporal element
+}
+?L <-semanticon::(?Tl.sem).(lex)
+?S <-semanticon::(?Xl.sem).(synt)
+  ]
+  conditions = [
+?Yr.dpos=V; 	// ?Yr must be a verb
+?Yr.dsynt=OK;	// Wait for ?Yr to be lexicalised
+//lexicon::(?L).(dpos)=Adv;
+  ]
+  rightside = [
+rc:?Yr{
+  rc:<=> ?Yl
+  ?S-> ?Tr{
+      <=> ?Tl
+	dlex=?L
+	dpos=lexicon::(?L).(dpos)
+	dsynt=OK
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+Sem<=>DSynt disabled Vsupport_0 : actant_gp_rs
+[
+  leftside = [
+l:?Xl{  		// base
+}
+?L <- semanticon::(?Xl.sem).(lex)
+?F <- lexicon::(?L).(lf)
+  ]
+  conditions = [
+?Zr.dsynt=constrained;      //?Zr has constraints
+?F.name="Oper"+0 or ?F.name="Labor"+0; // matches the sem node with the name of LF
+semanticon::(?Xl.sem).lex;		// makes sure ?Xl has a lexicalisation
+lexicon::(?L).dpos;			// makes sure ?L has a dpos
+?Zr.dpos=V or (not ?Zr.dpos);		// ?Zr must be a verb
+//YP: ----------------------------------
+//not gpcon::(?Xl.gpid).(?r).(split)=no;
+  ]
+  rightside = [
+rc:?Zr { rc:<=> ?Xl				// LF
+  split=top
+  dlex=?F.value
+  dsynt=OK
+  gpid=lexicon::(?F.value).(gp).(id)            // YP: necessary to make actant rules of 2nd tranistion run
+  lf=?F.name
+  base=?L
+  lf::(?F.name).(gp).(L)-> ?Xr{ <=> ?Xl		// base
+       split=bottom
+       dsynt=created
+  }
+  I -> ?Wr{	// rth actant
+       dsynt=created                            // YP: new, for the application of constraints_gp rules, then lex rules
+       dpos=N
+       dlex=il_exp
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+Sem<=>DSynt Vsupport_0 : actant_gp_rs
+[
+  leftside = [
+l:?Xl{  		// base
+  l:?r-> ?Yl {}		// rth actant
+}
+?L <- semanticon::(?Xl.sem).(lex)
+?F <- lexicon::(?L).(lf)
+?GP <- lexicon::(?L).(gp)
+  ]
+  conditions = [
+?Zr.dsynt=constrained;      //?Zr has constraints
+?F.name=Oper0; // matches the sem node with the name of LF
+semanticon::(?Xl.sem).lex;		// makes sure ?Xl has a lexicalisation
+lexicon::(?L).dpos;			// makes sure ?L has a dpos
+?Zr.dpos=V or (not ?Zr.dpos);		// ?Zr must be a verb
+//YP: ----------------------------------
+//not gpcon::(?Xl.gpid).(?r).(split)=no;
+  ]
+  rightside = [
+rc:?Zr { rc:<=> ?Xl				// LF
+  split=top
+  dlex=?F.value
+  dsynt=OK
+  gpid=lexicon::(?F.value).(gp).(id)            // YP: necessary to make actant rules of 2nd tranistion run
+  //it was gpid=lexicon::(?F.value).(gp).(id)
+  lf=?F.name
+  base=?L
+  lf::(?F.name).(gp).(L)-> ?Xr{ <=> ?Xl		// base
+       split=bottom
+       dpos=lexicon::(?L).(dpos)
+       dlex=?L 
+       dsynt=OK
+       gpid=?GP.id
+       I -> ?Yr{ <=> ?Yl 
+         dsynt=created
+       }
+  }
+  I -> ?Wr{	// rth actant
+       dsynt=created                            // YP: new, for the application of constraints_gp rules, then lex rules
+       dpos=N
+       dlex=il_exp
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+Sem<=>DSynt disabled Vsupport_i : actant_gp_rs
+[
+  leftside = [
+?Xl
+?F <- lexicon::(arrestation).(lf)
+  ]
+  conditions = [
+//?F.name="Oper"+?r or ?F.name="Func"+?r or ?F.name="Labor"+?r; // matches the sem node with the name of LF
+//YP: ----------------------------------
+//not gpcon::(?Xl.gpid).(?r).(split)=no;
+?Xr.Vsupport;
+//?Xr.dsynt=OK;
+  ]
+  rightside = [
+?Yr { <=> ?Xl				// LF
+  split=top
+  dpos=lexicon::(?F.value).(dpos)
+  dlex=?F.value
+  ssynt=OK
+  lf=?F.name
+//  base=?Xl.dlex
+  II-> ?Xr{ <=> ?Xl		// base
+       split=bottom
+       definiteness=DEF
+       dpos=N
+//       dlex=?Xl.dlex
+//       gpid=?Xl.gpid
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+Sem<=>DSynt Vsupport_i : actant_gp_rs
+[
+  leftside = [
+l:?Xl{  		// base
+  l:?r-> ?Yl {}		// rth actant
+}
+?L <- semanticon::(?Xl.sem).(lex)
+?F <- lexicon::(?L).(lf)
+  ]
+  conditions = [
+?Zr.dsynt=constrained;      //?Zr has constraints
+?F.name="Oper"+?r or ?F.name="Func"+?r or ?F.name="Labor"+?r; // matches the sem node with the name of LF
+semanticon::(?Xl.sem).lex;		// makes sure ?Xl has a lexicalisation
+lexicon::(?L).dpos;			// makes sure ?L has a dpos
+?Zr.dpos=V or (not ?Zr.dpos);		// ?Zr must be a verb
+//YP: ----------------------------------
+//not gpcon::(?Xl.gpid).(?r).(split)=no;
+  ]
+  rightside = [
+rc:?Zr { rc:<=> ?Xl				// LF
+  split=top
+  dlex=?F.value
+  dsynt=OK
+  gpid=lexicon::(?F.value).(gp).(id)            // YP: necessary to make actant rules of 2nd tranistion run
+  //it was gpid=lexicon::(?F.value).(gp).(id)
+  lf=?F.name
+  base=?L
+  lf::(?F.name).(gp).(L)-> ?Xr{ <=> ?Xl		// base
+       split=bottom
+       dpos=lexicon::(?L).(dpos)
+       dlex=?L 
+       dsynt=lexicalized
+  }
+  lf::(?F.name).(gp).(?r)-> ?Yr{ <=> ?Yl	// rth actant
+       dsynt=created                            // YP: new, for the application of constraints_gp rules, then lex rules
+       dpos=lexicon::(?F.value).(gp).(lf::(?F.name).(gp).(?r)).(dpos)
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+Sem<=>DSynt actant_gp_rs_exp : actant_gp_rs
+[
+  leftside = [
+?Xl{
+  l:?i-> ?Yl{
+//    l:?j-> ?Zl{}
+  }
+}
+  ]
+  conditions = [
+?Xr.dsynt=gp_selected;
+//?Xr.gpid=Exp_V_rs_que_V;
+gpcon::(?Xr.gpid).(I).(dlex);
+//?Xr.dia=dia+X+?i;
+//?Xr.finiteness=FIN;
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  dsynt=OK
+  I-> ?Wr { 
+    dsynt=created
+    dlex=gpcon::(?Xr.gpid).(I).(dlex)
+  }
+  II-> ?Yr{ <=> ?Yl
+    dsynt=created
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]

@@ -1,0 +1,13 @@
+structure DSynt S12_1_0 {
+  être:1{
+    tense=PRES base=intacte dsynt=OK finiteness=INF raise_to=dir_objective gpid=COPULA dpos=V split=top mood=IND lf=Oper1
+    I-> information:1{gpid=NONE warning="Not in the semanticon. " dsynt=OK number=SG dpos=N definiteness=DEF dia=dia0 }
+    II-> intacte:1{gpid=ADJ split=bottom Vsupport=être dsynt=gp_selected dpos=Adj dia=dia1 }
+  }
+  Paul:1{dsynt=OK number=SG dpos=N class=proper_noun definiteness=DEF }
+  conserver_rs:1{
+    gpid=NP_V_NP_ADJ warning="Not in the semanticon. " dsynt=OK dpos=V finiteness=FIN clause=main dia=dia12 
+    II-> être:1
+    I-> Paul:1
+  }
+}

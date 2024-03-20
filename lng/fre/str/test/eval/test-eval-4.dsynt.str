@@ -1,0 +1,45 @@
+structure DSynt S12_1_0 {
+  être:1{
+    gpid=COPULA lf=Oper1 split=top dsynt=OK base=joli dpos=V finiteness=FIN 
+    I-> Marie:1{warning="Unknown word. Got DPOS from governor's GP. " dsynt=lexicalized dpos=N class="DPOS_N" }
+    II-> joli:1{gpid=ADJ split=bottom Vsupport=être dsynt=gp_selected dpos=Adj dia=dia1 }
+  }
+  il_exp:1{dsynt=constrained dpos=N }
+  paraître:1{
+    gpid=Exp_V_rs_que_V dsynt=OK dpos=V finiteness=FIN clause=main dia=diaX1 
+    I-> il_exp:1
+    II-> être:1
+  }
+}structure DSynt S18_1_0 {
+  être:1{
+    base=joli dsynt=OK finiteness=INF raise_to=subjective gpid=COPULA dpos=V split=top lf=Oper1
+    I-> Marie:1{warning="Unknown word. Got DPOS from governor's GP. " dsynt=lexicalized dpos=N class="DPOS_N" }
+    II-> joli:1{gpid=ADJ split=bottom Vsupport=être dsynt=gp_selected dpos=Adj dia=dia1 }
+  }
+  paraître:1{
+    gpid=NP_V_rs_V dsynt=OK dpos=V finiteness=FIN clause=main dia=dia1 
+    I-> être:1
+  }
+}structure DSynt S26_1_0 {
+  être:1{
+    gpid=COPULA lf=Oper1 split=top dsynt=OK base=joli dpos=V finiteness=FIN 
+    I-> Marie:1{warning="Unknown word. Got DPOS from governor's GP. " dsynt=lexicalized dpos=N class="DPOS_N" }
+    II-> joli:1{gpid=ADJ split=bottom Vsupport=être dsynt=gp_selected dpos=Adj dia=dia1 }
+  }
+  il_exp:1{dsynt=constrained dpos=N }
+  sembler_rs:1{
+    gpid=Exp_V_rs_que_V dsynt=OK dpos=V finiteness=FIN clause=main dia=diaX1 
+    I-> il_exp:1
+    II-> être:1
+  }
+}structure DSynt S32_1_0 {
+  être:1{
+    base=joli dsynt=OK finiteness=INF raise_to=subjective gpid=COPULA dpos=V split=top lf=Oper1
+    I-> Marie:1{warning="Unknown word. Got DPOS from governor's GP. " dsynt=lexicalized dpos=N class="DPOS_N" }
+    II-> joli:1{gpid=ADJ split=bottom Vsupport=être dsynt=gp_selected dpos=Adj dia=dia1 }
+  }
+  sembler_rs:1{
+    gpid=NP_V_rs_V dsynt=OK dpos=V finiteness=FIN clause=main dia=dia1 
+    I-> être:1
+  }
+}

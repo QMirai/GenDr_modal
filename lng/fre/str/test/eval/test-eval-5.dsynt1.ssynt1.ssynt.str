@@ -1,0 +1,17 @@
+structure SSynt S3_1_0 {
+  paraître:1{
+    gpid=Exp_V_rs_que_V spos=verb dpos=V finiteness=FIN clause=main ssynt=OK dlex=paraître
+    dir_objective-> que:1{
+      split=top spos=conjunction dpos=Adv 
+      conj_completive-> plaire:1{
+        dlex=plaire tense=PAST finiteness=FIN gpid=NP_V_à_NP dpos=V split=bottom spos=verb ssynt=OK
+        indir_objective-> à:1{
+          spos=preposition dpos=Adv 
+          prep_completive-> Paul:1{spos=proper_noun number=SG dpos=N class=proper_noun ssynt=OK definiteness=DEF }
+        }
+        subjective-> Lucie:1{spos=proper_noun number=SG dpos=N class=proper_noun ssynt=OK definiteness=DEF }
+      }
+    }
+    subjective-> il_exp:1{spos=pronoun dpos=N ssynt=REJECT dlex=il_exp}
+  }
+}

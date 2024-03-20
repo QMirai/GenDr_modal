@@ -1,0 +1,19 @@
+structure SSynt S6_1_0 {
+  que:1{
+    split=top spos=conjunction dpos=Adv 
+    conj_completive-> plaire:1{
+      tense=PAST split=bottom spos=verb finiteness=FIN dpos=V 
+      indir_objective-> à:1{
+        spos=preposition dpos=Adv 
+        prep_completive-> Paul:1{number=SG spos=proper_noun class=proper_noun dpos=N definiteness=DEF }
+      }
+      subjective-> Lucie:1{number=SG spos=proper_noun class=proper_noun dpos=N definiteness=DEF }
+    }
+  }
+  il_exp:1{spos=pronoun dpos=N }
+  paraître:1{
+    spos=verb dpos=V finiteness=FIN clause=main
+    subjective-> il_exp:1
+    dir_objective-> que:1
+  }
+}

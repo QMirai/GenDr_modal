@@ -1,0 +1,11 @@
+structure SSynt S3_1_0 {
+  conserver_rs:1{
+    dlex=conserver_rs finiteness=FIN raise_to=dir_objective gpid=NP_V_NP_ADJ dpos=V clause=main spos=verb ssynt=OK
+    comp_pred-> intacte:1{gpid=ADJ split=bottom spos=adjective dpos=Adj ssynt=REJECT dlex=intacte}
+    subjective-> Paul:1{spos=proper_noun number=SG dpos=N class=proper_noun ssynt=OK definiteness=DEF }
+    dir_objective-> information:1{
+      gpid=NONE number=SG spos=noun dpos=N definiteness=DEF ssynt=OK dlex=information
+      determinative-> le:1{spos=determiner dpos=Adj ssynt=OK dlex=le}
+    }
+  }
+}

@@ -1,0 +1,89 @@
+structure DSynt S15_1_0 {
+  plaire:1{
+    gpid=NP_V_à_NP tense=PAST dsynt=OK dpos=V finiteness=FIN dia=dia21 
+    I-> Lucie:1{dsynt=OK number=SG dpos=N class=proper_noun definiteness=DEF }
+    II-> Paul:1{dsynt=OK number=SG dpos=N class=proper_noun definiteness=DEF }
+  }
+  il_exp:1{dsynt=constrained dpos=N }
+  paraître:1{
+    gpid=Exp_V_rs_que_V dsynt=OK dpos=V finiteness=FIN clause=main dia=diaX1 
+    I-> il_exp:1
+    II-> plaire:1
+  }
+}structure DSynt S20_1_0 {
+  aimer:1{
+    gpid=NP_V_NP tense=PAST dsynt=OK dpos=V finiteness=FIN dia=dia12 
+    I-> Paul:1{dsynt=OK number=SG dpos=N class=proper_noun definiteness=DEF }
+    II-> Lucie:1{dsynt=OK number=SG dpos=N class=proper_noun definiteness=DEF }
+  }
+  il_exp:1{dsynt=constrained dpos=N }
+  paraître:1{
+    gpid=Exp_V_rs_que_V dsynt=OK dpos=V finiteness=FIN clause=main dia=diaX1 
+    I-> il_exp:1
+    II-> aimer:1
+  }
+}structure DSynt S29_1_0 {
+  plaire:1{
+    gpid=NP_V_à_NP raise_to=subjective tense=PAST dsynt=OK dpos=V finiteness=INF dia=dia21 
+    I-> Lucie:1{dsynt=OK number=SG dpos=N class=proper_noun definiteness=DEF }
+    II-> Paul:1{dsynt=OK number=SG dpos=N class=proper_noun definiteness=DEF }
+  }
+  paraître:1{
+    gpid=NP_V_rs_V dsynt=OK dpos=V finiteness=FIN clause=main dia=dia1 
+    I-> plaire:1
+  }
+}structure DSynt S34_1_0 {
+  aimer:1{
+    gpid=NP_V_NP raise_to=subjective tense=PAST dsynt=OK dpos=V finiteness=INF dia=dia12 
+    I-> Paul:1{dsynt=OK number=SG dpos=N class=proper_noun definiteness=DEF }
+    II-> Lucie:1{dsynt=OK number=SG dpos=N class=proper_noun definiteness=DEF }
+  }
+  paraître:1{
+    gpid=NP_V_rs_V dsynt=OK dpos=V finiteness=FIN clause=main dia=dia1 
+    I-> aimer:1
+  }
+}structure DSynt S45_1_0 {
+  plaire:1{
+    gpid=NP_V_à_NP tense=PAST dsynt=OK dpos=V finiteness=FIN dia=dia21 
+    I-> Lucie:1{dsynt=OK number=SG dpos=N class=proper_noun definiteness=DEF }
+    II-> Paul:1{dsynt=OK number=SG dpos=N class=proper_noun definiteness=DEF }
+  }
+  il_exp:1{dsynt=constrained dpos=N }
+  sembler_rs:1{
+    gpid=Exp_V_rs_que_V dsynt=OK dpos=V finiteness=FIN clause=main dia=diaX1 
+    I-> il_exp:1
+    II-> plaire:1
+  }
+}structure DSynt S50_1_0 {
+  aimer:1{
+    gpid=NP_V_NP tense=PAST dsynt=OK dpos=V finiteness=FIN dia=dia12 
+    I-> Paul:1{dsynt=OK number=SG dpos=N class=proper_noun definiteness=DEF }
+    II-> Lucie:1{dsynt=OK number=SG dpos=N class=proper_noun definiteness=DEF }
+  }
+  il_exp:1{dsynt=constrained dpos=N }
+  sembler_rs:1{
+    gpid=Exp_V_rs_que_V dsynt=OK dpos=V finiteness=FIN clause=main dia=diaX1 
+    I-> il_exp:1
+    II-> aimer:1
+  }
+}structure DSynt S59_1_0 {
+  plaire:1{
+    gpid=NP_V_à_NP raise_to=subjective tense=PAST dsynt=OK dpos=V finiteness=INF dia=dia21 
+    I-> Lucie:1{dsynt=OK number=SG dpos=N class=proper_noun definiteness=DEF }
+    II-> Paul:1{dsynt=OK number=SG dpos=N class=proper_noun definiteness=DEF }
+  }
+  sembler_rs:1{
+    gpid=NP_V_rs_V dsynt=OK dpos=V finiteness=FIN clause=main dia=dia1 
+    I-> plaire:1
+  }
+}structure DSynt S64_1_0 {
+  aimer:1{
+    gpid=NP_V_NP raise_to=subjective tense=PAST dsynt=OK dpos=V finiteness=INF dia=dia12 
+    I-> Paul:1{dsynt=OK number=SG dpos=N class=proper_noun definiteness=DEF }
+    II-> Lucie:1{dsynt=OK number=SG dpos=N class=proper_noun definiteness=DEF }
+  }
+  sembler_rs:1{
+    gpid=NP_V_rs_V dsynt=OK dpos=V finiteness=FIN clause=main dia=dia1 
+    I-> aimer:1
+  }
+}

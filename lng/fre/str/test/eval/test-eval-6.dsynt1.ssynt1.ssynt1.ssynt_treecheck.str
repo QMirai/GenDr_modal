@@ -1,0 +1,10 @@
+structure SSynt S4_1_0 {
+  devoir_rs:1{
+    spos=verb finiteness=FIN dpos=V clause=main
+    dir_objective-> partir:1{spos=verb dpos=V finiteness=INF }
+    subjective-> police:1{
+      spos=noun number=SG dpos=N definiteness=DEF 
+      determinative-> le:1{spos=determiner dpos=Adj }
+    }
+  }
+}

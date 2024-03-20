@@ -1,0 +1,14 @@
+structure Sem S {
+  S:1{
+    sembler_rs:1 {
+	  1->admirer:1
+	}
+    Paul:1{class=proper_noun}
+    Marie:1{class=proper_noun}
+    admirer:1{
+      1-> Paul:1
+      2-> Marie:1
+    }
+    main-> sembler_rs:1
+  }
+}

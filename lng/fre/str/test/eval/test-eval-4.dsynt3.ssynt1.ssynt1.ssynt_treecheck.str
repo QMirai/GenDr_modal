@@ -1,0 +1,16 @@
+structure SSynt S5_1_0 {
+  que:1{
+    split=top spos=conjunction dpos=Adv 
+    conj_completive-> être:1{
+      split=bottom spos=copula finiteness=FIN dpos=V 
+      comp_pred-> joli:1{split=bottom spos=adjective dpos=Adj }
+      subjective-> Marie:1{spos=noun class="DPOS_N" dpos=N }
+    }
+  }
+  il_exp:1{spos=pronoun dpos=N }
+  sembler_rs:1{
+    spos=verb finiteness=FIN dpos=V clause=main 
+    subjective-> il_exp:1
+    dir_objective-> que:1
+  }
+}

@@ -1,0 +1,17 @@
+structure Sem S {
+  S:0{
+    sem=S
+    autoriser:1{
+      sem=autoriser
+      1-> police:2
+      2-> partir:3
+    }
+	police:2
+    partir:3{
+      tense=PAST sem=partir
+      1-> Luc:4
+    }
+    Luc:4{sem=Luc class=proper_noun}
+    main-> autoriser:1
+  }
+}

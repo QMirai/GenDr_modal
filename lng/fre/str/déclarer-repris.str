@@ -1,0 +1,14 @@
+structure Sem S {
+  S:1{
+    déclarer_rs:1{
+      1-> recteur:1
+      2-> repris:1
+    }
+    recteur:1{}
+    repris:1{
+      1-> session:1
+    }
+    session:1{}
+    main-> déclarer_rs:1
+  }
+}

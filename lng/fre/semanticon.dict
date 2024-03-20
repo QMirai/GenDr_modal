@@ -1,0 +1,31 @@
+/*
+	Language : French (FRE)
+	Authors : Yunpeng Qiao, François Lareau
+*/
+
+semanticon {
+
+// LF
+Caus : cause
+Magn : très
+
+admirer { lex=admirer lex=admiration lex=admiratif }
+arrêter { lex=arrêter lex=arrestation }
+aimer { lex=aimer lex=plaire}
+avoir { lex=avoir }
+chat { lex=chat }
+devoir_rs { lex=avoir_rs lex=devoir_rs lex=nécessaire_rs lex=obligatoire_rs lex=falloir}
+exagérer { lex=exagérer }
+il { lex=il }
+intacte { lex=intacte }
+joli { lex=joli }
+moi { lex=moi }
+possible_rs { lex=possible_rs }
+pouvoir { lex=pouvoir lex=possible_rs}
+PRO { lex=PRO }
+repris { lex=repris }
+sembler_rs { lex=sembler_rs lex=paraître }
+trouver { lex=trouver }
+trouver_cls { lex=trouver_cls }
+
+}

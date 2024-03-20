@@ -1,0 +1,14 @@
+structure Sem S {
+  S:1{
+    devoir_rs:1{
+      1-> voir:1
+    }
+    voir:1{
+      1-> Paul:1
+      2-> Lucie:1
+    }
+    Paul:1{class=proper_noun}
+    Lucie:1{class=proper_noun}
+    main-> devoir_rs:1
+  }
+}

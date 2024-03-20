@@ -1,0 +1,19 @@
+structure Sem S {
+  S:0{
+    sem=S
+    laver:1{
+      sem=laver
+      1-> Paul:2
+      2-> main_nb:3
+    }
+    Paul:2{sem=Paul class=proper_noun}
+    main_nb:3{
+      sem=main_nb
+      1-> se:4
+    }
+    se:4{
+      <-> Paul:2
+    }
+    main-> laver:1
+  }
+}

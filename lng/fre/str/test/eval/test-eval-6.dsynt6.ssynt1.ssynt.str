@@ -1,0 +1,22 @@
+structure SSynt S3_1_0 {
+  pour:1{
+    spos=preposition dpos=Adv 
+    prep_completive-> police:1{
+      gpid=NONE spos=noun number=SG dpos=N ssynt=OK definiteness=DEF dlex=police
+      determinative-> le:1{spos=determiner dpos=Adj ssynt=OK dlex=le}
+    }
+  }
+  obligatoire_rs:1{
+    gpid=NP_COPULA_adj_pour_NP_de_V raise_to=indir_objective split=bottom spos=adjective dpos=Adj ssynt=OK dlex=obligatoire_rs
+    adjective_completive-> de:1{
+      spos=preposition dpos=Adv 
+      prep_completive-> partir:1{dlex=partir tense=PRES finiteness=INF gpid=NP_V dpos=V mood=IND spos=verb ssynt=OK}
+    }
+  }
+  être:1{
+    dlex=être finiteness=FIN gpid=COPULA dpos=V split=top clause=main spos=copula ssynt=OK
+    indir_objective-> pour:1
+    comp_pred-> obligatoire_rs:1
+    subjective-> il_exp:1{spos=pronoun dpos=N ssynt=REJECT dlex=il_exp}
+  }
+}

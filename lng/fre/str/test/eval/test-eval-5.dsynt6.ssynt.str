@@ -1,0 +1,15 @@
+structure SSynt S3_1_0 {
+  que:1{
+    split=top spos=conjunction dpos=Adv 
+    conj_completive-> aimer:1{
+      dlex=aimer tense=PAST finiteness=FIN gpid=NP_V_NP dpos=V split=bottom spos=verb ssynt=OK
+      dir_objective-> Lucie:1{spos=proper_noun number=SG dpos=N class=proper_noun ssynt=OK definiteness=DEF }
+      subjective-> Paul:1{number=SG spos=proper_noun class=proper_noun dpos=N definiteness=DEF ssynt=OK }
+    }
+  }
+  sembler_rs:1{
+    gpid=Exp_V_rs_que_V spos=verb finiteness=FIN dpos=V clause=main ssynt=OK dlex=sembler_rs
+    dir_objective-> que:1
+    subjective-> il_exp:1{spos=pronoun dpos=N ssynt=REJECT dlex=il_exp}
+  }
+}

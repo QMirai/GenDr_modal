@@ -1,0 +1,23 @@
+structure Sem S {
+  S:0{
+    sem=S
+    promettre:1{
+      sem=promettre
+      1-> Paul:2
+      2-> lire:3
+      3-> Lucie:2
+    }
+    Paul:2{sem=Paul class=proper_noun}
+    lire:3{
+      sem=lire
+      1-> Paul:4
+      2-> livre:6
+    }
+    Lucie:2{sem=Lucie class=proper_noun}
+    Paul:4{
+      <-> Paul:2
+    }
+    livre:6{sem=livre}
+    main-> promettre:1
+  }
+}

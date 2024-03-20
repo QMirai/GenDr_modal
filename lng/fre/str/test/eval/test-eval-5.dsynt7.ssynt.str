@@ -1,0 +1,15 @@
+structure SSynt S4_1_0 {
+  à:1{
+    spos=preposition dpos=Adv 
+    prep_completive-> Paul:1{number=SG spos=proper_noun class=proper_noun dpos=N definiteness=DEF ssynt=OK }
+  }
+  plaire:1{
+    dlex=plaire tense=PAST finiteness=INF gpid=NP_V_à_NP dpos=V spos=verb raise_from=subjective ssynt=OK
+    indir_objective-> à:1
+    subjective-> Lucie:1{spos=proper_noun number=SG dpos=N class=proper_noun ssynt=OK definiteness=DEF}
+  }
+  sembler_rs:1{
+    dlex=sembler_rs finiteness=FIN raise_to=subjective gpid=NP_V_rs_V dpos=V clause=main spos=verb ssynt=OK
+    comp_pred-> plaire:1
+  }
+}

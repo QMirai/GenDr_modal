@@ -1,0 +1,22 @@
+structure SSynt S6_1_0 {
+  de:1{
+    spos=preposition dpos=Adv 
+    prep_completive-> donner:1{
+      spos=verb finiteness=INF dpos=V 
+      indir_objective-> à:1{
+        spos=preposition dpos=Adv 
+        prep_completive-> Lucie:1{number=SG spos=proper_noun class=proper_noun dpos=N definiteness=DEF }
+      }
+      dir_objective-> livre:1{
+        spos=noun number=SG dpos=N definiteness=DEF 
+        determinative-> le:1{spos=determiner dpos=Adj }
+      }
+    }
+  }
+  Paul:1{number=SG spos=proper_noun class=proper_noun dpos=N definiteness=DEF }
+  continuer_rs:1{
+    spos=verb finiteness=FIN dpos=V clause=main
+    subjective-> Paul:1
+    comp_pred-> de:1
+  }
+}

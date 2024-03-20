@@ -1,0 +1,15 @@
+structure SSynt S5_1_0 {
+  plaire:1{
+    tense=PAST spos=verb dpos=V finiteness=INF 
+    indir_objective-> à:1{
+      spos=preposition dpos=Adv 
+      prep_completive-> Paul:1{number=SG spos=proper_noun class=proper_noun dpos=N definiteness=DEF }
+    }
+  }
+  Lucie:1{number=SG spos=proper_noun class=proper_noun dpos=N definiteness=DEF }
+  sembler_rs:1{
+    spos=verb dpos=V finiteness=FIN clause=main 
+    subjective-> Lucie:1
+    comp_pred-> plaire:1
+  }
+}

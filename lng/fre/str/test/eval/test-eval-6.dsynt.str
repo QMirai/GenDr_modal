@@ -1,0 +1,97 @@
+structure DSynt S20_1_0 {
+  partir:1{
+    gpid=NP_V raise_to=subjective warning="Not in the semanticon. " dsynt=OK dpos=V finiteness=INF dia=dia1 
+    I-> police:1{gpid=NONE warning="Not in the semanticon. " dsynt=OK number=SG dpos=N definiteness=DEF dia=dia0 }
+  }
+  devoir_rs:1{
+    gpid=NP_V_rs_dir_V dsynt=OK dpos=V finiteness=FIN clause=main dia=dia1 
+    I-> partir:1
+  }
+}structure DSynt S32_1_0 {
+  partir:1{
+    gpid=NP_V warning="Not in the semanticon. " dsynt=OK dpos=V finiteness=FIN dia=dia1 mood=subjunctive
+    I-> police:1{gpid=NONE warning="Not in the semanticon. " dsynt=OK number=SG dpos=N definiteness=DEF dia=dia0 }
+  }
+  il_exp:1{dsynt=constrained dpos=N }
+  falloir:1{
+    gpid=Exp_V_que_V dsynt=OK dpos=V finiteness=FIN clause=main dia=dia12 
+    I-> il_exp:1
+    II-> partir:1
+  }
+}structure DSynt S42_1_0 {
+  partir:1{
+    tense=PRES dsynt=OK finiteness=INF gpid=NP_V dpos=V mood=IND warning="Not in the semanticon. " dia=dia1
+    I-> police:1{gpid=NONE warning="Not in the semanticon. " dsynt=OK number=SG dpos=N definiteness=DEF dia=dia0 }
+  }
+  il_exp:1{dsynt=constrained dpos=N }
+  falloir:1{
+    gpid=Exp_V_V dsynt=OK dpos=V finiteness=FIN clause=main dia=dia12 
+    I-> il_exp:1
+    II-> partir:1
+  }
+}structure DSynt S51_1_0 {
+  nécessaire_rs:1{
+    gpid=NP_COPULA_adj_pour_NP_de_V split=bottom dsynt=OK dpos=Adj 
+    I-> partir:1{
+      tense=PRES dsynt=OK finiteness=INF raise_to=indir_objective gpid=NP_V dpos=V mood=IND warning="Not in the semanticon. " dia=dia1
+      I-> police:1{gpid=NONE warning="Not in the semanticon. " dsynt=OK number=SG dpos=N definiteness=DEF dia=dia0 }
+    }
+  }
+  il_exp:1{dsynt=constrained dpos=N }
+  être:1{
+    base=nécessaire_rs dsynt=OK finiteness=FIN gpid=COPULA dpos=V split=top clause=main lf=Oper0
+    II-> nécessaire_rs:1
+    I-> il_exp:1
+  }
+}structure DSynt S60_1_0 {
+  nécessaire_rs:1{
+    gpid=Exp_COPULA_adj_que_V split=bottom dsynt=OK dpos=Adj 
+    I-> partir:1{
+      gpid=NP_V warning="Not in the semanticon. " dsynt=OK dpos=V finiteness=FIN dia=dia1 mood=subjunctive
+      I-> police:1{gpid=NONE warning="Not in the semanticon. " dsynt=OK number=SG dpos=N definiteness=DEF dia=dia0 }
+    }
+  }
+  il_exp:1{dsynt=constrained dpos=N }
+  être:1{
+    base=nécessaire_rs dsynt=OK finiteness=FIN gpid=COPULA dpos=V split=top clause=main lf=Oper0
+    II-> nécessaire_rs:1
+    I-> il_exp:1
+  }
+}structure DSynt S69_1_0 {
+  obligatoire_rs:1{
+    gpid=NP_COPULA_adj_pour_NP_de_V split=bottom dsynt=OK dpos=Adj 
+    I-> partir:1{
+      tense=PRES dsynt=OK finiteness=INF raise_to=indir_objective gpid=NP_V dpos=V mood=IND warning="Not in the semanticon. " dia=dia1
+      I-> police:1{gpid=NONE warning="Not in the semanticon. " dsynt=OK number=SG dpos=N definiteness=DEF dia=dia0 }
+    }
+  }
+  il_exp:1{dsynt=constrained dpos=N }
+  être:1{
+    base=obligatoire_rs dsynt=OK finiteness=FIN gpid=COPULA dpos=V split=top clause=main lf=Oper0
+    II-> obligatoire_rs:1
+    I-> il_exp:1
+  }
+}structure DSynt S78_1_0 {
+  obligatoire_rs:1{
+    gpid=Exp_COPULA_adj_que_V split=bottom dsynt=OK dpos=Adj 
+    I-> partir:1{
+      gpid=NP_V warning="Not in the semanticon. " dsynt=OK dpos=V finiteness=FIN dia=dia1 mood=subjunctive
+      I-> police:1{gpid=NONE warning="Not in the semanticon. " dsynt=OK number=SG dpos=N definiteness=DEF dia=dia0 }
+    }
+  }
+  il_exp:1{dsynt=constrained dpos=N }
+  être:1{
+    base=obligatoire_rs dsynt=OK finiteness=FIN gpid=COPULA dpos=V split=top clause=main lf=Oper0
+    II-> obligatoire_rs:1
+    I-> il_exp:1
+  }
+}structure DSynt S89_1_0 {
+  partir:1{
+    gpid=NP_V raise_to=subjective warning="Not in the semanticon. " dsynt=OK dpos=V finiteness=INF dia=dia1 
+    I-> police:1{gpid=NONE warning="Not in the semanticon. " dsynt=OK number=SG dpos=N definiteness=DEF dia=dia0 }
+  }
+  avoir_rs:1{
+    gpid=NP_V_rs_à_V dsynt=OK dpos=V finiteness=FIN clause=main dia=dia1 
+    I-> partir:1
+  }
+}

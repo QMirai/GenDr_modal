@@ -1,0 +1,15 @@
+structure Sem S {
+  S:0{
+    sem=S
+    devoir_rs:1{
+      sem=devoir_rs
+      1-> partir:3
+    }
+	police:2
+    partir:3{
+       sem=partir
+      1-> police:2
+    }
+    main-> devoir_rs:1
+  }
+}

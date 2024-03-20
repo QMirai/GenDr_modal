@@ -1,0 +1,11 @@
+structure Sem S {
+  S:1{
+    Paul:1{class=proper_noun}
+    arrêter:1{
+      1-> Paul:1
+      2-> voleur:1
+    }
+    voleur:1
+    main-> arrêter:1
+  }
+}

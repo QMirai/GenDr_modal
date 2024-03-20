@@ -1,0 +1,15 @@
+structure Sem s1 {
+}structure Sem s1 {
+}structure Sem s1 {
+  vouloir:0{
+    sem=vouloir dom=true
+    1-> père:1{
+      sem=père
+      2-> Luc:2{sem=Luc}
+    }
+    2-> dormir:3{
+      sem=dormir
+      1-> père:1
+    }
+  }
+}

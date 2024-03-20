@@ -1,0 +1,10 @@
+structure SSynt S4_1_0 {
+  paraître:1{
+    spos=verb finiteness=FIN dpos=V clause=main
+    comp_pred-> aimer:1{
+      tense=PAST spos=verb finiteness=INF dpos=V 
+      dir_objective-> Lucie:1{number=SG spos=proper_noun class=proper_noun dpos=N definiteness=DEF }
+    }
+    subjective-> Paul:1{number=SG spos=proper_noun class=proper_noun dpos=N definiteness=DEF }
+  }
+}

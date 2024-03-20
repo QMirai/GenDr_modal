@@ -1,0 +1,12 @@
+structure Sem S {
+  S:1{
+    Paul:1{class=proper_noun}
+    voir:1{
+      tense=PAST 
+      1-> Paul:1
+      2-> Lucie:1
+    }
+    Lucie:1{class=proper_noun}
+    main-> voir:1
+  }
+}

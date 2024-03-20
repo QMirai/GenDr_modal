@@ -1,0 +1,12 @@
+structure DSynt S12_1_0 {
+  partir:1{
+    tense=PAST dsynt=OK finiteness=INF raise_to=dir_objective gpid=NP_V dpos=V warning="Not in the semanticon. " dia=dia1
+    I-> Luc:1{dsynt=OK number=SG dpos=N class=proper_noun definiteness=DEF }
+  }
+  police:1{gpid=NONE warning="Not in the semanticon. " dsynt=OK number=SG dpos=N definiteness=DEF dia=dia0 }
+  autoriser:1{
+    gpid=NP_V_rs_NP_à_V warning="Not in the semanticon. " dsynt=OK dpos=V finiteness=FIN clause=main dia=dia12 
+    II-> partir:1
+    I-> police:1
+  }
+}

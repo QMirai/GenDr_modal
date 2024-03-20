@@ -1,0 +1,14 @@
+structure SSynt S3_1_0 {
+  autoriser:1{
+    dlex=autoriser finiteness=FIN raise_to=dir_objective gpid=NP_V_rs_NP_à_V dpos=V clause=main spos=verb ssynt=OK
+    oblique-> à:1{
+      spos=preposition dpos=Adv 
+      prep_completive-> partir:1{gpid=NP_V tense=PAST spos=verb finiteness=INF dpos=V ssynt=OK dlex=partir}
+    }
+    subjective-> police:1{
+      gpid=NONE spos=noun number=SG dpos=N ssynt=OK definiteness=DEF dlex=police
+      determinative-> le:1{spos=determiner dpos=Adj ssynt=OK dlex=le}
+    }
+    dir_objective-> Luc:1{spos=proper_noun number=SG dpos=N class=proper_noun ssynt=OK definiteness=DEF }
+  }
+}

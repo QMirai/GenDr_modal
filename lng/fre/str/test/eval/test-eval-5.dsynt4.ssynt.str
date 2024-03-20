@@ -1,0 +1,10 @@
+structure SSynt S4_1_0 {
+  paraître:1{
+    dlex=paraître finiteness=FIN raise_to=subjective gpid=NP_V_rs_V dpos=V clause=main spos=verb ssynt=OK
+    comp_pred-> aimer:1{
+      dlex=aimer tense=PAST finiteness=INF gpid=NP_V_NP dpos=V spos=verb raise_from=subjective ssynt=OK
+      dir_objective-> Lucie:1{spos=proper_noun number=SG dpos=N class=proper_noun ssynt=OK definiteness=DEF }
+      subjective-> Paul:1{spos=proper_noun number=SG dpos=N class=proper_noun ssynt=OK definiteness=DEF}
+    }
+  }
+}

@@ -1,0 +1,13 @@
+structure SSynt S4_1_0 {
+  avoir_rs:1{
+    spos=verb finiteness=FIN dpos=V clause=main
+    comp_pred-> à:1{
+      spos=preposition dpos=Adv 
+      prep_completive-> partir:1{spos=verb dpos=V finiteness=INF }
+    }
+    subjective-> police:1{
+      spos=noun number=SG dpos=N definiteness=DEF 
+      determinative-> le:1{spos=determiner dpos=Adj }
+    }
+  }
+}

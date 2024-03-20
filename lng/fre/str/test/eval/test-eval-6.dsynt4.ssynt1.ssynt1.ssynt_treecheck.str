@@ -1,0 +1,23 @@
+structure SSynt S5_1_0 {
+  pour:1{
+    spos=preposition dpos=Adv 
+    prep_completive-> police:1{
+      spos=noun number=SG dpos=N definiteness=DEF 
+      determinative-> le:1{spos=determiner dpos=Adj }
+    }
+  }
+  nécessaire_rs:1{
+    split=bottom spos=adjective dpos=Adj 
+    adjective_completive-> de:1{
+      spos=preposition dpos=Adv 
+      prep_completive-> partir:1{tense=PRES spos=verb dpos=V finiteness=INF mood=IND}
+    }
+  }
+  il_exp:1{spos=pronoun dpos=N }
+  être:1{
+    split=top spos=copula dpos=V finiteness=FIN clause=main 
+    subjective-> il_exp:1
+    indir_objective-> pour:1
+    comp_pred-> nécessaire_rs:1
+  }
+}

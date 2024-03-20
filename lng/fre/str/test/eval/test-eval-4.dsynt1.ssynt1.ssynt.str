@@ -1,0 +1,14 @@
+structure SSynt S3_1_0 {
+  paraître:1{
+    gpid=Exp_V_rs_que_V spos=verb dpos=V finiteness=FIN clause=main ssynt=OK dlex=paraître
+    dir_objective-> que:1{
+      split=top spos=conjunction dpos=Adv 
+      conj_completive-> être:1{
+        gpid=COPULA split=bottom spos=copula finiteness=FIN dpos=V ssynt=OK dlex=être
+        comp_pred-> joli:1{gpid=ADJ split=bottom spos=adjective dpos=Adj ssynt=REJECT dlex=joli}
+        subjective-> Marie:1{spos=noun dpos=N class="DPOS_N" ssynt=REJECT }
+      }
+    }
+    subjective-> il_exp:1{spos=pronoun dpos=N ssynt=REJECT dlex=il_exp}
+  }
+}

@@ -1,0 +1,17 @@
+structure SSynt S4_1_0 {
+  information:1{
+    gpid=NONE spos=noun number=SG dpos=N ssynt=OK definiteness=DEF dlex=information
+    determinative-> le:1{spos=determiner dpos=Adj ssynt=OK dlex=le}
+  }
+  être:1{
+    dlex=être tense=PRES finiteness=INF gpid=COPULA dpos=V split=top spos=copula mood=IND raise_from=subjective ssynt=OK
+    comp_pred-> intacte:1{gpid=ADJ split=bottom spos=adjective dpos=Adj ssynt=REJECT dlex=intacte}
+    subjective-> information:1
+  }
+  Paul:1{number=SG spos=proper_noun class=proper_noun dpos=N definiteness=DEF ssynt=OK }
+  conserver_rs:1{
+    dlex=conserver_rs finiteness=FIN raise_to=dir_objective gpid=NP_V_NP_ADJ dpos=V clause=main spos=verb ssynt=OK
+    subjective-> Paul:1
+    comp_pred-> être:1
+  }
+}

@@ -1,0 +1,14 @@
+structure Sem S {
+  S:1{
+    fict_sembler_rs:1{
+      1-> voir:1
+    }
+    voir:1{ 
+      1-> Paul:1
+      2-> ville:1
+    }
+    Paul:1{class=proper_noun}
+    ville:1{}
+    main-> fict_sembler_rs:1
+  }
+}

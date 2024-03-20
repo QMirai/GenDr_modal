@@ -1,0 +1,15 @@
+structure Sem S {
+  S:1{
+    voir_rs:1{
+      1-> Paul:1
+      2-> dormir:1
+    }
+    Paul:1{class=proper_noun}
+    dormir:1{
+      tense=PAST 
+      1-> moi:2
+    }
+    moi:2{}
+    main-> voir_rs:1
+  }
+}

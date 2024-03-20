@@ -1,0 +1,10 @@
+structure SSynt S4_1_0 {
+  paraître:1{
+    dlex=paraître finiteness=FIN raise_to=subjective gpid=NP_V_rs_V dpos=V clause=main spos=verb ssynt=OK
+    comp_pred-> être:1{
+      dlex=être finiteness=INF gpid=COPULA dpos=V split=top spos=copula raise_from=subjective ssynt=OK
+      comp_pred-> joli:1{gpid=ADJ split=bottom spos=adjective dpos=Adj ssynt=REJECT dlex=joli}
+      subjective-> Marie:1{spos=noun class="DPOS_N" dpos=N ssynt=REJECT}
+    }
+  }
+}

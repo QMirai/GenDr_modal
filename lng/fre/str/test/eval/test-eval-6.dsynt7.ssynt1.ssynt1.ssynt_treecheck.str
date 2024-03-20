@@ -1,0 +1,21 @@
+structure SSynt S7_1_0 {
+  obligatoire_rs:1{
+    split=bottom spos=adjective dpos=Adj 
+    dir_objective-> que:1{
+      split=top spos=conjunction dpos=Adv 
+      conj_completive-> partir:1{
+        split=bottom spos=verb finiteness=FIN dpos=V mood=subjunctive
+        subjective-> police:1{
+          spos=noun number=SG dpos=N definiteness=DEF 
+          determinative-> le:1{spos=determiner dpos=Adj }
+        }
+      }
+    }
+  }
+  il_exp:1{spos=pronoun dpos=N }
+  être:1{
+    split=top spos=copula dpos=V finiteness=FIN clause=main 
+    subjective-> il_exp:1
+    comp_pred-> obligatoire_rs:1
+  }
+}

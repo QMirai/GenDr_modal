@@ -1,0 +1,14 @@
+structure Sem S {
+  S:1{
+    rendre_rs:1{
+      1-> maire:1
+      2-> joli:1
+    }
+    maire:1{}
+    joli:1{
+      1-> ville:1
+    }
+    ville:1{}
+    main-> rendre_rs:1
+  }
+}
