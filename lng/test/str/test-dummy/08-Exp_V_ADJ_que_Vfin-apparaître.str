@@ -1,0 +1,21 @@
+structure Sem S {
+  S:0{
+    sem=S
+    dummy:1{
+      sem=dummy
+      1-> dummy:2
+    }
+    dummy:2{
+      sem=dummy
+      1-> dummy:3
+      2-> dummy:4
+    }
+    dummy:3{sem=dummy}
+    dummy:4{sem=dummy}
+    apparaître:5{
+      sem=apparaître
+      1-> dummy:1
+    }
+    main-> apparaître:5
+  }
+}

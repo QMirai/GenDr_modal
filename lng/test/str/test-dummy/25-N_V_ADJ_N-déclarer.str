@@ -1,0 +1,14 @@
+structure Sem S {
+  S:1{
+    dummy:1{}
+    déclarer:1{
+      1-> dummy:1
+			2-> dummy:2
+    }
+		dummy:2{
+		  1-> dummy:3
+		}
+		dummy:3{}
+    main-> déclarer:1
+  }
+}
