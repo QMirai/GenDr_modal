@@ -463,7 +463,7 @@ Exp_v_rs_de_v: verb {
 admiratif : adjective {
   gp = { id=ADJ_N_de		dia=12 } //admiratif de Paul pour Marie
   lf = { name = Oper1
-         value = être 
+         value = être
   }
 }
 admiration : noun {

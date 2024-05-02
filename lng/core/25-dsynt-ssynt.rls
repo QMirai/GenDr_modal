@@ -341,7 +341,7 @@ not ?r=COORD;
 not ?r=APPEND;
 ?Xl.gpid;               // There's a gp
 not (?Xl.gpid=N_body_N_person and ?D.rel=mod);     // not a structure : verb_body + body
-not ?D.rel=subjective;  // Subject is handled by other rules
+not (?D.rel=subjective or ?D.rel=subj);  // Subject is handled by other rules
 not ?D.prep;
 not ?D.conj;
 //not ?Xr.split=bottom;   // ?Xr is not the bottom part of a split node
@@ -722,14 +722,14 @@ Sem<=>DSynt synt_subj : core
   ]
   conditions = [
 ?Xl.gpid;               // There's a gp
-?GP.rel=subjective;     // This rule only handles subjects
+?GP.rel=subjective or ?GP.rel=subj;     // This rule only handles subjects
 //?Xr.finiteness=FIN ;     // Only finite verbs have a subject
 not ?GP.prep;
 not ?Xr.split=bottom;   // ?Xr is not the bottom part of a split node
 not ?Xr.auxdep;         // Attach on the top Aux
 ?Xr.ssynt=OK;           // Wait for full lexicalization
 //YP:----------------------------------------------------
-?Xr.finiteness=FIN or ?Xr.raise_from=subjective; // subject for either finite verbs or victim verbs whose subject will be raised
+?Xr.finiteness=FIN or ?Xr.raise_from=subjective or ?Xr.raise_from=subj; // subject for either finite verbs or victim verbs whose subject will be raised
   ]
   rightside = [
 rc:?Xr{ 

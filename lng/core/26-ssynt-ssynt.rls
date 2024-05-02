@@ -5,7 +5,7 @@ SSynt<=>SSynt node : rule
 l:?Xl{}
   ]
   conditions = [
-not (?Xl.raise_from=subjective and ?Xl.spos=copula);
+not (?Xl.raise_from=subj and ?Xl.spos=copula);
   ]
   rightside = [
 ?Xr{ <=> ?Xl
@@ -189,7 +189,8 @@ SSynt<=>SSynt synt_reconnection : rule
   ]
   conditions = [
 ?i=comp_pred and ?j=comp_pred;
-?Yl.raise_from=subjective and ?Yl.spos=copula; // see rule node
+?Yl.raise_from=subj and ?Yl.spos=copula; // see rule node
+//?Yl.raise_from=subjective and ?Yl.spos=copula; // see rule node
 //?GP.raise_to;          // a raising relation is necessary
 //?GP.rel=comp_pred or gpcon::(?Yl.gpid).(I).(rel)=mod;      // This rule only handles subjects
 //?Xr.finiteness=FIN;     // Only finite verbs have a subject
