@@ -866,8 +866,6 @@ rc:?Xr{
       det=gpcon::(?Xr.gpid).(?R).(det)
       definiteness=gpcon::(?Xr.gpid).(?R).(definiteness)
       case=gpcon::(?Xr.gpid).(?R).(case)
-      //split=gpcon::(?Xr.gpid).(?R).(split)
-      //prep_insert=gpcon::(?Xr.gpid).(?R).(prep_insert)
   }
 }
   ]
@@ -1092,40 +1090,6 @@ rc:?Zr { rc:<=> ?Xl				// LF
 
   ]
 ]
-Sem<=>DSynt disabled Vsupport_i : actant_gp_rs
-[
-  leftside = [
-?Xl
-?F <- lexicon::(arrestation).(lf)
-  ]
-  conditions = [
-//?F.name="Oper"+?r or ?F.name="Func"+?r or ?F.name="Labor"+?r; // matches the sem node with the name of LF
-//YP: ----------------------------------
-//not gpcon::(?Xl.gpid).(?r).(split)=no;
-?Xr.Vsupport;
-//?Xr.dsynt=OK;
-  ]
-  rightside = [
-?Yr { <=> ?Xl				// LF
-  split=top
-  dpos=lexicon::(?F.value).(dpos)
-  dlex=?F.value
-  ssynt=OK
-  lf=?F.name
-//  base=?Xl.dlex
-  II-> ?Xr{ <=> ?Xl		// base
-       split=bottom
-       definiteness=DEF
-       dpos=N
-//       dlex=?Xl.dlex
-//       gpid=?Xl.gpid
-  }
-}
-  ]
-  correspondence = [
-
-  ]
-]
 Sem<=>DSynt Vsupport_i : actant_gp_rs
 [
   leftside = [
@@ -1159,9 +1123,10 @@ rc:?Zr { rc:<=> ?Xl				// LF
        dlex=?L 
        dsynt=lexicalized
   }
-  lf::(?F.name).(gp).(?r)-> ?Yr{ <=> ?Yl	// rth actant
+  lf::(?F.name).(gp).(?r)-> ?Yr { <=> ?Yl	// rth actant
        dsynt=created                            // YP: new, for the application of constraints_gp rules, then lex rules
        dpos=lexicon::(?F.value).(gp).(lf::(?F.name).(gp).(?r)).(dpos)
+       finiteness=?Zr.finiteness     
   }
 }
   ]

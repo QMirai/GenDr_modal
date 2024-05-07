@@ -88,7 +88,7 @@ SSynt<=>SSynt synt_raising : rule
   conditions = [
 ?Xl.raise_to;          // a raising relation is necessary  another : ?GP.raise_to; 
 ?Yl.raise_from=?j;
-not ?Xl.prep_insert;
+not ?Xl.insert;
 //?Xr.filtered=OK;
 //?GP.rel=comp_pred or gpcon::(?Yl.gpid).(I).(rel)=mod;      // This rule only handles subjects
 //?Xr.finiteness=FIN;     // Only finite verbs have a subject
@@ -148,6 +148,42 @@ rc:?Xr{
 Only finite verbs have a subject.
 The subject migrates on the top auxiliary, if any.
 We use the GP of the deep lexeme.*/
+SSynt<=>SSynt synt_raising_conj : rule
+[
+  leftside = [
+?Xl{
+  ?i-> ?Yl{
+    l:?j-> ?Zl{}
+  }
+}
+  ]
+  conditions = [
+?Xl.raise_to;          // a raising relation is necessary  another : ?GP.raise_to; 
+?Xl.insert and lexicon::(?Xl.insert).(spos)=conjunction; 
+?Yl.raise_from=?j;
+  ]
+  rightside = [
+rc:?Xr{
+  <=> rc:?Xl
+  ?Xl.raise_to -> ?Wr{ 
+    <=> ?Zl 
+    slex=?Xl.insert
+    dpos=lexicon::(?Xl.insert).(dpos)
+    spos=lexicon::(?Xl.insert).(spos)
+    gpcon::(CONJ).(II).(rel)-> rc:?Zr{
+		 rc:<=> ?Zl
+    }
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Subjects are treated separately from other actants.
+Only finite verbs have a subject.
+The subject migrates on the top auxiliary, if any.
+We use the GP of the deep lexeme.*/
 SSynt<=>SSynt synt_raising_prep : rule
 [
   leftside = [
@@ -159,7 +195,7 @@ SSynt<=>SSynt synt_raising_prep : rule
   ]
   conditions = [
 ?Xl.raise_to;          // a raising relation is necessary  another : ?GP.raise_to; 
-?Xl.prep_insert; 
+?Xl.insert and lexicon::(?Xl.insert).(spos)=preposition; 
 ?Yl.raise_from=?j;
   ]
   rightside = [
@@ -167,9 +203,9 @@ rc:?Xr{
   <=> rc:?Xl
   ?Xl.raise_to -> ?Wr{ 
     <=> ?Zl 
-    slex=?Xl.prep_insert
-    dpos=lexicon::(?Xl.prep_insert).(dpos)
-    spos=lexicon::(?Xl.prep_insert).(spos)
+    slex=?Xl.insert
+    dpos=lexicon::(?Xl.insert).(dpos)
+    spos=lexicon::(?Xl.insert).(spos)
     gpcon::(PREP).(II).(rel)-> rc:?Zr{
 		 rc:<=> ?Zl
     }

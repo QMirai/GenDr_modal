@@ -352,7 +352,7 @@ not ?D.conj;
 rc:?Xr{
   rc:<=> ?Xl
   raise_to=?D.raise_to
-  prep_insert=?D.prep_insert
+  insert=?D.insert
   ?D.rel-> ?Yr{ <=> ?Yl
     raise_from=?D.raise_from
   }

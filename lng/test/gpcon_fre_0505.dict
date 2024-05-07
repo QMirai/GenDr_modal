@@ -85,15 +85,15 @@ COPULA {
 //apparaître_4
 Exp_V_ADJ_de_Vinf {
 	I={rel=subj dpos=Exp dlex=il_expl}
-	II={rel=comp_pred dpos=Adj}
-	III={rel=comp_obj dpos=V finiteness=INF prep=de}
+	II={rel=comp_pred dpos=V raise_from=subj raise_to=comp_obj finiteness=INF insert=de}
+	//III={rel=comp_obj dpos=V finiteness=INF prep=de}
 }
 
 //apparaître_4 paraître_5 sembler_5
 Exp_V_ADJ_que_Vfin {
 	I={rel=subj dpos=Exp dlex=il_expl}
-	II={rel=comp_pred dpos=Adj}
-	III={rel=comp_obj dpos=V finiteness=FIN conj=que}
+	II={rel=comp_pred dpos=V raise_from=subj raise_to=comp_obj finiteness=FIN insert=que}
+	//III={rel=comp_obj dpos=V finiteness=FIN conj=que}
 }
 
 //apparaître_5
