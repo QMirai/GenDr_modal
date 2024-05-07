@@ -352,6 +352,7 @@ not ?D.conj;
 rc:?Xr{
   rc:<=> ?Xl
   raise_to=?D.raise_to
+  prep_insert=?D.prep_insert
   ?D.rel-> ?Yr{ <=> ?Yl
     raise_from=?D.raise_from
   }
@@ -479,7 +480,7 @@ rc:?Xr{
     spos=lexicon::(?D.prep).(spos)
 //    split=top
     gpcon::(PREP).(II).(rel)-> rc:?Yr{
-      <=> rc:?Yl
+      rc:<=> ?Yl
 //      split=bottom
       raise_from=?D.raise_from 
     }

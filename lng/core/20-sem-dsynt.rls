@@ -866,8 +866,8 @@ rc:?Xr{
       det=gpcon::(?Xr.gpid).(?R).(det)
       definiteness=gpcon::(?Xr.gpid).(?R).(definiteness)
       case=gpcon::(?Xr.gpid).(?R).(case)
-      raise_to=gpcon::(?Xr.gpid).(?R).(raise_to)
-      split=gpcon::(?Xr.gpid).(?R).(split)
+      //split=gpcon::(?Xr.gpid).(?R).(split)
+      //prep_insert=gpcon::(?Xr.gpid).(?R).(prep_insert)
   }
 }
   ]
@@ -1169,20 +1169,20 @@ rc:?Zr { rc:<=> ?Xl				// LF
 
   ]
 ]
-Sem<=>DSynt actant_gp_rs_exp : actant_gp_rs
+Sem<=>DSynt actant_gp_rs_exp_i : actant_gp_rs
 [
   leftside = [
 ?Xl{
   l:?i-> ?Yl{
-//    l:?j-> ?Zl{}
   }
 }
   ]
   conditions = [
 ?Xr.dsynt=gp_selected;
-//?Xr.gpid=Exp_V_rs_que_V;
 gpcon::(?Xr.gpid).(I).(dlex);
-//?Xr.dia=dia+X+?i;
+?Xr.dia=dia+X+?i;
+//lexicon::(?L).dpos=V; // Make sure this rule excute only once.
+//?Yl.dpos=V;
 //?Xr.finiteness=FIN;
   ]
   rightside = [
@@ -1194,6 +1194,41 @@ rc:?Xr{
     dlex=gpcon::(?Xr.gpid).(I).(dlex)
   }
   II-> ?Yr{ <=> ?Yl
+    dsynt=created
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+Sem<=>DSynt actant_gp_rs_exp_ij : actant_gp_rs
+[
+  leftside = [
+?Xl{
+  l:?i-> ?Yl{
+  }
+  l:?j-> ?Zl{
+  }
+}
+  ]
+  conditions = [
+?Xr.dsynt=gp_selected;
+gpcon::(?Xr.gpid).(I).(dlex);
+?Xr.dia=dia+X+?i+?j;
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  dsynt=OK
+  I-> ?Wr { 
+    dsynt=created
+    dlex=gpcon::(?Xr.gpid).(I).(dlex)
+  }
+  II-> ?Yr{ <=> ?Yl
+    dsynt=created
+  }
+  III-> ?Zr{ <=> ?Zl
     dsynt=created
   }
 }

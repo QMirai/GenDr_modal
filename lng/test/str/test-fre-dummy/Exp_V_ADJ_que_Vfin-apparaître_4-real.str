@@ -1,0 +1,17 @@
+structure Sem S {
+  S:0{
+    possible:1{
+      1-> manger:1
+    }
+    manger:1{
+      1-> Paul
+      2-> pomme
+    }
+    Paul{}
+    pomme{}
+    apparaître_4:1{
+      1-> possible:1
+    }
+    main-> apparaître_4:1
+  }
+}

@@ -1,0 +1,14 @@
+structure Sem S {
+  S:1{
+    oiseau:1{
+      1-> avion:1
+    }
+    avion:1{}
+    Paul:1{}
+    sembler_2:1{
+      1-> Paul:1
+      2-> oiseau:1
+    }
+    main-> sembler_2:1
+  }
+}

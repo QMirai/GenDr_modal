@@ -15,6 +15,7 @@ Magn : très
 admirer { lex=admirer lex=admiration lex=admiratif }
 arrêter { lex=arrêter }
 aimer { lex=aimer lex=plaire}
+avion { lex=avion }
 avoir { lex=avoir }
 chat { lex=chat }
 devoir_rs { lex=avoir_rs lex=devoir_rs lex=nécessaire_rs lex=obligatoire_rs lex=falloir}
@@ -25,6 +26,7 @@ intacte { lex=intacte }
 joli { lex=joli }
 manger { lex=manger}
 moi { lex=moi }
+oiseau { lex=oiseau }
 possible { lex=possible }
 pouvoir { lex=pouvoir lex=possible_rs} 
 PRO { lex=PRO }

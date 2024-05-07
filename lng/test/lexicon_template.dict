@@ -256,8 +256,6 @@ plaire : "plaire"
 
 //french
 "adj_de_v": adjective {
-  gp = { id=NP_COPULA_adj_pour_NP_de_V 		dia=1} // Il est possible pour Paul de voir le chat.
-  gp = { id=Exp_COPULA_adj_que_V 		dia=1} // Il est possible que Paul voie le chat.
   lf = { name = Oper0
          value = être 
   }
@@ -281,8 +279,15 @@ plaire : "plaire"
 //////////////////////////////////////////
 //      NON-VERBAL LEXICAL ENTRIES      //
 //////////////////////////////////////////
+schtroumpf : noun
+schtroumpfant : adjective
+schtroumpfer : "v_dt_DEFAULT"
+
+manger : "v_dt_DEFAULT"
+
 
 à : preposition
+avion : noun
 bras : noun_body
 chat : noun
 de : preposition
@@ -295,8 +300,10 @@ joli : adjective
 main_nb : noun_body
 maire : noun
 moi : pronoun
+oiseau : noun
 par : preposition
 police : noun
+possible : adjective
 pour : preposition
 PRO : noun
 que : conjunction

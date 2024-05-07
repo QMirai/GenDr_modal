@@ -1,0 +1,13 @@
+structure Sem S {
+  S:1{
+    dummy:1{}
+    dummy:2{}
+    dummy:3{}
+    commencer_4:1{
+      1-> dummy:1
+      2-> dummy:2
+      3-> dummy:3
+    }
+    main-> commencer_4:1
+  }
+}
