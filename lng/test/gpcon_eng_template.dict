@@ -1,0 +1,88 @@
+gpcon {
+
+// DEFAULT GP for VERBS
+
+NP_V {
+   I={rel=subj dpos=N}
+}
+
+NP_V_NP {
+   I={rel=subj dpos=N}
+   II={rel=comp_obj dpos=N}
+}
+
+// GPS of NOUN, COORD, CONJ, CONNEC, ADJ, ADV and PREP
+
+N_of_N {
+  I = {rel=noun_completive dpos=N prep=of}
+}
+
+Aposs_N {
+  I = {rel=det dpos=PRO}
+}
+
+N_in_N {
+  I = {rel=noun_completive dpos=N prep=in}
+}
+
+
+COORD {
+  COORD = {}
+  II = { rel = coord_completive }
+}
+
+CONJ {
+  ATTR = { dpos = V }
+  II = { dpos = V rel = conj_completive } 
+}
+
+CONNEC {
+  "---" = {}
+  ATTR={} 
+}
+
+ADJ {
+  ATTR = { dpos=N }
+  ATTR = { dpos=Num }
+}
+
+ADV {
+  ATTR = { dpos=V }
+  ATTR = { dpos=Adv }
+  ATTR = { dpos=Adj }
+}
+
+PREP {
+  ATTR = {}
+  II = { rel = prep_completive }
+}
+ 
+
+///// GOVERNMENT PATTERNS //////
+
+ADJ_N_de : ADJ_N_PREP {
+   I={rel=mod dpos=N }
+   II={rel=ncomp dpos=N prep=de}
+}
+
+ADJ_N_PREP : NP_V_NP {
+   I={rel=mod dpos=N }
+   II={rel=ncomp dpos=N }
+}
+
+ADJ_to_V {
+   I={rel=comp_pred dpos=V prep=to finiteness=INF}
+}
+
+ADJ_that_V {
+   I={rel=comp_pred dpos=V conj=that finiteness=FIN}
+}
+
+COPULA {
+  I={rel=subj dpos=N}
+  II={rel=comp_pred}
+}
+
+///// CONTROL AND RAISING VERBS //////
+
+}
