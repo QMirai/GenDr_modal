@@ -1,0 +1,20 @@
+/*
+	Language : English (ENG)
+	Authors : Yunpeng Qiao, François Lareau
+*/
+
+semanticon {
+
+//For test
+dummy { lex=schtroumpfant lex=schtroumpf lex=schtroumpfer}
+
+// LF
+Caus : cause
+Magn : very
+sleep { lex=sleep }
+il_expl { lex=il_expl }
+beautiful { lex=beautiful }
+eat { lex=eat}
+possible { lex=possible }
+PRO { lex=PRO }
+}
