@@ -1,0 +1,264 @@
+gpcon {
+
+// DEFAULT GP for VERBS
+
+NP_V {
+   I={rel=subj dpos=N}
+}
+
+NP_V_NP {
+   I={rel=subj dpos=N}
+   II={rel=comp_obj dpos=N}
+}
+
+// GPS of NOUN, COORD, CONJ, CONNEC, ADJ, ADV and PREP
+
+N_of_N {
+  I = {rel=noun_completive dpos=N prep=of}
+}
+
+Aposs_N {
+  I = {rel=det dpos=PRO}
+}
+
+N_in_N {
+  I = {rel=noun_completive dpos=N prep=in}
+}
+
+
+COORD {
+  COORD = {}
+  II = { rel = coord_completive }
+}
+
+CONJ {
+  ATTR = { dpos = V }
+  II = { dpos = V rel = conj_completive } 
+}
+
+CONNEC {
+  "---" = {}
+  ATTR={} 
+}
+
+ADJ {
+  ATTR = { dpos=N }
+  ATTR = { dpos=Num }
+}
+
+ADV {
+  ATTR = { dpos=V }
+  ATTR = { dpos=Adv }
+  ATTR = { dpos=Adj }
+}
+
+PREP {
+  ATTR = {}
+  II = { rel = prep_completive }
+}
+ 
+
+///// GOVERNMENT PATTERNS //////
+
+ADJ_N_de : ADJ_N_PREP {
+   I={rel=mod dpos=N }
+   II={rel=ncomp dpos=N prep=de}
+}
+
+ADJ_N_PREP : NP_V_NP {
+   I={rel=mod dpos=N }
+   II={rel=ncomp dpos=N }
+}
+
+ADJ_to_V {
+   I={rel=comp_pred dpos=V prep=to finiteness=INF}
+}
+
+ADJ_that_V {
+   I={rel=comp_pred dpos=V conj=that finiteness=FIN}
+}
+
+COPULA {
+  I={rel=subj dpos=N}
+  II={rel=comp_pred}
+}
+
+///// CONTROL AND RAISING VERBS //////
+
+
+//appear_4 seem_7
+Exp_V_ADJ {
+	I={rel=subj dpos=Exp dlex=it_expl}
+	II={rel=comp_pred dpos=Adj}
+}
+
+//appear_5 seem_6
+Exp_V_that_Vfin {
+	I={rel=subj dpos=Exp dlex=it_expl}
+	II={rel=comp_obj dpos=V finiteness=FIN conj=that}
+}
+
+//seem_3 seem_5
+Exp_V_that_Vfin_to_N {
+	I={rel=subj dpos=Exp dlex=it_expl}
+	II={rel=comp_obj dpos=V finiteness=FIN conj=that}
+	III={rel=comp_obl dpos=N prep=to}
+}
+
+//appear begin continue fail happen remain start stop wind_up
+N_V {
+	I={rel=subj dpos=N}
+}
+
+//appear_2 end_up keep prove remain_2 seem start_3 take
+N_V_ADJ {
+	I={rel=subj dpos=N}
+	II={rel=comp_pred dpos=Adj}
+}
+
+//keep_2 make prefer_2 prove_2 report_2 stain
+N_V_ADJ_N {
+	I={rel=subj dpos=N}
+	II={rel=comp_pred dpos=V raise_from=subj raise_to=comp_obj}
+}
+
+//seem_2
+N_V_ADJ_to_N {
+	I={rel=comp_pred dpos=V raise_from=subj raise_to=subj}
+	II={rel=comp_obl dpos=N prep=to}
+}
+
+//prise
+N_V_ADV_N {
+	I={rel=subj dpos=N}
+	II={rel=comp_pred dpos=Adv}
+	III={rel=comp_obj dpos=N}
+}
+
+//begin_2 continue_2 remain_3 seem_4 start_2 stop_2
+N_V_N {
+	I={rel=subj dpos=N}
+	II={rel=comp_obj dpos=N}
+}
+
+//take_3
+N_V_N_N {
+	I={rel=subj dpos=N}
+	II={rel=comp_pred dpos=N}
+	III={rel=comp_obj dpos=N}
+}
+
+//catch leave want
+N_V_N_Vger {
+	I={rel=subj dpos=N}
+	II={rel=comp_obj dpos=N}
+	III={rel=comp_obl dpos=V finiteness=GER}
+}
+
+//help let make_2
+N_V_N_Vinf {
+	I={rel=subj dpos=N}
+	II={rel=comp_obj dpos=N}
+	III={rel=comp_obl dpos=V finiteness=INF}
+}
+
+//warn_2
+N_V_N_against_Vger {
+	I={rel=subj dpos=N}
+	II={rel=comp_obj dpos=N}
+	III={rel=comp_obl dpos=V finiteness=GER prep=against}
+}
+
+//prod push
+N_V_N_into_Vger {
+	I={rel=subj dpos=N}
+	II={rel=comp_obj dpos=N}
+	III={rel=comp_obl dpos=V finiteness=GER prep=into}
+}
+
+//seem_5
+N_V_N_to_N {
+	I={rel=comp_pred dpos=V raise_from=subj raise_to=subj}
+	II={rel=comp_obl dpos=N prep=to}
+}
+
+//admonish allow ask authorize bribe caution choose commission compel convince direct dispatch empower enable encourage entice expect force help hire impel induce influence inspire invite lead leave license like move need order permit pledge prefer press prod program prompt push report require sensitize slate spur strive take_occasion_to teach tell trust urge want warn wish
+N_V_N_to_Vinf {
+	I={rel=subj dpos=N}
+	II={rel=comp_obj dpos=N}
+	III={rel=comp_obl dpos=V finiteness=INF prep=to}
+}
+
+//figure
+N_V_Vfin {
+	I={rel=subj dpos=N}
+	II={rel=comp_obj dpos=V finiteness=FIN conj=that}
+}
+
+//admit allow avoid bother delay deny end_up_2 enjoy like love mean mind miss prefer propose quit require risk stand try
+N_V_Vger {
+	I={rel=subj dpos=N}
+	II={rel=comp_obj dpos=V finiteness=GER}
+}
+
+//help let need prepare
+N_V_Vinf {
+	I={rel=subj dpos=N}
+	II={rel=comp_obj dpos=V finiteness=INF}
+}
+
+//warn_2
+N_V_against_Vger {
+	I={rel=subj dpos=N}
+	II={rel=comp_obl dpos=V finiteness=GER prep=against}
+}
+
+//take_2
+N_V_for_ADJ_N {
+	I={rel=subj dpos=N}
+	II={rel=comp_pred dpos=Adj}
+	III={rel=comp_obj dpos=N}
+}
+
+//admit afford agree aim allow apply arrange ask attempt bother care choose claim come compel conspire decide decline deserve determine elect expect flock forget get_to go_to guarantee hate have_to help hesitate hope intend know learn leave like look love manage mean motivate need negotiate oblige offer opt plan pledge plot prefer prepare proceed profess promise prompt propose refuse require resolve rush schedule scramble seek select set_out sound strive struggle suffice swear threaten try undertake use_to venture vote vow wait want wish
+N_V_to_Vinf {
+	I={rel=subj dpos=N}
+	II={rel=comp_obl dpos=V finiteness=INF prep=to}
+}
+
+//sign
+N_V_to_Vinf_for_N {
+	I={rel=subj dpos=N}
+	II={rel=comp_obl dpos=V finiteness=INF prep=to}
+	III={rel=comp_obl dpos=N prep=for}
+}
+
+//sign
+N_V_to_Vinf_to_N {
+	I={rel=subj dpos=N}
+	II={rel=comp_obl dpos=V finiteness=INF prep=to}
+	III={rel=comp_obl dpos=N prep=to}
+}
+
+//stop_5
+N_Vrs_N_Vger {
+	I={rel=comp_obj dpos=V raise_from=subj raise_to=subj}
+}
+
+//begin_3 continue_3 keep_3 start_4 stop_4
+N_Vrs_Vger {
+	I={rel=comp_obj dpos=V finiteness=GER raise_from=subj raise_to=subj}
+}
+
+//seem_3
+N_Vrs_Vinf_to_N {
+	I={rel=comp_obj dpos=V finiteness=INF raise_from=subj raise_to=subj}
+	II={rel=comp_obl dpos=N prep=to}
+}
+
+//appear_3 begin_3 continue_3 fail_2 ought prove_3 remain_4 seem_6 start_4 stop_3 tend
+N_Vrs_to_Vinf {
+	I={rel=comp_obl dpos=V finiteness=INF prep=to raise_from=subj raise_to=subj}
+}
+
+}

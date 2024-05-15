@@ -1,0 +1,586 @@
+/*
+Language : French (FRE)
+Contents : Lexemes
+Authors  : Yunpeng Qiao, François Lareau
+Encoding : UTF-8
+*/
+
+lexicon {
+
+META {
+  lng = {
+    name = French
+    iso = FRE
+  }
+  defaults = {
+    N = {
+      definiteness = DEF
+      number = SG
+    }
+    V = {
+      mood = IND
+      tense = PRES
+      finiteness = INF
+    }
+ }
+}
+
+/*
+=======================================================
+                  DEFAULT ATTRIBUTES
+=======================================================
+*/
+
+// ================= VERBS =================
+
+// VERB
+// ----
+
+verb {
+  dpos = V
+  spos = verb
+}
+
+// ================= NOUNS =================
+
+// NOUN
+// ----
+// Common nouns.
+// By default, they don't have DSyntActs.
+
+noun {
+  dpos = N
+  spos = noun
+  countable = yes
+  gp = { id=NONE dia=0}
+}
+
+noun_of : noun {
+  gp = { id=N_de_N dia=1 }
+//  gp = { id=Aposs_N dia=1 }
+}
+
+noun_in : noun {
+  gp = { id=N_in_N dia=1 }
+}
+
+noun_body : noun {
+  dpos = N_body
+  gp = { id=N_body_N_person dia=1 }
+}
+
+
+// UNIT
+// ----
+// This is only for measurement units expressed as symbols.
+// For example, "µg/m3", "l", "km", etc.
+
+unit : noun {
+  dpos = N
+  spos = unit
+  invariant = yes
+}
+
+// NUMBER
+// ------
+// For digital representation of numbers
+
+number {
+  dpos = Num
+  spos = number
+  invariant = yes
+}
+
+// AMOUNT
+// ------
+// Quantified units.
+// e.g.: $500, 30m, 1.4µg, etc.
+
+amount : unit {
+  definiteness = NO
+//  dpos = Num
+}
+
+// HOUR
+// -----
+// Used for the name of hours.
+
+hour : proper_noun {
+  dpos = hour
+  spos = hour
+  lf = { name = Locin
+         value = at }
+  invariant = yes
+}
+
+// MASS_NOUN
+// ---------
+// Not a part of speech.
+// Used to mark common nouns that are not countable.
+
+mass_noun : noun {
+  massive = yes
+  invariant = yes
+  countable = no
+  number=SG
+}
+
+// PROPER_NOUN
+// -----------
+// Proper nouns never have actants, but this is not expressed here.
+// They are never countable.
+
+proper_noun : noun {
+  spos = proper_noun
+   lf = { name=Locab value=from }
+  countable = no
+  invariant = yes
+}
+
+// ACRONYM 
+// --------
+// Acronyms are proper nouns but they can take determiners
+// so we give them a different spos.
+
+acronym : proper_noun {
+ spos = acronym
+}
+
+//PLACE
+// ----
+// Class for places
+
+place : proper_noun {
+  spos=proper_noun
+  lf = { name=Locad value=to }
+  lf = { name=Locab value=from }
+  lf = { name=Locin value=in }
+}
+
+// PRONOUN
+// -------
+
+pronoun : noun {
+  spos = pronoun
+}
+
+//PERSONAL PRONOUN
+personal_pronoun : pronoun {
+ spos = personal_pronoun
+ lf = { name=locad value=at }
+ lf = { name=locad value=to }
+}
+
+// ================= ADJECTIVES =================
+
+adjective_without_Oper1 {
+  gp = { id=ADJ dia=1 }
+  dpos = Adj
+  spos = adjective
+}
+
+adjective: adjective_without_Oper1 { //Yunpeng added
+  lf = { name = Oper1
+         value = être }
+}
+
+determiner : adjective_without_Oper1 {
+  spos = determiner
+}
+
+possessive : adjective_without_Oper1 {
+  dpos = Aposs
+  spos = possessive
+}
+
+numeral : adjective_without_Oper1 {
+  spos = numeral
+}
+
+// ================= ADVERBS =================
+
+adverb {
+  gp = { id=ADV dia=1 }
+  dpos = Adv
+  spos = adverb
+  invariant = yes
+}
+
+preposition : adverb {
+  spos = preposition
+  gp = { id=PREP dia=123 }
+}
+
+conjunction : adverb {
+  spos = conjunction
+  gp = { id=CONJ dia=12 }
+}
+
+connector : adverb {
+  spos = connector
+  gp = { id=CONNEC dia=12 }
+}
+
+negation : adverb {
+  spos = negation
+}
+
+coordination : adverb {
+  spos = coordination
+  gp = { id=COORD dia=12 }
+}
+
+quote : noun { 
+spos = quote
+}
+// =======================================================
+//               COMMON VERBS
+// =======================================================
+
+
+// french-------------------------------------------------
+admirer : "v_dt_DEFAULT"
+donner : "v_3_DEFAULT"
+dormir : "v_it_DEFAULT"
+être : "être"
+exagérer : "v_it_DEFAULT"
+lire : "v_dt_DEFAULT"
+plaire : "plaire"
+
+
+/*
+=======================================================
+                   PREDICATE CLASSES
+=======================================================
+*/
+
+//french
+"adj_de_v": adjective {
+  lf = { name = Oper0
+         value = être 
+  }
+}
+
+"v_dt_DEFAULT": verb {
+  gp = { id=NP_V_NP		dia=12} // Paul voit Marie.
+}
+
+"v_it_DEFAULT": verb {
+  gp = { id=NP_V		dia=1} // Paul dort.
+}
+
+"être": verb {
+  spos = copula
+  gp = { id=COPULA		dia=12} // La ville est jolie.
+}
+
+///// CONTROL AND RAISING VERBS //////
+
+accepter : "accepter"
+accuser : "accuser"
+adorer : "adorer"
+aider : "aider"
+aimer : "adorer"
+aller : "aller"
+amener : "amener"
+apparaître : "apparaître"
+apparaître_2 : "apparaître_2"
+apparaître_3 : "apparaître_3"
+apparaître_4 : "apparaître_4"
+apparaître_5 : "apparaître_5"
+appeler : "aider"
+apprendre : "apprendre"
+apprendre_2 : "apprendre_2"
+arrêter : "apparaître"
+arrêter_2 : "arrêter_2"
+arrêter_3 : "arrêter_3"
+autoriser : "amener"
+avertir : "accuser"
+avoir_à : "avoir_à"
+chercher : "apprendre_2"
+choisir : "accepter"
+commencer : "apparaître"
+commencer_2 : "avoir_à"
+commencer_3 : "arrêter_3"
+commencer_4 : "commencer_4"
+commencer_5 : "commencer_5"
+comploter : "accepter"
+conduire : "amener"
+conserver : "conserver"
+conspirer : "apprendre_2"
+continuer : "apparaître"
+continuer_2 : "continuer_2"
+continuer_3 : "arrêter_3"
+contraindre : "contraindre"
+contribuer : "apprendre_2"
+convaincre : "accuser"
+demander : "demander"
+demander_2 : "apprendre_2"
+devoir : "aller"
+décider : "accepter"
+déclarer : "conserver"
+déterminer : "amener"
+détester : "adorer"
+encourager : "amener"
+engager : "amener"
+entendre : "entendre"
+entreprendre : "accepter"
+envoyer : "adorer"
+espérer : "adorer"
+essayer : "accepter"
+exiger : "accepter"
+finir : "apparaître"
+finir_2 : "arrêter_2"
+finir_3 : "commencer_5"
+finir_4 : "arrêter_3"
+forcer : "amener"
+garder : "conserver"
+hésiter : "apprendre_2"
+imaginer : "accepter"
+inciter : "aider"
+inviter : "amener"
+jurer : "accepter"
+laisser : "entendre"
+menacer : "accepter"
+mériter : "accepter"
+nier : "adorer"
+obliger : "amener"
+ordonner : "ordonner"
+oser : "adorer"
+oublier : "accepter"
+paraître : "apparaître_2"
+paraître_2 : "paraître_2"
+paraître_3 : "paraître_3"
+paraître_4 : "arrêter_3"
+paraître_5 : "paraître_5"
+paraître_6 : "paraître_6"
+paraître_7 : "apparaître_4"
+partir : "adorer"
+parvenir : "apprendre_2"
+permettre : "permettre"
+pouvoir : "aller"
+presser : "accuser"
+prier : "accuser"
+promettre : "permettre"
+proposer : "permettre"
+prouver : "conserver"
+préférer : "adorer"
+prétendre : "adorer"
+prévoir : "adorer"
+refuser : "accepter"
+regarder : "entendre"
+rendre : "conserver"
+risquer : "accepter"
+résoudre : "accepter"
+savoir : "adorer"
+se_accorder : "apprendre_2"
+se_assurer : "accepter"
+se_contenter : "accepter"
+se_dépêcher : "accepter"
+se_efforcer : "accepter"
+se_limiter : "apprendre_2"
+se_plaire : "amener"
+se_préparer : "apprendre_2"
+se_rappeler : "accepter"
+se_résigner : "apprendre_2"
+se_soucier : "accepter"
+sembler : "apparaître_2"
+sembler_2 : "paraître_2"
+sembler_3 : "paraître_3"
+sembler_4 : "arrêter_3"
+sembler_5 : "paraître_5"
+sembler_6 : "paraître_6"
+sembler_7 : "apparaître_4"
+souhaiter : "adorer"
+suffire : "apprendre_2"
+suffire_2 : "accepter"
+tarder : "apprendre_2"
+tenir : "apprendre_2"
+tenter : "apprendre_2"
+trouver : "apparaître_2"
+trouver_2 : "conserver"
+venir_de : "arrêter_2"
+viser : "apprendre_2"
+voir : "entendre"
+vouloir : "adorer"
+échouer : "apparaître"
+échouer_2 : "avoir_à"
+échouer_3 : "échouer_3"
+éviter : "accepter"
+"accepter": verb {
+	gp = { id=N_V_de_Vinf		dia=12}
+}
+
+"accuser": verb {
+	gp = { id=N_V_N_de_Vinf		dia=123}
+}
+
+"adorer": verb {
+	gp = { id=N_V_Vinf		dia=12}
+}
+
+"aider": verb {
+	gp = { id=N_V_N_à_Vinf		dia=123}
+	gp = { id=N_V_à_Vinf		dia=13}
+}
+
+"aller": verb {
+	gp = { id=N_Vrs_Vinf		dia=1}
+}
+
+"amener": verb {
+	gp = { id=N_V_N_à_Vinf		dia=123}
+}
+
+"apparaître": verb {
+	gp = { id=N_V		dia=1}
+}
+
+"apparaître_2": verb {
+	gp = { id=N_V_ADJ		dia=12}
+}
+
+"apparaître_3": verb {
+	gp = { id=N_V_à_N		dia=12}
+}
+
+"apparaître_4": verb {
+	gp = { id=Exp_V_ADJ		dia=X1}
+}
+
+"apparaître_5": verb {
+	gp = { id=Exp_V_que_Vfin		dia=X1}
+}
+
+"apprendre": verb {
+	gp = { id=N_V_à_N_à_Vinf		dia=123}
+}
+
+"apprendre_2": verb {
+	gp = { id=N_V_à_Vinf		dia=12}
+}
+
+"arrêter_2": verb {
+	gp = { id=N_Vrs_de_Vinf		dia=1}
+}
+
+"arrêter_3": verb {
+	gp = { id=N_V_N		dia=12}
+}
+
+"avoir_à": verb {
+	gp = { id=N_Vrs_à_Vinf		dia=1}
+}
+
+"commencer_4": verb {
+	gp = { id=N_V_N_avec_N		dia=123}
+	gp = { id=N_V_N_par_N		dia=123}
+	gp = { id=N_V_par_N		dia=13}
+}
+
+"commencer_5": verb {
+	gp = { id=N_Vrs_par_Vinf		dia=1}
+}
+
+"conserver": verb {
+	gp = { id=N_V_ADJ_N		dia=12}
+}
+
+"continuer_2": verb {
+	gp = { id=N_Vrs_de_Vinf		dia=1}
+	gp = { id=N_Vrs_à_Vinf		dia=1}
+}
+
+"contraindre": verb {
+	gp = { id=N_V_N_de_Vinf		dia=123}
+	gp = { id=N_V_N_à_Vinf		dia=123}
+}
+
+"demander": verb {
+	gp = { id=N_V_de_Vinf		dia=12}
+	gp = { id=N_V_de_Vinf_à_N		dia=123}
+	gp = { id=N_V_de_Vinf_à_N_par_N		dia=1234}
+}
+
+"entendre": verb {
+	gp = { id=N_V_N_Vinf		dia=123}
+	gp = { id=N_V_Vinf		dia=12}
+}
+
+"ordonner": verb {
+	gp = { id=N_V_de_Vinf_à_N		dia=123}
+}
+
+"paraître_2": verb {
+	gp = { id=N_V_ADJ_à_N		dia=12}
+}
+
+"paraître_3": verb {
+	gp = { id=Exp_V_que_Vfin_à_N		dia=X12}
+	gp = { id=N_Vrs_Vinf_à_N		dia=12}
+}
+
+"paraître_5": verb {
+	gp = { id=Exp_V_que_Vfin_à_N		dia=X12}
+	gp = { id=N_V_N_à_N		dia=12}
+}
+
+"paraître_6": verb {
+	gp = { id=Exp_V_que_Vsub		dia=X1}
+	gp = { id=N_Vrs_Vinf		dia=1}
+}
+
+"permettre": verb {
+	gp = { id=N_V_de_Vinf		dia=12}
+	gp = { id=N_V_de_Vinf_à_N		dia=123}
+}
+
+"échouer_3": verb {
+	gp = { id=N_V_sur_N		dia=12}
+}
+
+//////////////////////////////////////////
+//      NON-VERBAL LEXICAL ENTRIES      //
+//////////////////////////////////////////
+schtroumpf : noun
+schtroumpfant : adjective
+schtroumpfer : "v_dt_DEFAULT"
+
+manger : "v_dt_DEFAULT"
+
+
+à : preposition
+avec : preposition
+avion : noun
+bras : noun_body
+chat : noun
+de : preposition
+livre : noun
+le : determiner
+il_expl : pronoun
+intacte : adjective
+information : pronoun
+joli : adjective
+main_nb : noun_body
+maire : noun
+moi : pronoun
+oiseau : noun
+par : preposition
+police : noun
+possible : "possible"
+"possible": adjective {
+	gp = {id=ADJ_de_V		dia=1}
+	gp = {id=ADJ_que_V		dia=1}
+}
+pour : preposition
+PRO : noun
+que : conjunction
+recteur : noun
+repris : adjective
+session : noun
+sur : preposition
+ville : noun
+voleur : noun
+voisin : noun_of
+
+}
