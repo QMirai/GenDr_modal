@@ -1,0 +1,15 @@
+structure Sem S {
+  S:1{
+    Paul:1{}
+    Tom:1{}
+    sleep:1{
+      1-> Tom:1
+    }
+    catch:1{
+      1-> Paul:1
+			2-> Tom:1
+      3-> sleep:1
+    }
+    main-> catch:1
+  }
+}

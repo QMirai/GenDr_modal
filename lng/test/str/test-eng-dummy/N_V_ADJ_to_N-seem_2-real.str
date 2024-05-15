@@ -1,0 +1,15 @@
+structure Sem S {
+  S:0{
+    sem=S
+    Paul:1{}
+    beautiful:2{
+		  1-> city:3
+		}
+    seem_2:1{
+      1-> beautiful:2
+      2-> Paul:1
+    }
+    city:3{}
+    main-> seem_2:1
+  }
+}

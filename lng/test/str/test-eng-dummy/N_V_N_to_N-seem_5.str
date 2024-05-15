@@ -1,0 +1,16 @@
+structure Sem S {
+  S:1{
+    be:1{
+      1-> dummy:1
+      2-> dummy:2
+    }
+    dummy:1{}
+    dummy:2{}
+    seem_5:1{
+      1-> be:1
+      2-> dummy:3
+    }
+    dummy:3{}
+    main-> seem_5:1
+  }
+}

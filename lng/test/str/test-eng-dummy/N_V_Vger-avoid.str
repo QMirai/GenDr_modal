@@ -1,0 +1,15 @@
+structure Sem S {
+  S:1{
+    dummy:1{}
+    dummy:2{}
+    avoid:1{
+      1-> dummy:1
+      2-> dummy:3
+    }
+    dummy:3{
+      1-> dummy:1
+      2-> dummy:2
+    }
+    main-> avoid:1
+  }
+}

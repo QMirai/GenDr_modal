@@ -1,0 +1,9 @@
+structure Sem S {
+  S:1{
+    dummy:1{}
+    appear:1{
+      1-> dummy:1
+    }
+    main-> appear:1
+  }
+}
