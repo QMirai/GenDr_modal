@@ -1,7 +1,7 @@
 structure Sem S {
   S:1{
     dummy:1{}
-    trouver:1{
+    trouver_1:1{
       1-> dummy:1
       2-> dummy:2
     }
@@ -9,10 +9,11 @@ structure Sem S {
       1-> dummy:3
     }
     dummy:3{
-      1-> dummy:1
+      1-> dummy:5
       2-> dummy:4
     }
     dummy:4{}
-    main-> trouver:1
+		dummy:5{<->dummy:1}
+    main-> trouver_1:1
   }
 }

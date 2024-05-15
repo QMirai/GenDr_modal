@@ -1,0 +1,16 @@
+structure Sem S {
+  S:1{
+    être:1{
+      1-> dummy:2
+      2-> dummy:3
+    }
+    dummy:2{}
+    paraître_5:1{
+		  1-> être:1
+      2-> dummy:4
+    }
+    dummy:3{}
+    dummy:4{}
+		main-> paraître_5:1
+  }
+}

@@ -8,7 +8,7 @@ structure Sem S {
     dummy:3{}
     chercher:1{
       1-> dummy:1
-      3-> dummy:2
+      2-> dummy:2
     }
     main-> chercher:1
   }

@@ -1,0 +1,17 @@
+structure Sem S {
+  S:0{
+    possible:1{
+      1-> dummy:2
+    }
+    dummy:2{
+      1-> dummy:3
+      2-> dummy:4
+    }
+    dummy:3{}
+    dummy:4{}
+    apparaître_4:5{
+      1-> possible:1
+    }
+    main-> apparaître_4:5
+  }
+}

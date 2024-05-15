@@ -1,0 +1,17 @@
+structure Sem S {
+  S:0{
+    sem=S
+    être:1{
+      1-> oiseau:2
+      2-> avion:3
+    }
+    oiseau:2{}
+    avion:3{}
+    Paul:4{}
+    paraître_5:5{
+      1-> être:1
+      2-> Paul:4
+    }
+    main-> paraître_5:5
+  }
+}

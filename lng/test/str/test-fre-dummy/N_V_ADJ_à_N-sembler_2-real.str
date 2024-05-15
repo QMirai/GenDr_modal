@@ -1,0 +1,15 @@
+structure Sem S {
+  S:0{
+    sem=S
+    Paul:1{}
+    joli:2{
+		  1-> ville:3
+		}
+    sembler_2:1{
+      1-> joli:2
+      2-> Paul:1
+    }
+    ville:3{}
+    main-> sembler_2:1
+  }
+}
