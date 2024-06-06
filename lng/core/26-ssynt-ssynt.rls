@@ -88,7 +88,7 @@ SSynt<=>SSynt synt_raising : rule
   conditions = [
 ?Xl.raise_to;          // a raising relation is necessary  another : ?GP.raise_to; 
 ?Yl.raise_from=?j;
-not ?Xl.insert;
+//not ?Xl.insert;
 //?Xr.filtered=OK;
 //?GP.rel=comp_pred or gpcon::(?Yl.gpid).(I).(rel)=mod;      // This rule only handles subjects
 //?Xr.finiteness=FIN;     // Only finite verbs have a subject
@@ -148,7 +148,7 @@ rc:?Xr{
 Only finite verbs have a subject.
 The subject migrates on the top auxiliary, if any.
 We use the GP of the deep lexeme.*/
-SSynt<=>SSynt synt_raising_conj : rule
+SSynt<=>SSynt disabled synt_raising_conj : rule
 [
   leftside = [
 ?Xl{
@@ -184,7 +184,7 @@ rc:?Xr{
 Only finite verbs have a subject.
 The subject migrates on the top auxiliary, if any.
 We use the GP of the deep lexeme.*/
-SSynt<=>SSynt synt_raising_prep : rule
+SSynt<=>SSynt disabled synt_raising_prep : rule
 [
   leftside = [
 ?Xl{
@@ -255,20 +255,10 @@ SSynt<=>SSynt synt_reconnection : rule
     l:?j-> ?Zl{}
   }
 }
-//?rel_num <- gpcon::(?Xl.gpid).(?i)
-//?GP <- gpcon::(?Xl.gpid).(?rel_num)
   ]
   conditions = [
-?i=comp_pred and ?j=comp_pred;
+?j=comp_pred;
 ?Yl.raise_from=subj and ?Yl.spos=copula; // see rule node
-//?Yl.raise_from=subjective and ?Yl.spos=copula; // see rule node
-//?GP.raise_to;          // a raising relation is necessary
-//?GP.rel=comp_pred or gpcon::(?Yl.gpid).(I).(rel)=mod;      // This rule only handles subjects
-//?Xr.finiteness=FIN;     // Only finite verbs have a subject
-//not ?GP.prep;
-//not ?Xr.split=bottom;   // ?Xr is not the bottom part of a split node
-//not ?Xr.auxdep;         // Attach on the top Aux
-//?Xr.ssynt=OK;           // Wait for full lexicalization
   ]
   rightside = [
 rc:?Xr{
