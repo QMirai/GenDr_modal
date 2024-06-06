@@ -678,7 +678,7 @@ rc:?Xr{
   gpid=?GP.id
   dia=dia+?GP.dia
   dsynt=gp_selected
-  Vsupport=lexicon::(?Xr.dlex).(lf).(value)
+  //Vsupport=lexicon::(?Xr.dlex).(lf).(value)
 }
   ]
   correspondence = [
@@ -1114,7 +1114,6 @@ rc:?Zr { rc:<=> ?Xl				// LF
   dlex=?F.value
   dsynt=OK
   gpid=lexicon::(?F.value).(gp).(id)            // YP: necessary to make actant rules of 2nd tranistion run
-  //it was gpid=lexicon::(?F.value).(gp).(id)
   lf=?F.name
   base=?L
   lf::(?F.name).(gp).(L)-> ?Xr{ <=> ?Xl		// base
@@ -1124,9 +1123,9 @@ rc:?Zr { rc:<=> ?Xl				// LF
        dsynt=lexicalized
   }
   lf::(?F.name).(gp).(?r)-> ?Yr { <=> ?Yl	// rth actant
-       dsynt=created                            // YP: new, for the application of constraints_gp rules, then lex rules
+//       dsynt=created                        // YP: new, for the application of constraints_gp rules, then lex rules
+       dsynt=constrained                        // YP: new, for the application of constraints_gp rules, then lex rules
        dpos=lexicon::(?F.value).(gp).(lf::(?F.name).(gp).(?r)).(dpos)
-       finiteness=?Zr.finiteness     
   }
 }
   ]
