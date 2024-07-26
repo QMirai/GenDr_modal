@@ -1123,8 +1123,8 @@ rc:?Zr { rc:<=> ?Xl				// LF
        dsynt=lexicalized
   }
   lf::(?F.name).(gp).(?r)-> ?Yr { <=> ?Yl	// rth actant
-//       dsynt=created                        // YP: new, for the application of constraints_gp rules, then lex rules
-       dsynt=constrained                        // YP: new, for the application of constraints_gp rules, then lex rules
+       dsynt=created                        // YP: new, for the application of constraints_gp rules, then lex rules
+//       dsynt=constrained                        // YP: new, for the application of constraints_gp rules, then lex rules
        dpos=lexicon::(?F.value).(gp).(lf::(?F.name).(gp).(?r)).(dpos)
   }
 }

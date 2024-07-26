@@ -1,0 +1,119 @@
+
+DSynt<=>DSyntFL abstract core : rule
+[
+  leftside = [
+
+  ]
+  conditions = [
+
+  ]
+  rightside = [
+
+  ]
+  correspondence = [
+
+  ]
+]
+/*Ce serait une mauvaise méthode d'implémenter la fl dans la 2e transition, car elle entraînent l'accumulation de beaucoup de splits dans cette étape, comme admirer doit spilter
+en avoir, admiration, de, et possiblement que en cas de proposition. Donc, la 1e transition devient peu chargée, tandis que la 2e est trop chargée. C'est mieux de répartir les
+tâches en deux transitions.*/
+DSynt<=>DSyntFL Vsupport_i : core
+[
+  leftside = [
+?Xl{  		// base
+  l:?R-> ?Yl {}		// rth actant
+}
+?r <- lf::(decode).(?R)
+?F <- lexicon::(?Xl.dlex).(lf)
+  ]
+  conditions = [
+?F.name="Oper"+?r or ?F.name="Func"+?r or ?F.name="Labor"+?r; // matches the sem node with the name of LF
+//YP: ----------------------------------
+//?Zr.dpos=V or (not ?Zr.dpos);		// ?Zr must be a verb // replaced by below, because Zr.dpos is initially Xl.dpos (Adj).
+                                        // This is different from the 1st transition in which Zr.dpos is initially empty.
+lexicon::(?F.value).(dpos)=V or (not lexicon::(?F.value).(dpos));
+//not ?Xl.split=no;                       // a split=yes feature is necessary to split. It is written in gpcon, then the word that needs to be splited is constrained with this feature.
+//not gpcon::(lexicon::(?F.value).(gp).(id)).(lf::(?F.name).(gp).(L)).(rel).(prep);
+not ?Xl.raising=yes;
+//?Xr.ssynt=lexicalized;
+  ]
+  rightside = [
+?Zr { <=> ?Xl				// LF
+  split=top
+  gpid=lexicon::(?F.value).(gp).(id) 
+  clause=?Xl.clause
+  dia=lexicon::(?F.value).(gp).(dia) 
+  dpos=lexicon::(?F.value).(dpos)
+  dlex=?F.value
+  dsynt=OK
+  finiteness=?Xl.finiteness
+  lf=?F.name
+  base=?Xl.dlex
+  lf::(?F.name).(gp).(L) -> rc:?Xr{ <=> rc:?Xl		// base
+       split=bottom
+       definiteness=DEF
+       dpos=?Xl.dpos
+       dlex=?Xl.dlex
+       dsynt=OK
+       gpid=?Xl.gpid
+  }
+  lf::(?F.name).(gp).(?r)-> rc:?Yr{ <=> rc:?Yl	// rth actant
+       dsynt=OK
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>DSyntFL node : core
+[
+  leftside = [
+?Xl
+  ]
+  conditions = [
+//not ?Xl.Vsupport;
+  ]
+  rightside = [
+?Xr {
+  <=> ?Xl
+  gpid=?Xl.gpid
+  Vsupport=?Xl.Vsupport
+  dsynt=?Xl.dsynt
+  dpos=?Xl.dpos
+  clause=?Xl.clause
+  finiteness=?Xl.finiteness
+  definiteness=?Xl.definiteness
+  dia=?Xl.dia
+  dlex=?Xl.dlex
+  class=?Xl.class
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*?F <- lexicon::(?Xl.dlex).(lf)
+?F.name="Oper"+?r or ?F.name="Func"+?r or ?F.name="Labor"+?r;*/
+DSynt<=>DSyntFL relation : core
+[
+  leftside = [
+?Xl {
+  l:?r-> ?Yl
+}
+//?F <- lexicon::(?Xl.dlex).(lf)
+  ]
+  conditions = [
+not (?Xl.Vsupport and ?r=I);
+  ]
+  rightside = [
+rc:?Xr {
+  rc:<=> ?Xl
+  //class = ?Xl.class
+  ?r-> rc:?Yr {rc:<=> ?Yl}
+}
+  ]
+  correspondence = [
+
+  ]
+]

@@ -220,7 +220,7 @@ rc:?Xr{
 Only finite verbs have a subject.
 The subject migrates on the top auxiliary, if any.
 We use the GP of the deep lexeme.*/
-SSynt<=>SSynt synt_raising_with_prep : rule
+SSynt<=>SSynt synt_raising_with_sandwich : rule
 [
   leftside = [
 ?Xl{

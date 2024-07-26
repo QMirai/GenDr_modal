@@ -1,0 +1,629 @@
+
+/*3 configurations for "split" attribute (X and Y correspond to the same LS node):
+(1) Determines: RS: ?X-det-> ?Y{split=bottom}
+(2) Governed Preps: RS: ?X{split=top}-prepos-> ?Y{split=root}
+(3) Polylex Units: RS: ?X{split=top}-?r-> ?Y{split=bottom}
+
+=>
+- if a node contains split=bottom, this node cannot govern or receive any relation.*/
+DSynt<=>SSynt abstract core : rule
+[
+  leftside = [
+
+  ]
+  conditions = [
+
+  ]
+  rightside = [
+
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt abstract lng : rule
+[
+  leftside = [
+
+  ]
+  conditions = [
+
+  ]
+  rightside = [
+
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt abstract quantification : rule
+[
+  leftside = [
+
+  ]
+  conditions = [
+
+  ]
+  rightside = [
+
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt filter : core
+[
+  leftside = [
+?Xl{}
+  ]
+  conditions = [
+?Xl.dsynt and not ?Xl.dsynt=OK;
+  ]
+  rightside = [
+rc:?Xr {
+  rc:<=> ?Xl
+  ssynt=REJECT
+}
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt lex_class : core
+[
+  leftside = [
+?Xl{}
+  ]
+  conditions = [
+?Xl.class;
+not lexicon::(?Xl.dlex).dpos; // exclude words that have an entry in the lexicon
+  ]
+  rightside = [
+?Xr{
+  <=> ?Xl
+  slex=?Xl.dlex
+  spos=lexicon::(?Xl.class).spos
+  ssynt=OK
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*If the noun has no other dependent than the determiner.*/
+DSynt<=>SSynt lex_det : core
+[
+  leftside = [
+?Xl{}
+?L <- semanticon::(?Xl.definiteness).lex
+  ]
+  conditions = [
+?Xl.definiteness;
+lexicon::(?Xr.slex).spos=noun;
+not lexicon::(?Xr.slex).spos=possessive;
+not lexicon::(?Xr.slex).spos=proper_noun;
+not lexicon::(?Xr.slex).spos=place;
+not ?Xr det-> ?N;
+not ?Xr quant-> ?N;
+  ]
+  rightside = [
+rc:?Xr{ rc:<=> ?Xl
+  det-> ?Yr{
+    slex=?L
+    dpos=lexicon::(?L).dpos
+    spos=lexicon::(?L).spos
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt abstract lex_idiom : core
+[
+  leftside = [
+
+  ]
+  conditions = [
+
+  ]
+  rightside = [
+
+  ]
+  correspondence = [
+
+  ]
+]
+/*Simple lexicalization*/
+DSynt<=>SSynt lex_lu : core
+[
+  leftside = [
+l:?Xl
+  ]
+  conditions = [
+not lf::(?Xl.dlex).dpos;  // ?Xl is not a syntagmatic LF (all LFs have a dpos in "lf")
+lexicon::(?Xl.dlex).dpos; // This lexical unit is in the lexicon
+not lexicon::(?Xl.dlex).idiom;
+  ]
+  rightside = [
+?Xr {
+  <=> ?Xl
+  slex=?Xl.dlex
+  dlex=?Xl.dlex
+  dpos=lexicon::(?Xl.dlex).dpos
+  spos=lexicon::(?Xl.dlex).spos
+  gp=?Xl.gp
+  ssynt=OK
+}
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt synt_APPEND_name : core
+[
+  leftside = [
+?Xl{
+  l:APPEND-> ?Yl{}
+}
+  ]
+  conditions = [
+?Yr.spos=proper_noun;
+  ]
+  rightside = [
+rc:?Xr{ rc:<=> ?Xl
+  name-> rc:?Yr{ rc:<=> ?Yl }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt synt_ATTR : core
+[
+  leftside = [
+?Xl{
+  l:ATTR-> ?Yl{}
+}
+  ]
+  conditions = [
+//not ?Xr.split=bottom;
+//not ?Xr.spos=auxiliary;
+//not ?Yr.spos=determiner;
+not ?Yr.spos=number;
+// FIXME: constrain dpos combinations: V-->Adv, N-->Adj, etc.,
+//(?Xr.dpos=N and ?Yr.dpos=Adj) or ((not ?Xr.dpos=N) and ?Yr.dpos=Adv);
+// This doesn't always work.
+  ]
+  rightside = [
+rc:?Xr{ rc:<=> ?Xl
+  modif-> rc:?Yr{ rc:<=> ?Yl }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt synt_COORD : core
+[
+  leftside = [
+?Xl{
+  l:COORD-> ?Yl
+}
+  ]
+  conditions = [
+
+  ]
+  rightside = [
+rc:?Xr{ rc:<=> ?Xl
+  coordinative-> rc:?Yr{ rc:<=> ?Yl }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Check*/
+DSynt<=>SSynt synt_actant_dir : core
+[
+  leftside = [
+?Xl{
+  l:?r-> ?Yl{}
+}
+?D <- gpcon::(?Xl.gpid).(?r)
+  ]
+  conditions = [
+not ?r=ATTR;
+not ?r=COORD;
+not ?r=APPEND;
+?Xl.gpid;               // There's a gp
+not ?D.rel=subjective;  // Subject is handled by other rules
+not ?D.prep;
+//not ?Xr.split=bottom;   // ?Xr is not the bottom part of a split node
+?Xr.ssynt=OK;           // Wait for full lexicalization
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  ?D.rel-> ?Yr{ <=> ?Yl }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Creates the edges of all actants -except SSynt subject- introduced by a purely syntactic
+ connector such as prep or conjunction (doesn't apply to semantic prepositions/conjunctions).
+
+Should we use the ?GP from ?Xr instead of ?Xl?
+
+FIXME: Prep's GP should be moved to gpcon*/
+DSynt<=>SSynt synt_actant_particle : core
+[
+  leftside = [
+?Xl{
+  l:?r-> ?Yl{}
+}
+?D <- gpcon::(?Xl.gpid).(?r)
+  ]
+  conditions = [
+not ?r=ATTR;
+not ?r=COORD;
+not ?r=APPEND;
+not ?r=PREP;
+?Xl.gpid;               // There's a gp
+?D.rel;                 // Check that the GP specifies the SSyntRel
+?D.parti and (not ?D.parti="");	        // There is a governed Prep
+lexicon::(?D.parti).(spos)=particle;  // Not Locin etc.
+?D.dpos=?Yl.dpos or (not ?D.dpos);
+not ?D.rel=subjective;  // Subject is handled by other rules
+not ?Xr.split=top;      // ?Xr is not the top part of a split node
+not ?Yr.split=bottom;   // ?Xr is not the bottom part of a split node
+not ?Yr.auxdep=yes;     // Attach to the top Aux
+?Yr.ssynt=OK;           // Wait for full lexicalization
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  ?D.rel-> ?Zr{ 
+  <=> ?Yl 
+  slex=?D.parti
+  dpos=lexicon::(?D.parti).(dpos)
+  spos=lexicon::(?D.parti).(spos)
+  split=top
+  gpcon::(PARTICLE).(II).(rel)-> rc:?Yr{
+     <=> rc:?Yl
+     split=bottom }
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Creates the edges of all actants -except SSynt subject- introduced by a purely syntactic
+ connector such as prep or conjunction (doesn't apply to semantic prepositions/conjunctions).
+
+Should we use the ?GP from ?Xr instead of ?Xl?
+
+FIXME: Prep's GP should be moved to gpcon*/
+DSynt<=>SSynt synt_actant_prep : core
+[
+  leftside = [
+?Xl{
+  l:?r-> ?Yl{}
+}
+?D <- gpcon::(?Xl.gpid).(?r)
+  ]
+  conditions = [
+not ?r=ATTR;
+not ?r=COORD;
+not ?r=APPEND;
+?Xl.gpid;               // There's a gp
+?D.rel;                 // Check that the GP specifies the SSyntRel
+?D.prep and (not ?D.prep="");	        // There is a governed Prep
+lexicon::(?D.prep).(spos)=preposition;  // Not Locin etc.
+?D.dpos=?Yl.dpos or (not ?D.dpos);
+not ?D.rel=subjective;  // Subject is handled by other rules
+not ?Xr.split=top;      // ?Xr is not the top part of a split node
+not ?Yr.split=bottom;   // ?Xr is not the bottom part of a split node
+not ?Yr.auxdep=yes;     // Attach to the top Aux
+?Yr.ssynt=OK;           // Wait for full lexicalization
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  ?D.rel-> ?Zr{ 
+  <=> ?Yl 
+  slex=?D.prep
+  dpos=lexicon::(?D.prep).(dpos)
+  spos=lexicon::(?D.prep).(spos)
+  split=top
+  gpcon::(PREP).(II).(rel)-> rc:?Yr{
+     <=> rc:?Yl
+     split=bottom }
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Governor imposes a preposition, but the exact lexeme to use is
+constrained by the actant (Locin or similar LF in a GP).*/
+DSynt<=>SSynt synt_actant_prep_loc : core
+[
+  leftside = [
+?Xl{
+  l:?r-> ?Yl{}
+}
+?D <- gpcon::(?Xl.gpid).(?r)
+?F <- lexicon::(?Yr.slex).(lf)
+  ]
+  conditions = [
+not ?r=ATTR;
+not ?r=COORD;
+not ?r=APPEND;
+?Xl.gpid;               // There's a gp
+?D.rel;                 // Check that the GP specifies the SSyntRel
+?D.prep and (not ?D.prep="");	        // There is a governed Prep
+lf::(?D.prep).(dpos);   // Prep is a Locin etc.
+?F.name=?D.prep;        // ?Yr has a value for this LF
+?D.dpos=?Yl.dpos or (not ?D.dpos);
+not ?D.rel=subjective;  // Subject is handled by other rules
+not ?Xr.split=top;      // ?Xr is not the top part of a split node
+not ?Yr.split=bottom;   // ?Xr is not the bottom part of a split node
+not ?Yr.auxdep=yes;     // Attach to the top Aux
+?Yr.ssynt=OK;           // Wait for full lexicalization
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  ?D.rel-> ?Zr{ 
+  <=> ?Yl 
+  slex=?F.value
+  dpos=lexicon::(?D.prep).(dpos)
+  spos=lexicon::(?D.prep).(spos)
+  split=top
+  gpcon::(PREP).(II).(rel)-> rc:?Yr{
+     <=> rc:?Yl
+     split=bottom }
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Governor imposes a preposition, but the exact lexeme to use is
+constrained by the actant (Locin or similar LF in a GP).*/
+DSynt<=>SSynt synt_class_prep_loc : core
+[
+  leftside = [
+?Xl{
+  l:?r-> ?Yl{}
+}
+?D <- gpcon::(?Xl.gpid).(?r)
+?F <- lexicon::(?Yr.class).(lf)
+  ]
+  conditions = [
+not ?r=ATTR;
+not ?r=COORD;
+not ?r=APPEND;
+?Xl.gpid;               // There's a gp
+?D.rel;                 // Check that the GP specifies the SSyntRel
+?D.prep and (not ?D.prep="");	        // There is a governed Prep
+lf::(?D.prep).(dpos);   // Prep is a Locin etc.
+?F.name=?D.prep;        // ?Yr has a value for this LF
+?D.dpos=?Yl.dpos or (not ?D.dpos);
+not ?D.rel=subjective;  // Subject is handled by other rules
+not ?Xr.split=top;      // ?Xr is not the top part of a split node
+not ?Yr.split=bottom;   // ?Xr is not the bottom part of a split node
+not ?Yr.auxdep=yes;     // Attach to the top Aux
+?Yr.ssynt=OK;           // Wait for full lexicalization
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  ?D.rel-> ?Zr{ 
+  <=> ?Yl 
+  slex=?F.value
+  dpos=lexicon::(?F.value).(dpos)
+  spos=lexicon::(?F.value).(spos)
+  split=top
+  gpcon::(PREP).(II).(rel)-> rc:?Yr{
+     <=> rc:?Yl
+     split=bottom }
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+/*Subjects are treated separately from other actants.
+Only finite verbs have a subject.
+The subject migrates on the top auxiliary, if any.
+We use the GP of the deep lexeme.*/
+Sem<=>DSynt synt_subj : core
+[
+  leftside = [
+?Xl{
+  l:?r-> ?Yl{}
+}
+?GP <- gpcon::(?Xl.gpid).(?r)
+  ]
+  conditions = [
+?Xl.gpid;               // There's a gp
+?GP.rel=subjective;     // This rule only handles subjects
+?Xr.finiteness=FIN;     // Only finite verbs have a subject
+not ?GP.prep;
+not ?Xr.split=bottom;   // ?Xr is not the bottom part of a split node
+not ?Xr.auxdep;         // Attach on the top Aux
+?Xr.ssynt=OK;           // Wait for full lexicalization
+  ]
+  rightside = [
+rc:?Xr{
+  rc:<=> ?Xl
+  ?GP.rel-> ?Yr{ <=> ?Yl }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt abstract ENG : lng
+[
+  leftside = [
+
+  ]
+  conditions = [
+lexicon::(META).lng.iso=ENG;
+  ]
+  rightside = [
+
+  ]
+  correspondence = [
+
+  ]
+]
+/*See synt_ATTR_quant rule*/
+DSynt<=>SSynt synt_numerative : quantification
+[
+  leftside = [
+?Xl{
+  l:ATTR-> ?Yl{}
+}
+  ]
+  conditions = [
+?Yl.dpos=Num;
+  ]
+  rightside = [
+rc:?Xr{ <=> ?Xl
+  numerative-> rc:?Yr{ <=> ?Yl }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt lex_idiom_w1_w2 : lex_idiom
+[
+  leftside = [
+l:?Xl
+  ]
+  conditions = [
+lexicon::(?Xl.dlex).idiom.type=w1_w2;
+  ]
+  rightside = [
+?W1 {
+  <=> ?Xl
+  dlex=?Xl.dlex  
+  slex=lexicon::(?Xl.dlex).idiom.w1
+  dpos=lexicon::(?Xl.dlex).dpos
+  spos=lexicon::(?Xl.dlex).spos
+  ssynt=OK
+  lexicon::(?Xl.dlex).idiom.r1-> ?w2 {
+    slex=lexicon::(?Xl.dlex).idiom.w2
+    dpos=lexicon::(lexicon::(?Xl.dlex).idiom.w2).dpos
+    spos=lexicon::(lexicon::(?Xl.dlex).idiom.w2).spos
+    ssynt=OK
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt lex_idiom_w1_w2_w3 : lex_idiom
+[
+  leftside = [
+l:?Xl
+  ]
+  conditions = [
+lexicon::(?Xl.dlex).idiom.type=w1_w2_w3;
+  ]
+  rightside = [
+?W1 {
+  <=> ?Xl
+  dlex=?Xl.dlex  
+  slex=lexicon::(?Xl.dlex).idiom.w1
+  dpos=lexicon::(?Xl.dlex).dpos
+  spos=lexicon::(?Xl.dlex).spos
+  ssynt=OK
+  lexicon::(?Xl.dlex).idiom.r1-> ?w2 {
+    slex=lexicon::(?Xl.dlex).idiom.w2
+    dpos=lexicon::(lexicon::(?Xl.dlex).idiom.w2).dpos
+    spos=lexicon::(lexicon::(?Xl.dlex).idiom.w2).spos
+    ssynt=OK
+  }
+  lexicon::(?Xl.dlex).idiom.r2-> ?w3 {
+    slex=lexicon::(?Xl.dlex).idiom.w3
+    dpos=lexicon::(lexicon::(?Xl.dlex).idiom.w3).dpos
+    spos=lexicon::(lexicon::(?Xl.dlex).idiom.w3).spos
+    ssynt=OK
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt det_def : ENG
+[
+  leftside = [
+?Xl{
+  dpos=N
+  definiteness=DEF
+}
+  ]
+  conditions = [
+?Xr.dpos=N;
+not ?Xr.split=bottom;
+not ?Xr.spos=proper_noun;
+not ?Xr.spos=pronoun;
+  ]
+  rightside = [
+rc:?Xr{ rc:<=> ?Xl
+  determinative-> ?Yr{
+    slex=the
+    dlex=the
+    dpos=lexicon::(the).dpos
+    spos=lexicon::(the).spos
+    ssynt=OK
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
+DSynt<=>SSynt det_indef : ENG
+[
+  leftside = [
+?Xl{
+  dpos=N
+  definiteness=INDEF
+}
+  ]
+  conditions = [
+?Xr.dpos=N;
+not ?Xr.split=bottom;
+not ?Xr.spos=proper_noun;
+not ?Xr.spos=pronoun;
+  ]
+  rightside = [
+rc:?Xr{ rc:<=> ?Xl
+  determinative-> ?Yr{
+    slex=a
+    dlex=a
+    dpos=lexicon::(a).dpos
+    spos=lexicon::(a).spos
+    ssynt=OK
+  }
+}
+  ]
+  correspondence = [
+
+  ]
+]
